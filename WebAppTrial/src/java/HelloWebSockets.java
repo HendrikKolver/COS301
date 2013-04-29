@@ -28,7 +28,7 @@ public class HelloWebSockets extends BaseWebSocketHandler {
         //connection.send(message.toUpperCase()); // echo back message in upper case
     }
 
-    public static void main(String args[]) {
+    public static void main() {
         WebServer webServer = WebServers.createWebServer(1234)
                 .add("/hellowebsocket", new HelloWebSockets())
                 .add(new StaticFileHandler("/web"));

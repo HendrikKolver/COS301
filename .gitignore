@@ -27,3 +27,4 @@ reports
 bin
 include
 lib/python2.6/
+/WebAppWithServer/nbproject/private/
