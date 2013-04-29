@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+
+        <ui:composition template="./LayoutTemplate.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="content">
+                <div id="content">
+                    <div id="makeMeDraggable"> </div>
+                </div>
+                <h:outputText value="#{syncServer.line}" />
+                <script>
+                   
+                function showMessage(text) {
+                    var chars = text.split(',');
+                    var text = (chars[0] +',' + chars[1]);
+
+                    $("#makeMeDraggable").css({top: chars[0] + "px"});
+                    $("#makeMeDraggable").css({left: chars[1] + "px"});
+
+                }
+                
+                var ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/hellowebsocket');
+                showMessage('Connecting...');
+                ws.onopen = function() { showMessage('Connected!'); };
+                ws.onclose = function() { showMessage('Lost connection'); };
+                ws.onmessage = function(msg) { showMessage(msg.data); };
+
+            $( init );
+
+            function init() {
+            var dragger = 0;
+            $('#makeMeDraggable').draggable( {
+                cursor: 'move',
+                containment: 'document',
+                drag: function() {
+
+                    var $this = $(this);
+                    var thisPos = $this.position();
+                    var parentPos = $this.parent().position();
+
+                    var y = thisPos.left - parentPos.left;
+                    var x = thisPos.top - parentPos.top;
+
+                    if(dragger > 1)
+                    {
+                            ws.send(x + "," + y + "," +$this.attr('id'));
+                            dragger = 0;
+                    }
+
+                    dragger++;
+                    }
+            } );
+            }
+
+
+                </script>
+            </ui:define>
+
+        </ui:composition>
+        
+    </body>
+</html>
