@@ -14,17 +14,32 @@
 
             <ui:define name="content">
                 <div id="content">
-                    <div id="makeMeDraggable"> </div>
+                    <div class="drag" id="makeMeDraggable1"> </div>
+                    <div class="drag" id="makeMeDraggable2"> </div>
                 </div>
                 <h:outputText value="#{syncServer.line}" />
                 <script>
-                   
+                var current = null;   
                 function showMessage(text) {
                     var chars = text.split(',');
                     var text = (chars[0] +',' + chars[1]);
+                    
+                    if(current != chars[2])
+                        {
+                           var id= "#"+chars[2];
+                    //alert(id);
+                            $(id).animate({
+                                top: '' + chars[0] +'',
+                                left: '' + chars[1]+''  
+                            }, 30, function() {
+                                // Animation complete.
+                            }); 
+                        }
+                    
 
-                    $("#makeMeDraggable").css({top: chars[0] + "px"});
-                    $("#makeMeDraggable").css({left: chars[1] + "px"});
+                    
+                    //$("#makeMeDraggable").css({top: chars[0] + "px"});
+                    //$("#makeMeDraggable").css({left: chars[1] + "px"});
 
                 }
                 
@@ -38,27 +53,31 @@
 
             function init() {
             var dragger = 0;
-            $('#makeMeDraggable').draggable( {
+            $('.drag').draggable( {
                 cursor: 'move',
                 containment: 'document',
                 drag: function() {
-
+                    
                     var $this = $(this);
+                    current = $this.attr('id')
                     var thisPos = $this.position();
                     var parentPos = $this.parent().position();
 
                     var y = thisPos.left - parentPos.left;
                     var x = thisPos.top - parentPos.top;
 
-                    if(dragger > 1)
+                    if(dragger > 10)
                     {
                             ws.send(x + "," + y + "," +$this.attr('id'));
                             dragger = 0;
                     }
 
                     dragger++;
-                    }
-            } );
+                    },
+                stop: function(){
+                   current = null; 
+                }
+            });
             }
 
 
