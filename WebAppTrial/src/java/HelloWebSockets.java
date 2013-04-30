@@ -22,7 +22,7 @@ public class HelloWebSockets extends BaseWebSocketHandler {
 
     public void onMessage(WebSocketConnection connection, String message) {
         for(int x=0; x<clients.size();x++)
-            clients.get(x).send(message.toUpperCase());
+            clients.get(x).send(message);
         
         //System.out.println("Message:" + message);
         //connection.send(message.toUpperCase()); // echo back message in upper case
