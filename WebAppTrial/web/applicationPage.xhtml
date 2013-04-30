@@ -19,18 +19,23 @@
                 </div>
                 <h:outputText value="#{syncServer.line}" />
                 <script>
-                   
+                var current = null;   
                 function showMessage(text) {
                     var chars = text.split(',');
                     var text = (chars[0] +',' + chars[1]);
-                    var id= "#"+chars[2];
+                    
+                    if(current != chars[2])
+                        {
+                           var id= "#"+chars[2];
                     //alert(id);
-                    $(id).animate({
-                        top: '' + chars[0] +'',
-                        left: '' + chars[1]+''  
-                    }, 30, function() {
-                        // Animation complete.
-                    });
+                            $(id).animate({
+                                top: '' + chars[0] +'',
+                                left: '' + chars[1]+''  
+                            }, 30, function() {
+                                // Animation complete.
+                            }); 
+                        }
+                    
 
                     
                     //$("#makeMeDraggable").css({top: chars[0] + "px"});
@@ -52,8 +57,9 @@
                 cursor: 'move',
                 containment: 'document',
                 drag: function() {
-
+                    
                     var $this = $(this);
+                    current = $this.attr('id')
                     var thisPos = $this.position();
                     var parentPos = $this.parent().position();
 
@@ -67,8 +73,11 @@
                     }
 
                     dragger++;
-                    }
-            } );
+                    },
+                stop: function(){
+                   current = null; 
+                }
+            });
             }
 
 
