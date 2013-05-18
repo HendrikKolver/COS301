@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+   <ui:composition template="./LayoutTemplate.xhtml">
+
+           
+
+            <ui:define name="content">
+                <div id="content">
+                    <table id = "snaptarget">
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+
+                    </table>
+
+                    <div class ="draggable" id="Task1">
+                            <div class = "content">
+                                    <textarea id = "textareaID1" class = 'ta' rows = '12' cols = '26'>Your Text Here...</textarea>
+                                    <div class = 'replaced' id="TaskID1">
+                                    </div>
+                            </div>	
+                            <button class = 'edit'>Edit</button>
+                    </div>
+                    <div class ="draggable" id="Task2">
+                            <div class = "content">
+                                    <textarea id = "textareaID2" class = 'ta' rows = '12' cols = '26'>Your Text Here...</textarea>
+                                    <div class = 'replaced' id="TaskID2">
+                                    </div>
+                            </div>	
+                            <button class = 'edit'>Edit</button>
+                    </div>
+                    <div class ="draggable" id="Task3">
+                            <div class = "content">
+                                    <textarea id = "textareaID3" class = 'ta' rows = '12' cols = '26'>Your Text Here...</textarea>
+                                    <div class = 'replaced' id="TaskID3">
+                                    </div>
+                            </div>	
+                            <button class = 'edit'>Edit</button>
+                    </div>
+                </div>
+                
+                <h:outputText value="#{syncServer.line}" />
+                <script type ="text/javascript" src ="./resources/javascript/scrumPage.js"></script>
+                
+            </ui:define>
+
+        </ui:composition>
+ 
+    </body>
+</html>

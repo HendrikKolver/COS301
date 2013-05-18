@@ -6,10 +6,12 @@
     }
 
    .draggable{
+                position: absolute;
                 width:270px;
                 height:270px;
                 background-color:gold; 
 		text-align:center;
+                box-shadow: 3px 3px 5px #888888;
             }
 	.snapHere{
 		width:270px;
