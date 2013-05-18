@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <body>
+   <ui:composition template="./LayoutTemplate.xhtml">
+
+            <ui:define name="top">
+                top
+            </ui:define>
+
+            <ui:define name="content">
+                <table id = "snaptarget">
+                    <tr>
+                            <td class="snapHere"></td>
+                            <td class="snapHere"></td>
+                    </tr>
+
+                    <tr>
+                            <td class="snapHere"></td>
+                            <td class="snapHere"></td>
+                    </tr>
+		
+                </table>
+
+                <div class ="draggable">
+                        <div class = "content">
+                                <textarea id = "textareaID" class = 'ta' rows = '12' cols = '26'>Your Text Here...</textarea>
+                                <div class = 'replaced'>
+                                </div>
+                        </div>	
+                        <button class = 'edit'>Edit</button>
+                </div>
+                
+                <h:outputText value="#{syncServer.line}" />
+                <script>
+                    
+                 $(document).ready(function()
+	{	
+		/*Called every time the text area is changed, TODO: Update with WebSockets*/
+		$('.ta').bind('input propertychange', function() {
+			//alert($(this).val());
+		});
+			   
+                $(".draggable").draggable();
+		$('.snapHere').droppable({
+		   drop: function(ev, ui) 
+		   {
+			$(ui.draggable).offset({ top: ($(this).offset().top+5), left: ($(this).offset().left+5)});
+		    }
+		});
+		
+		$(".edit").prev().children(":first").hide();
+		$(".edit").prev().children(":nth-child(2)").html($(".edit").prev().children(":first").val());		
+		$(".edit").click(function()
+		{
+			if ($(this).text() == "Edit")
+			{
+				$(this).text("Done Editting");
+				$(this).prev().children(":first").show();
+				$(this).prev().children(":first").val($(this).prev().children(":nth-child(2)").text());
+				$(this).prev().children(":nth-child(2)").hide();
+				$(".ta").focus();
+			}else
+			{
+				$(this).prev().children(":nth-child(2)").show();
+				$(this).text("Edit");
+				$(this).prev().children(":first").hide();
+				$(this).prev().children(":nth-child(2)").html($(this).prev().children(":first").val());
+			}
+		});
+               
+                    
+                    
+                    
+                var current = null;   
+                function showMessage(text) {
+                    var chars = text.split(',');
+                    var text = (chars[0] +',' + chars[1]);
+                    
+                    if(current != chars[2])
+                        {
+                           var id= "#"+chars[2];
+                    //alert(id);
+                            $(id).animate({
+                                top: '' + chars[0] +'',
+                                left: '' + chars[1]+''  
+                            }, 30, function() {
+                                // Animation complete.
+                            }); 
+                        }
+                    
+
+                    
+                    //$("#makeMeDraggable").css({top: chars[0] + "px"});
+                    //$("#makeMeDraggable").css({left: chars[1] + "px"});
+
+                }
+//                
+//                var ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket');
+//                showMessage('Connecting...');
+//                ws.onopen = function() { showMessage('Connected!'); };
+//                ws.onclose = function() { showMessage('Lost connection'); };
+//                ws.onmessage = function(msg) { showMessage(msg.data); };
+//
+//            $( init );
+//
+//            function init() {
+//            var dragger = 0;
+//            $('.drag').draggable( {
+//                cursor: 'move',
+//                containment: 'document',
+//                drag: function() {
+//                    
+//                    var $this = $(this);
+//                    current = $this.attr('id')
+//                    var thisPos = $this.position();
+//                    var parentPos = $this.parent().position();
+//
+//                    var y = thisPos.left - parentPos.left;
+//                    var x = thisPos.top - parentPos.top;
+//
+//                    if(dragger > 10)
+//                    {
+//                            ws.send(x + "," + y + "," +$this.attr('id'));
+//                            dragger = 0;
+//                    }
+//
+//                    dragger++;
+//                    },
+//                stop: function(){
+//                   current = null; 
+//                }
+//            });
+//            }
+            
+            });
+
+
+                </script>
+            </ui:define>
+
+        </ui:composition>
+ 
+    </body>
+</html>
