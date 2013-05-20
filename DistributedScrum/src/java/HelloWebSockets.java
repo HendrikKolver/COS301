@@ -22,14 +22,18 @@ public class HelloWebSockets extends BaseWebSocketHandler {
     }
 
     public void onMessage(WebSocketConnection connection, String message) {
-        System.out.println("sentSomething");
+        
+        double bytesSent = 0;
+        int messageLength = message.getBytes().length;
         for(int x=0; x<clients.size();x++)
         {
             if(!clients.get(x).equals(connection))
             {
+                bytesSent += messageLength;
                 clients.get(x).send(message);
             }
         }
+        System.out.println("sent: "+ bytesSent +" bytes...");
     }
 
     public static void main() {

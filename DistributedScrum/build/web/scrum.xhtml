@@ -11,12 +11,59 @@
 
             <ui:define name="content">
                 <div id="content">
-                    <table id = "snaptarget">
+                    <table class = "snaptarget" cellspacing="15">
+                        <tr>
+                            <th colspan ="2"> Not Started</th>
+                        </tr>
                         <tr>
                                 <td class="snapHere"></td>
                                 <td class="snapHere"></td>
                         </tr>
 
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+
+                    </table>
+                    
+                    <table class = "snaptarget" cellspacing="15">
+                        <tr>
+                            <th colspan ="2"> Busy</th>
+                        </tr>
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+
+                    </table>
+                    
+                    <table class = "snaptarget" cellspacing="15">
+                        <tr>
+                            <th colspan ="2"> Completed</th>
+                        </tr>
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
+
+                        <tr>
+                                <td class="snapHere"></td>
+                                <td class="snapHere"></td>
+                        </tr>
                         <tr>
                                 <td class="snapHere"></td>
                                 <td class="snapHere"></td>
@@ -26,7 +73,7 @@
 
                     <div class ="draggable" id="Task1">
                             <div class = "content">
-                                    <textarea id = "textareaID1" class = 'ta' rows = '12' cols = '26'>Your Text Here...</textarea>
+                                    <textarea id = "textareaID1" class = 'ta' rows = '9' cols = '22'>Your Text Here...</textarea>
                                     <div class = 'replaced' id="TaskID1">
                                     </div>
                             </div>	
@@ -34,7 +81,7 @@
                     </div>
                     <div class ="draggable" id="Task2">
                             <div class = "content">
-                                    <textarea id = "textareaID2" class = 'ta' rows = '12' cols = '26'>Your Text Here...</textarea>
+                                    <textarea id = "textareaID2" class = 'ta' rows = '9' cols = '22'>Your Text Here...</textarea>
                                     <div class = 'replaced' id="TaskID2">
                                     </div>
                             </div>	
@@ -42,7 +89,7 @@
                     </div>
                     <div class ="draggable" id="Task3">
                             <div class = "content">
-                                    <textarea id = "textareaID3" class = 'ta' rows = '12' cols = '26'>Your Text Here...</textarea>
+                                    <textarea id = "textareaID3" class = 'ta' rows = '9' cols = '22'>Your Text Here...</textarea>
                                     <div class = 'replaced' id="TaskID3">
                                     </div>
                             </div>	
@@ -50,7 +97,7 @@
                     </div>
                 </div>
                 
-                <h:outputText value="#{syncServer.line}" />
+                <h:outputText value="#{syncServer.startServer()}" />
                 <script type ="text/javascript" src ="./resources/javascript/scrumPage.js"></script>
                 
             </ui:define>

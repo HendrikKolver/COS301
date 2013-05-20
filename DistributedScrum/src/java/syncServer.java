@@ -21,7 +21,7 @@ public class syncServer {
 
     public String getLine() {
         
-        return startServer();
+        return "hi";
     }
 
     public void setLine(String line) {
@@ -29,10 +29,10 @@ public class syncServer {
     }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-    public String startServer() {
+    public void startServer() {
       
             HelloWebSockets.main();
         //HelloWebSockets.main(a);
-        return "connected";
+        //return "connected";
     }
 }

@@ -6,7 +6,6 @@
 
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link href="./resources/css/default.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
         <link href="./resources/css/snapcss.css" rel="stylesheet" type="text/css" />
         <script type ="text/javascript" src ="./resources/javascript/jquery.js"></script>
@@ -15,22 +14,25 @@
     </h:head>
 
     <h:body>
+        <div id="main">
+            <div id="top" class="top">
+                <h1> Distributed Scrum</h1>
+                <div id="nav">
+                    <h:form>
+                                <h:commandButton class="navigationItem" value="Home" action="index" />
+                                <div class="clear"></div>
+                                <h:commandButton class="navigationItem" value="Scrum Board" action="scrum" />
 
-        <div id="top" class="top">
-            <h1> Application Heading</h1>
-            <h:form>
-                        <h:commandButton class="navigationItem" value="Home" action="index" />
-                        <h:commandButton class="navigationItem" value="Scrum Board" action="scrum" />
-                         
-            </h:form>
+                    </h:form>
+                </div>
+            </div>
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">Content</ui:insert>
+
+
+            </div>
         </div>
-
-        <div id="content" class="center_content">
-            <ui:insert name="content">Content</ui:insert>
-            
-                
-        </div>
-
     </h:body>
 
 </html>
