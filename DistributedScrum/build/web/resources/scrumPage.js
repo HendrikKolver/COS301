@@ -13,10 +13,10 @@
 		$('.snapHere').droppable({
 		   drop: function(ev, ui) 
 		   {
-			$(ui.draggable).offset({ top: ($(this).offset().top+5), left: ($(this).offset().left+5)});
+			$(ui.draggable).offset({ top: ($(this).offset().top), left: ($(this).offset().left)});
                         var thisPos = $(this).position();
-                        var y = thisPos.left+5;
-                        var x = thisPos.top+5;
+                        var y = thisPos.left;
+                        var x = thisPos.top;
                            
                         ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
 		    }
