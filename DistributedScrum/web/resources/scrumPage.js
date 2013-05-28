@@ -6,13 +6,18 @@
 		/*Called every time the text area is changed, TODO: Update with WebSockets*/
 		$('.ta').bind('input propertychange', function() {
 			//alert($(this).val());
-                        ws.send('text,'+ $(this).val() + "," +$(this).next().attr('id'));
+                        ws.send('text,'+ $(this).val() + "," +$(this).next().attr('id')+','+$(this).parent().parent().attr('id'));
+                        
 		});
 			   
                 
 		$('.snapHere').droppable({
 		   drop: function(ev, ui) 
 		   {
+                       var relativeTop = $("#DragContainer").offset().top - $(this).offset().top;
+                       var relativeLeft = $("#DragContainer").offset().left - $(this).offset().left;
+                       //alert(relativeTop);
+                       //alert(relativeLeft);
 			$(ui.draggable).offset({ top: ($(this).offset().top), left: ($(this).offset().left)});
                         var thisPos = $(this).position();
                         var y = thisPos.left;
@@ -54,6 +59,7 @@
                     
                 var current = null;   
                 function showMessage(text) {
+                   // alert(text);
                     var chars = text.split(',');
                     var text = (chars[0] +',' + chars[1]);
                     
@@ -74,6 +80,7 @@
                         
                         var line = ""+chars[1]+"";
                         var id= "#"+chars[2];
+                        //alert(line)
                         //alert(id);
                         $(id).html(line);
                     }
