@@ -173,6 +173,11 @@ body{
         font-family:Arial;
 }
 
+#DragContainer{
+    
+    position: relative;
+}
+
 
 
 
