@@ -1,0 +1,41 @@
+
+.snaptarget{
+    float: left;
+}
+
+.drag { 
+        position: absolute;
+        width: 230px; height: 230px; background: red; 
+        box-shadow: 4px 4px 2px grey;
+}
+
+.draggable{
+            position: absolute;
+            top: 60px;
+            left: 15px;
+            width:200px;
+            height:200px;
+            background-color:gold; 
+            text-align:center;
+            box-shadow: 3px 3px 5px #888888;
+        }
+.snapHere{
+        width:200px;
+        height:200px;
+        background-color: blue;
+       
+}
+.ta{
+        font-family:Arial;
+        background-color: transparent;
+        border: 0;
+        resize:none;
+}
+
+.content{
+        text-align:left; 
+        width:180px; 
+        height:150px; 
+        padding:10px; 
+        font-family:Arial;
+}
