@@ -31,9 +31,9 @@
                 });
 		$(".edit").click(function()
 		{
-			if ($(this).text() == "Edit")
+			if ($(this).text() === "Edit")
 			{
-				$(this).text("Done Editting");
+				$(this).text("Done Editing");
 				$(this).prev().children(":first").show();
 				$(this).prev().children(":first").val($(this).prev().children(":nth-child(2)").text());
 				$(this).prev().children(":nth-child(2)").hide();

@@ -21,6 +21,7 @@ body{
 #navContainer{
         height:85px;
         background-image:url('navBG.jpg');
+        border-bottom: 5px solid rgb(224,237,246);
 }
 
 
@@ -74,6 +75,12 @@ body{
         left:120px;
 }
 
+#logo2{
+				position: relative;
+				top:-15px;
+				left:880px;
+			}
+
 .navLink
 {
         font-size: 13pt;
@@ -94,20 +101,8 @@ body{
 
 .navLink:hover
 {
-        cursor:pointer;
-        border: 1px solid #86c5fc;
-        line-height:40px;
-        padding:0px;
-        margin: 0 auto;
-        height:40px;
-        width:120px;
-        font-family:Arial;
-        color:#c6c6c6;
-        -webkit-border-radius: 10px;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        background-color: #242424;
-
+        color:rgb(239,244,248);
+        text-shadow: 0px 2px 15px rgba(255,255,255,0.6);
 }
 
 #toggleContainer{
@@ -116,17 +111,60 @@ body{
         width:40px;
 
 }
-
-#toggle1{
-        position:relative;
-        width:1200px;
-        height:600px;
-        left:-1160px;
-}
-
-#tog1{
-        pointer:cursor;
-}
+#toggleContainer{
+				position:relative;
+				top:-400px;
+				float:left;
+				height:600px;
+				width:40px;
+			}
+			
+			#toggle1{
+				cursor:pointer;
+				position:relative;
+				width:500px;
+				height:600px;
+				left:-460px;
+				z-index:2;
+			}
+			
+			#toggle2{
+				cursor:pointer;
+				position:relative;
+				width:500px;
+				height:600px;
+				top:-600px;
+				left:-460px;
+				z-index:3;
+			}
+			
+			#toggle3{
+				cursor:pointer;
+				position:relative;
+				width:500px;
+				height:600px;
+				top:-1200px;
+				left:-460px;
+				z-index:4;
+			}
+			
+			#tog1{
+				pointer:cursor;
+			}
+			
+			#toggleTable{
+				z-index:10;
+				position:relative;
+				left:-5px;
+			}
+			
+			#toggleTable2{
+				position:relative;
+				right:0px;
+				top:-406px;
+				left:412px;
+				z-index:1000;
+			}
 *{
     font-family: Arial;
 }
@@ -148,9 +186,11 @@ body{
             left: 15px;
             width:200px;
             height:200px;
-            background-color:gold; 
+            background-image:url('stickynote.png');
+            /*background-color:gold; */
             text-align:center;
-            box-shadow: 3px 3px 5px #888888;
+            /*box-shadow: 3px 3px 5px #888888;*/
+            border:0px;
         }
 .snapHere{
         width:200px;
