@@ -1,0 +1,113 @@
+#mainContainer {
+    position: relative;
+    
+    
+    padding: 5px;
+    margin: 0px auto;
+    width: 800px;
+}
+
+
+#top {
+    position: relative;
+    padding: 5px;
+    margin: 0px 0px 10px 0px;
+}
+
+#bottom {
+    
+    position: relative;
+    padding: 5px;
+    margin: 10px 0px 0px 0px;
+}
+
+#left {
+    
+    float: left;
+    padding: 5px;
+    width: 150px;
+}
+
+
+#content {
+    position: relative;
+    margin-left: 170px;
+    min-height: 180px;
+}
+
+#loginContent {
+    position: relative;
+    width: 230px;
+    margin: 0 auto;
+   
+}
+
+body {
+    background-color: #ffffff;
+    font-size: 12px;
+    font-family: Verdana;
+    color: #000000;  
+    margin: 10px;
+}
+
+h1 {
+    font-family: Arial;
+    border-bottom: 1px solid #AFAFAF; 
+    font-weight: bold;
+    margin: 0px;
+    padding: 0px;
+    color: grey;
+    text-align: center;
+}
+
+#technicianPhoto{
+    position: relative;
+    top: 0px;
+    padding: 5px;
+    width: 25px;
+    
+    float: left;
+}
+
+.footer{
+   position: relative;
+   
+    font-family: Arial;
+   border-top: 1px solid #AFAFAF;
+   padding: 5px;
+   color: grey;
+   text-align: center;
+   
+}
+
+.navigationItem{
+   
+    width: 100px;
+    background-color: lightgrey;
+    box-shadow: 2px 2px 5px #888888;
+    border: 0;
+    padding: 3px;
+}
+
+.navigationItem:hover{
+   
+    width: 100px;
+    background-color: #e8e8e8;
+    box-shadow: 2px 2px 5px #888888;
+    border: 0;
+    cursor: pointer;
+}
+
+span{
+    display: block;
+}
+
+#required
+{
+    float: left;
+    color: red;
+}
+
+
+
+
