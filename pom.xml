@@ -16,11 +16,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>Netty</groupId>
-            <artifactId>NettyID</artifactId>
+            <groupId>com.netty</groupId>
+            <artifactId>nettyID</artifactId>
             <version>3.5.5</version>
-            <scope>system</scope>
-            <systemPath>${project.basedir}/lib/netty-3.5.5.Final.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
