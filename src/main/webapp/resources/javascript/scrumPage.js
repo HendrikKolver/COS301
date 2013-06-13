@@ -1,4 +1,5 @@
- $(document).ready(function()
+  
+        $(document).ready(function()
 	{
                
             
@@ -8,13 +9,15 @@
                         ws.send('text,'+ $(this).val() + "," +$(this).next().attr('id')+','+$(this).parent().parent().attr('id'));
                         
 		});
-
+			   
                 
 		$('.snapHere').droppable({
 		   drop: function(ev, ui) 
 		   {
                        var relativeTop = $("#DragContainer").offset().top - $(this).offset().top;
                        var relativeLeft = $("#DragContainer").offset().left - $(this).offset().left;
+                       //alert(relativeTop);
+                       //alert(relativeLeft);
 			$(ui.draggable).offset({ top: ($(this).offset().top), left: ($(this).offset().left)});
                         var thisPos = $(this).position();
                         var y = thisPos.left;
@@ -23,7 +26,7 @@
                         ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
 		    }
 		});
-
+		
 		$(".edit").prev().children(":first").hide();
 		$(".edit").prev().children(":nth-child(2)").html($(".edit").prev().children(":first").val());
                 $(".edit").each(function(){
@@ -55,8 +58,6 @@
                     
                     
                 var current = null;   
-                
-                //recieve server return message
                 function showMessage(text) {
                    // alert(text);
                     var chars = text.split(',');
@@ -69,7 +70,7 @@
                         $(id).animate({
                             top: '' + chars[1] +'',
                             left: '' + chars[2]+''  
-                        }, 300, function() {
+                        }, 200, function() {
                             
                         }); 
                            
@@ -97,6 +98,7 @@
                 $('.draggable').draggable( {
                     cursor: 'move',
                     containment: 'document',
+                    
                     stop: function(){
                     current = null; 
                     }
