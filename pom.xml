@@ -12,14 +12,15 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <netbeans.hint.deploy.server>gfv3ee6</netbeans.hint.deploy.server>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>Netty</groupId>
-            <artifactId>Netty1</artifactId>
-            <version>1.2</version>
+            <artifactId>NettyID</artifactId>
+            <version>3.5.5</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/netty-3.5.5.Final.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
