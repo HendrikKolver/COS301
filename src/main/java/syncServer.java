@@ -31,7 +31,7 @@ public class syncServer {
     // "Insert Code > Add Business Method")
     public void startServer() {
       
-            HelloWebSockets.main();
+            WebSockets.main();
         //HelloWebSockets.main(a);
         //return "connected";
     }
