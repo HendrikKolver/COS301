@@ -1,3 +1,4 @@
+
 .snaptarget{
     float: left;
 }
@@ -21,7 +22,7 @@
 .snapHere{
         width:200px;
         height:200px;
-        background-color: rgba(100,100,100,0.05);
+        background-color: blue;
        
 }
 .ta{
