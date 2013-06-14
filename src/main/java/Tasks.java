@@ -14,6 +14,7 @@ public class Tasks {
     private String status;
     private String message;
     private String tID;
+    private boolean update;
 
     public String getLeftPos() {
         return leftPos;
@@ -28,6 +29,7 @@ public class Tasks {
     }
 
     public void setMessage(String message) {
+        update = true;
         this.message = message;
     }
 
@@ -36,6 +38,7 @@ public class Tasks {
     }
 
     public void setID(String ID) {
+        update = true;
         this.ID = ID;
     }
 
@@ -44,6 +47,7 @@ public class Tasks {
     }
 
     public void setName(String name) {
+        update = true;
         this.name = name;
     }
 
@@ -53,6 +57,7 @@ public class Tasks {
 
     public Tasks(String n, String i)
     {
+        update = true;
         name = n;
         ID = i;
         message = "Your Text Here...";
@@ -65,16 +70,29 @@ public class Tasks {
     {
         topPos = x; 
         leftPos = y;
+        update = true;
     }
     
     public void setTextID(String s)
     {
+        update = true;
         tID = s;
+        
     }
     
     public String getTextID()
     {
         return tID;
+        
+    }
+    
+    public void dbUpdate()
+    {
+        if(update)
+        {
+        //call to db adaptor
+        }
+        update = false;
     }
             
     

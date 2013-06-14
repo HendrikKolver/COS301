@@ -6,7 +6,7 @@ import org.webbitserver.WebServers;
 import org.webbitserver.WebSocketConnection;
 import org.webbitserver.handler.StaticFileHandler;
 
-public class HelloWebSockets extends BaseWebSocketHandler {
+public class WebSockets extends BaseWebSocketHandler {
     private int connectionCount;
     
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
@@ -74,7 +74,8 @@ public class HelloWebSockets extends BaseWebSocketHandler {
                 tmp.setTextID(pieces[2]);              
                 tmp.setMessage(pieces[1]);
             }
-            tasks.add(tmp);      
+            tasks.add(tmp); 
+            tmp.dbUpdate();
         }
         else
         {
@@ -86,6 +87,8 @@ public class HelloWebSockets extends BaseWebSocketHandler {
                 if(pieces[3].equals(tasks.get(x).getID())) 
                 {
                     tasks.get(x).setPos(pieces[1], pieces[2]);
+                    tasks.get(x).dbUpdate();
+                    break;
                 }
 
             }
@@ -95,14 +98,14 @@ public class HelloWebSockets extends BaseWebSocketHandler {
                 if(pieces[3].equals(tasks.get(x).getID())) 
                 {
                     tasks.get(x).setMessage(pieces[1]); 
+                    tasks.get(x).dbUpdate();
+                    break;
                 }   
             }
            }
                
         }
 
-            
-        
         double bytesSent = 0;
         int messageLength = message.getBytes().length;
         for(int x=0; x<clients.size();x++)
@@ -113,12 +116,12 @@ public class HelloWebSockets extends BaseWebSocketHandler {
                 clients.get(x).send(message);
             }
         }
-        System.out.println("sent: "+ bytesSent +" bytes...");
+        
     }
 
     public static void main() {
         WebServer webServer = WebServers.createWebServer(1234)
-                .add("/websocket", new HelloWebSockets())
+                .add("/websocket", new WebSockets())
                 .add(new StaticFileHandler("/web"));
         webServer.start();
         System.out.println("Server running at " + webServer.getUri());
