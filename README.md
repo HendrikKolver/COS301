@@ -1,19 +1,9 @@
-<<<<<<< HEAD
-COS301
-======
+Integration Branch
+----------------------------
 
-=======
->>>>>>> origin/develop
-COS 301 Main Project
+This branch is for all mojor test that need to be run before the application is considered working.
 
--Use the develop branch for new features
+Use this branch to integrate and test components before merging to master.
 
--once the new features have been tested, merge the development branch with the integration branch
+Important: master must always be working as bug free as possible
 
--Once the integration branch is tested and all features are working perfectly merge with master branch
-
-<<<<<<< HEAD
-NB!: The master branch must always be working and deployable 
-=======
-NB!: The master branch must always be working and deployable
->>>>>>> origin/develop
