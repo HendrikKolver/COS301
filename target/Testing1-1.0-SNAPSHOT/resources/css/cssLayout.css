@@ -218,6 +218,13 @@ body{
     position: relative;
 }
 
+#addTask
+{
+    position:absolute;
+    left:200px;
+    top: 20px;
+}
+
 
 
 

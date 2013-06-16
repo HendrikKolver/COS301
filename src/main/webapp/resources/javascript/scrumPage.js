@@ -4,11 +4,10 @@
                 $(document).ready(function()
                 {
                     //dynamically added note as proof of concept for adding from db
-                    var element = "<div class ='draggable' id='Task6'><div class = 'content'><textarea id = 'textareaID6' class = 'ta' rows = '9' cols = '22'>Your Text Here...</textarea><div class = 'replaced' id='Task6ID'> </div></div>	<button class = 'edit'>Edit</button> </div>";
-                     $("#DragContainer").append(element);                      
+//                    var element = "<div class ='draggable' id='Task6'><div class = 'content'><textarea id = 'textareaID6' class = 'ta' rows = '9' cols = '22'>Your Text Here...</textarea><div class = 'replaced' id='Task6ID'> </div></div>	<button class = 'edit'>Edit</button> <button class = 'removeTask'>Remove</button></div>";
+//                     $("#DragContainer").append(element);                      
             
 		/*Called every time the text area is changed*/
-
 		$('.ta').bind('input propertychange', function() {
 			//alert($(this).val());
                         ws.send('text,'+ $(this).val() + "," +$(this).next().attr('id')+','+$(this).parent().parent().attr('id'));
@@ -20,11 +19,7 @@
 		   {
                        var relativeTop = $("#DragContainer").offset().top - $(this).offset().top;
                        var relativeLeft = $("#DragContainer").offset().left - $(this).offset().left;
-                       //alert(relativeTop);
-                       //alert(relativeLeft);
-
 			$(ui.draggable).offset({top: ($(this).offset().top), left: ($(this).offset().left)});
-
                         var thisPos = $(this).position();
                         var y = thisPos.left;
                         var x = thisPos.top;
@@ -74,6 +69,12 @@
                     if(chars[0] == 'position')
                     {      
                         var id= "#"+chars[3];
+                        
+                        if($(id).length == 0)
+                            {
+                                addTask(chars[3]);
+                            }
+                            
                         $(id).css('position', 'absolute');
                         $(id).animate({
                             top: '' + chars[1] +'',
@@ -88,9 +89,28 @@
                         
                         var line = ""+chars[1]+"";
                         var id= "#"+chars[2];
+                        if($(id).length == 0)
+                            {
+                                var str = chars[2];
+                                var l = str.length;
+                                
+                                addTask(str.substring(0,(l-2)));
+                            }
+                        
+                        
                         //alert(line)
-                        //alert(id);
+                       
                         $(id).html(line);
+                    }
+                    else if(chars[0] == 'remove')
+                    {
+                       var id= "#"+chars[1];
+                       $(id).remove();
+                    }
+                    else if(chars[0] == 'add')
+                    {
+
+                       addTask(chars[1]);
                     }
                 }
 //                
@@ -114,8 +134,94 @@
                 });
                 }
                 
+//                
+               $("#addTask").click(function()
+               {
+                   var id =prompt("Please enter the task ID","");
+                   ws.send('add,'+id);
+                   addTask(id); 
+                    
+                
+               });
+               
+               //TODO: sync with server
+               $(".removeTask").click(function(){
+                   ws.send('remove,'+$(this).parent().attr('id'));
+                   $(this).parent().remove();
+               });
+               
+               function addTask(id){
+                   
+                  var divID = id;
+                  var textID = "textarea"+id;
+                  var taskID = id+"ID";
+                  var editID = "edit"+id;
+                  var divIDJquery = "#"+divID;
+                  var editIDJquery = "#"+editID;
+                  var textIDJquery = "#"+textID;
+                 
+                  var element = "<div class ='draggable' id='"+divID+"'><div class = 'content'><textarea id = '"+textID+"' class = 'ta' rows = '9' cols = '22'>Your Text Here...</textarea><div class = 'replaced' id='"+taskID+"'> </div></div><button class = 'edit' id='"+editID+"'>Edit</button><button class = 'removeTask'>Remove</button> </div>";
+                     $("#DragContainer").append(element);
+
+                     $(divIDJquery).draggable( {
+                        cursor: 'move',
+                        containment: 'document',
+
+                        stop: function(){
+                        current = null; 
+                        }     
+                    
+                    });
+                    
+                    $(editIDJquery).prev().children(":first").hide();
+                    $(editIDJquery).prev().children(":nth-child(2)").html($(".edit").prev().children(":first").val());
+                    $(editIDJquery).each(function(){
+                        $(this).prev().children(":nth-child(2)").show();
+                        $(this).text("Edit");
+                        $(this).prev().children(":first").hide();
+                        $(this).prev().children(":nth-child(2)").html($(this).prev().children(":first").val());
+
+                    });
+                    $(editIDJquery).on("click",function()
+                    {
+                            if ($(this).text() == "Edit")
+                            {
+                                    $(this).text("Done Editting");
+                                    $(this).prev().children(":first").show();
+                                    $(this).prev().children(":first").val($(this).prev().children(":nth-child(2)").text());
+                                    $(this).prev().children(":nth-child(2)").hide();
+                                    $(".ta").focus();
+                            }else
+                            {
+                                    $(this).prev().children(":nth-child(2)").show();
+                                    $(this).text("Edit");
+                                    $(this).prev().children(":first").hide();
+                                    $(this).prev().children(":nth-child(2)").html($(this).prev().children(":first").val());
+                            }
+                    }); 
+                    
+                    $(textIDJquery).bind('input propertychange', function() {
+			
+                        ws.send('text,'+ $(this).val() + "," +$(this).next().attr('id')+','+$(this).parent().parent().attr('id'));
+                        
+                    });
+                    
+                    
+                    //TODO: sync with server
+                    $(".removeTask").click(function(){
+                        ws.send('remove,'+$(this).parent().attr('id'));
+                        $(this).parent().remove();
+                    });
+                   
+               }
+                
+
                 
                 
+                
+                
+                
+               
                 
                         
               

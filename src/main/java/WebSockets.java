@@ -23,6 +23,7 @@ public class WebSockets extends BaseWebSocketHandler {
         }
         clients.add(connection);
         connectionCount++;
+        System.out.println("Task size:" + tasks.size());
     }
 
     public void onClose(WebSocketConnection connection) {
@@ -33,52 +34,29 @@ public class WebSockets extends BaseWebSocketHandler {
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
         boolean check = false;
-        for(int x=0; x<tasks.size();x++)
+        
+        if(pieces[0].equals("add"))
         {
-            
-            if(pieces[0].equals("position"))
-            {  
-               
-                if(pieces[3].equals(tasks.get(x).getID())) 
+            Tasks tmp = new Tasks(pieces[1],pieces[1]);
+            tasks.add(tmp);            
+        }
+        else if(pieces[0].equals("remove"))
+        {
+            for(int x=0; x<tasks.size();x++)
+            {
+                System.out.println(pieces[1]);
+                System.out.println(tasks.get(x).getID());
+                if(pieces[1].equals(tasks.get(x).getID())) 
                 {
-                    check = true; 
-                    break;
+                    tasks.remove(x);
+                    
                 }
-
-            }
-            else if(pieces[0].equals("text"))
-            {
-               
-                if(pieces[3].equals(tasks.get(x).getID())) 
-                {
-                    check = true; 
-                    break;
-                }   
+                 
             }
         }
-        System.out.println(check);
-        if(!check)
+        else if (pieces[0].equals("position") || pieces[0].equals("text"))
         {
-            
-            Tasks tmp = new Tasks("default","default");
-            if(pieces[0].equals("position"))
-            {  
-                
-                tmp = new Tasks(pieces[3],pieces[3]); 
-                tmp.setPos(pieces[1], pieces[2]);
-            }
-            else if(pieces[0].equals("text"))
-            {
-               
-                tmp = new Tasks(pieces[3],pieces[3]);
-                tmp.setTextID(pieces[2]);              
-                tmp.setMessage(pieces[1]);
-            }
-            tasks.add(tmp); 
-            tmp.dbUpdate();
-        }
-        else
-        {
+        
            for(int x=0; x<tasks.size();x++)
            {
                if(pieces[0].equals("position"))
@@ -86,6 +64,7 @@ public class WebSockets extends BaseWebSocketHandler {
                 
                 if(pieces[3].equals(tasks.get(x).getID())) 
                 {
+                    System.out.println(pieces[1]);
                     tasks.get(x).setPos(pieces[1], pieces[2]);
                     tasks.get(x).dbUpdate();
                     break;
@@ -102,9 +81,10 @@ public class WebSockets extends BaseWebSocketHandler {
                     break;
                 }   
             }
-           }
-               
+          }
         }
+               
+        
 
         double bytesSent = 0;
         int messageLength = message.getBytes().length;
@@ -116,6 +96,7 @@ public class WebSockets extends BaseWebSocketHandler {
                 clients.get(x).send(message);
             }
         }
+        System.out.println("Task size:" + tasks.size());
         
     }
 
@@ -124,6 +105,6 @@ public class WebSockets extends BaseWebSocketHandler {
                 .add("/websocket", new WebSockets())
                 .add(new StaticFileHandler("/web"));
         webServer.start();
-        System.out.println("Server running at " + webServer.getUri());
+       // System.out.println("Server running at " + webServer.getUri());
     }
 }
