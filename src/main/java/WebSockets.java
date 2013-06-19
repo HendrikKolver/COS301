@@ -12,8 +12,8 @@ public class WebSockets extends BaseWebSocketHandler {
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks = new ArrayList<Tasks>();
 
+    //initial connection made by client
     public void onOpen(WebSocketConnection connection) {
-        //connection.send("Hello! There are " + connectionCount + " other connections active");
         for(int x=0; x<tasks.size();x++)
         {
             String message = "position,"+tasks.get(x).getTopPos()+","+tasks.get(x).getLeftPos()+","+tasks.get(x).getID();
@@ -26,11 +26,13 @@ public class WebSockets extends BaseWebSocketHandler {
         System.out.println("Task size:" + tasks.size());
     }
 
+    //client disconnects
     public void onClose(WebSocketConnection connection) {
         clients.remove(connection);  
         connectionCount--;
     }
 
+    //client sends a message
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
         boolean check = false;
@@ -48,10 +50,8 @@ public class WebSockets extends BaseWebSocketHandler {
                 System.out.println(tasks.get(x).getID());
                 if(pieces[1].equals(tasks.get(x).getID())) 
                 {
-                    tasks.remove(x);
-                    
-                }
-                 
+                    tasks.remove(x);                    
+                }   
             }
         }
         else if (pieces[0].equals("position") || pieces[0].equals("text"))
@@ -83,20 +83,15 @@ public class WebSockets extends BaseWebSocketHandler {
             }
           }
         }
-               
-        
 
-        double bytesSent = 0;
-        int messageLength = message.getBytes().length;
         for(int x=0; x<clients.size();x++)
         {
             if(!clients.get(x).equals(connection))
             {
-                bytesSent += messageLength;
                 clients.get(x).send(message);
             }
         }
-        System.out.println("Task size:" + tasks.size());
+        System.out.println("Message sent to clients, Task size: " + tasks.size());
         
     }
 
@@ -105,6 +100,6 @@ public class WebSockets extends BaseWebSocketHandler {
                 .add("/websocket", new WebSockets())
                 .add(new StaticFileHandler("/web"));
         webServer.start();
-       // System.out.println("Server running at " + webServer.getUri());
+        System.out.println("Client attemt to start server");
     }
 }

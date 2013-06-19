@@ -1,10 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.faces.bean.ManagedBean;
@@ -16,23 +9,8 @@ import javax.faces.bean.ManagedBean;
 @Singleton
 @ManagedBean(name = "syncServer")
 public class syncServer {
-    private boolean running = false;
-    private String line = "red";
-
-    public String getLine() {
-        
-        return "hi";
-    }
-
-    public void setLine(String line) {
-        this.line = line;
-    }
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    //Function to start the sync server if it is not running
     public void startServer() {
-      
             WebSockets.main();
-        //HelloWebSockets.main(a);
-        //return "connected";
     }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  *
  * @author Hendrik
@@ -15,6 +10,17 @@ public class Tasks {
     private String message;
     private String tID;
     private boolean update;
+    
+    public Tasks(String n, String i)
+    {
+        update = true;
+        name = n;
+        ID = i;
+        message = "Your Text Here...";
+        topPos = "0";
+        leftPos = "0";
+        tID = i+"ID";
+    }
 
     public String getLeftPos() {
         return leftPos;
@@ -53,17 +59,6 @@ public class Tasks {
 
     public String getStatus() {
         return status;
-    }
-
-    public Tasks(String n, String i)
-    {
-        update = true;
-        name = n;
-        ID = i;
-        message = "Your Text Here...";
-        topPos = "0";
-        leftPos = "0";
-        tID = i+"ID";
     }
     
     public void setPos(String x, String y)
