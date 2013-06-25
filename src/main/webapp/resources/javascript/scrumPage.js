@@ -134,7 +134,21 @@ $(document).ready(function()
         var id =prompt("Please enter the task ID","");
         ws.send('add,'+id);
         addTask(id); 
+        dbUpdate(id);
+        
     });
+    
+    function dbUpdate(id)
+    {
+       var name = id;
+       var text = document.getElementById("textarea"+id).value;
+       
+       
+        $("[id='form:name']").val(name);
+        $("[id='form:text']").val(text);
+       $("[id='form:command']").click();
+       alert("hi");
+    }
 
     //remove task button
     $(".removeTask").click(function(){

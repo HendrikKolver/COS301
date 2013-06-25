@@ -14,10 +14,30 @@ public class index
 {
     @Inject
     TaskService ts;
+    String name;
+    String text;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+    
     
     public void createTask()
     {
+        System.out.println(name + "; "+ text);
         System.out.println("Create Task Clicked!");
-        ts.create("Task Name 2");
+        ts.create("Task Name 3");
     }
 }
