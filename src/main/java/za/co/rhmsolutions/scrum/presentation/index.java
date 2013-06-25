@@ -38,6 +38,6 @@ public class index
     {
         System.out.println(name + "; "+ text);
         System.out.println("Create Task Clicked!");
-        ts.create("Task Name 3");
+        ts.create(name);
     }
 }
