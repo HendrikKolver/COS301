@@ -85,10 +85,6 @@ public class Tasks {
     
     public void dbUpdate()
     {
-        if(update)
-        {
-        //call to db adaptor
-        }
         update = false;
     }
             

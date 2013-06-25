@@ -1,19 +1,15 @@
 package Reference;
 
 
-import Reference.Reference;
 import java.util.ArrayList;
-import javax.inject.Inject;
-import javax.persistence.PersistenceContext;
 import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebServer;
 import org.webbitserver.WebServers;
 import org.webbitserver.WebSocketConnection;
 import org.webbitserver.handler.StaticFileHandler;
-import za.co.rhmsolutions.scrum.presentation.index;
 
 public class WebSockets extends BaseWebSocketHandler {
-    
+    private static WebSockets w ;
     
 
     private int connectionCount;
@@ -26,6 +22,7 @@ public class WebSockets extends BaseWebSocketHandler {
         return tasks;
     }
     //initial connection made by client
+    @Override
     public void onOpen(WebSocketConnection connection) {
         for(int x=0; x<tasks.size();x++)
         {
@@ -40,12 +37,14 @@ public class WebSockets extends BaseWebSocketHandler {
     }
 
     //client disconnects
+    @Override
     public void onClose(WebSocketConnection connection) {
         clients.remove(connection);  
         connectionCount--;
     }
 
     //client sends a message
+    @Override
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
         boolean check = false;
@@ -110,8 +109,12 @@ public class WebSockets extends BaseWebSocketHandler {
     }
 
     public static void main() {
-        WebSockets w = new WebSockets();
-        Reference.w=w;
+        if(w == null)
+        {
+            w = new WebSockets();
+            Reference.w=w;
+        }
+
         WebServer webServer = WebServers.createWebServer(1234)
                 .add("/websocket", w)
                 .add(new StaticFileHandler("/web"));
