@@ -64,8 +64,9 @@ $(document).ready(function()
                 var thisPos = $(this).position();
                 var y = thisPos.left;
                 var x = thisPos.top;
-
+                
                 ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                alert("Message sent!!!");
             }
         };
         
@@ -76,6 +77,7 @@ $(document).ready(function()
     //return function that recieves server reply
     function showMessage(text) 
     {
+        alert("Message recieved!!!");
         var chars = text.split(',');
         var text = (chars[0] +',' + chars[1]);
 
@@ -134,7 +136,21 @@ $(document).ready(function()
         var id =prompt("Please enter the task ID","");
         ws.send('add,'+id);
         addTask(id); 
+        dbUpdate(id);
+        
     });
+    
+    function dbUpdate(id)
+    {
+       var name = id;
+       var text = document.getElementById("textarea"+id).value;
+       
+       
+        $("[id='form:name']").val(name);
+        $("[id='form:text']").val(text);
+       $("[id='form:command']").click();
+       alert("hi");
+    }
 
     //remove task button
     $(".removeTask").click(function(){
