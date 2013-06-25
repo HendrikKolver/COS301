@@ -45,6 +45,6 @@ public class index
         text = w.getTasks().get(0).getMessage();
         System.out.println(name + "; "+ text);
         System.out.println("Create Task Clicked!");
-        ts.create(name);
+        //ts.create(name);
     }
 }
