@@ -149,7 +149,7 @@ $(document).ready(function()
         $("[id='form:name']").val(name);
         $("[id='form:text']").val(text);
        $("[id='form:command']").click();
-       alert("hi");
+       
     }
 
     //remove task button

@@ -1,3 +1,6 @@
+package Reference;
+
+import Reference.WebSockets;
 import javax.ejb.Singleton;
 import javax.ejb.LocalBean;
 import javax.faces.bean.ManagedBean;

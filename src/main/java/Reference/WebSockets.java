@@ -1,17 +1,30 @@
+package Reference;
 
+
+import Reference.Reference;
 import java.util.ArrayList;
+import javax.inject.Inject;
+import javax.persistence.PersistenceContext;
 import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebServer;
 import org.webbitserver.WebServers;
 import org.webbitserver.WebSocketConnection;
 import org.webbitserver.handler.StaticFileHandler;
+import za.co.rhmsolutions.scrum.presentation.index;
 
 public class WebSockets extends BaseWebSocketHandler {
+    
+    
+
     private int connectionCount;
     
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks = new ArrayList<Tasks>();
 
+    public ArrayList<Tasks> getTasks()
+    {
+        return tasks;
+    }
     //initial connection made by client
     public void onOpen(WebSocketConnection connection) {
         for(int x=0; x<tasks.size();x++)
@@ -40,7 +53,8 @@ public class WebSockets extends BaseWebSocketHandler {
         if(pieces[0].equals("add"))
         {
             Tasks tmp = new Tasks(pieces[1],pieces[1]);
-            tasks.add(tmp);            
+            tasks.add(tmp);
+            
         }
         else if(pieces[0].equals("remove"))
         {
@@ -96,8 +110,10 @@ public class WebSockets extends BaseWebSocketHandler {
     }
 
     public static void main() {
+        WebSockets w = new WebSockets();
+        Reference.w=w;
         WebServer webServer = WebServers.createWebServer(1234)
-                .add("/websocket", new WebSockets())
+                .add("/websocket", w)
                 .add(new StaticFileHandler("/web"));
         webServer.start();
         System.out.println("Client attemt to start server");
