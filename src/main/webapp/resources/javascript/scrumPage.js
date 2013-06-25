@@ -66,7 +66,7 @@ $(document).ready(function()
                 var x = thisPos.top;
                 
                 ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
-                alert("Message sent!!!");
+                //alert("Message sent!!!");
             }
         };
         
@@ -77,7 +77,7 @@ $(document).ready(function()
     //return function that recieves server reply
     function showMessage(text) 
     {
-        alert("Message recieved!!!");
+        //alert("Message recieved!!!");
         var chars = text.split(',');
         var text = (chars[0] +',' + chars[1]);
 
