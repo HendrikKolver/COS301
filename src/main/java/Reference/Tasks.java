@@ -13,6 +13,11 @@ public class Tasks {
     private String tID;
     private boolean update;
     
+    public boolean getUpdate()
+    {
+       return update; 
+    }
+    
     public Tasks(String n, String i)
     {
         update = true;

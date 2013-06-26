@@ -10,9 +10,7 @@ import org.webbitserver.handler.StaticFileHandler;
 
 public class WebSockets extends BaseWebSocketHandler {
     private static WebSockets w ;
-    
 
-    private int connectionCount;
     
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks = new ArrayList<Tasks>();
@@ -32,7 +30,7 @@ public class WebSockets extends BaseWebSocketHandler {
             connection.send(message);
         }
         clients.add(connection);
-        connectionCount++;
+        
         System.out.println("Task size:" + tasks.size());
     }
 
@@ -40,7 +38,7 @@ public class WebSockets extends BaseWebSocketHandler {
     @Override
     public void onClose(WebSocketConnection connection) {
         clients.remove(connection);  
-        connectionCount--;
+       
     }
 
     //client sends a message

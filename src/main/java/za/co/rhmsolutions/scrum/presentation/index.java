@@ -39,11 +39,21 @@ public class index
     
     public void createTask()
     {
-        WebSockets w = Reference.w;
-        name = w.getTasks().get(0).getID();
-        text = w.getTasks().get(0).getMessage();
-        System.out.println(name + "; "+ text);
         System.out.println("Create Task Clicked!");
-        ts.create(name);
+        WebSockets w = Reference.w;
+        for(int x=0; x< w.getTasks().size();x++)
+        {
+            if(w.getTasks().get(x).getUpdate())
+            {
+                name = w.getTasks().get(x).getID();
+                text = w.getTasks().get(x).getMessage();
+
+                System.out.println(name + "; "+ text);
+                
+                ts.create(name);
+                w.getTasks().get(x).dbUpdate();
+            }
+        }
+        
     }
 }
