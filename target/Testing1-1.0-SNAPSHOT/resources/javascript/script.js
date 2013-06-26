@@ -17,7 +17,7 @@ $(document).ready(function()
                     $("#replacement2").hide();
                     $('.t2Active').animate({
                     marginLeft:'-=458px'
-                    }, 750, function()
+                    }, 300, function()
                     {
                             $('#toggle2').removeClass('t2Active');
                             $("#tblTog2").show();
@@ -29,7 +29,7 @@ $(document).ready(function()
                             $('#toggle1').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog1").hide();
                                     $("#replacement1").show();
@@ -40,7 +40,7 @@ $(document).ready(function()
                     $("#replacement3").hide();
                     $('.t3Active').animate({
                     marginLeft:'-=458px'
-                    }, 750, function()
+                    }, 300, function()
                     {
                             $('#toggle3').removeClass('t3Active');
                             $("#tblTog3").show();
@@ -52,7 +52,7 @@ $(document).ready(function()
                             $('#toggle1').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {       
                                     $("#tog1").hide();
                                     $("#replacement1").show();
@@ -66,7 +66,7 @@ $(document).ready(function()
                             $('#toggle1').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog1").hide();
                                     $("#replacement1").show();
@@ -81,7 +81,7 @@ $(document).ready(function()
             $('#toggle1').animate({
             marginLeft:'-=458px'
 
-            }, 750, function()
+            }, 300, function()
             {
                     $('#toggle1').removeClass('t1Active');
                     $("#tog1").hide();
@@ -96,7 +96,7 @@ $(document).ready(function()
                     $("#replacement1").hide();
                     $('.t1Active').animate({
                     marginLeft:'-=458px'
-                    }, 750, function()
+                    }, 300, function()
                     {
                             $('#toggle1').removeClass('t1Active');
                             $("#tblTog1").show();
@@ -108,7 +108,7 @@ $(document).ready(function()
                             $('#toggle2').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog2").hide();
                                     $("#replacement2").show();
@@ -119,7 +119,7 @@ $(document).ready(function()
                     $("#replacement3").hide();
                     $('.t3Active').animate({
                     marginLeft:'-=458px'
-                    }, 750, function()
+                    }, 300, function()
                     {
                             $('#toggle3').removeClass('t3Active');
                             $("#tblTog3").show();	
@@ -131,7 +131,7 @@ $(document).ready(function()
                             $('#toggle2').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog2").hide();
                                     $("#replacement2").show();
@@ -145,7 +145,7 @@ $(document).ready(function()
                             $('#toggle2').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog2").hide();
                                     $("#replacement2").show();
@@ -160,7 +160,7 @@ $(document).ready(function()
             $('#toggle2').animate({
             marginLeft:'-=458px'
 
-            }, 750, function()
+            }, 300, function()
             {
                     $("#tog2").hide();
                     $('#toggle2').removeClass('t2Active');
@@ -176,7 +176,7 @@ $(document).ready(function()
                     $("#replacement1").hide();
                     $('.t1Active').animate({
                     marginLeft:'-=458px'
-                    }, 750, function()
+                    }, 300, function()
                     {
                             $('#toggle1').removeClass('t1Active');
                             $("#tblTog1").show();
@@ -188,7 +188,7 @@ $(document).ready(function()
                             $('#toggle3').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog3").hide();
                                     $("#replacement3").show();
@@ -200,7 +200,7 @@ $(document).ready(function()
                     $("#replacement2").hide();
                     $('.t2Active').animate({
                     marginLeft:'-=458px'
-                    }, 750, function()
+                    }, 300, function()
                     {
                             $('#toggle2').removeClass('t2Active');
                             $("#tblTog2").show();
@@ -212,7 +212,7 @@ $(document).ready(function()
                             $('#toggle3').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog3").hide();
                                     $("#replacement3").show();
@@ -226,7 +226,7 @@ $(document).ready(function()
                             $('#toggle3').animate({
                             marginLeft:'+=458px'
 
-                            }, 750, function()
+                            }, 300, function()
                             {
                                     $("#tog3").hide();
                                     $("#replacement3").show();
@@ -242,12 +242,18 @@ $(document).ready(function()
             $('#toggle3').animate({
             marginLeft:'-=458px'
 
-            }, 750, function()
+            }, 300, function()
             {
                     $("#tog3").hide();
                     $('#toggle3').removeClass('t3Active');
                     $("#tblTog3").show();
             });
     });
-
+    
+    //Extra Stuff for various other things
+    $("#closeLightBox").click(function()
+    {
+       document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';
+    });
+    
 });

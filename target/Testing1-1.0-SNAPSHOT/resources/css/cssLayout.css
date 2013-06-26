@@ -1,6 +1,10 @@
+
+
 body{
         font-family:Arial;
         background-color: #848484;
+        
+        
 }
 
 #container{
@@ -36,7 +40,7 @@ body{
 }
 
 #nav td{
-    width: 140px;
+        width: 140px;
         text-align:center;
         padding:0px;
       
@@ -76,10 +80,10 @@ body{
 }
 
 #logo2{
-				position: relative;
-				top:-15px;
-				left:880px;
-			}
+	position: relative;
+	top:-15px;
+	left:880px;
+}
 
 .navLink
 {
@@ -186,7 +190,7 @@ body{
             left: 15px;
             width:200px;
             height:200px;
-            background-image:url('../images/stickynote.png');
+            background-image:url('../images/yellowstickynote.png');
             /*background-color:gold; */
             text-align:center;
             /*box-shadow: 3px 3px 5px #888888;*/
@@ -225,9 +229,161 @@ body{
     top: 20px;
 }
 
+#addRow
+{
+    position:absolute;
+    left:200px;
+    top: 80px;
+}
 
 
+.black_overlay{
+    display: none;
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 200%;
+    background-color: black;
+    z-index:1001;
+    -moz-opacity: 0.65;
+    opacity:.65;
+    filter: alpha(opacity=65);
+    /*overflow: hidden;*/
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+ 
+.white_content {
+    display: none;
+    position: absolute;
+    top: 25%;
+    left: 25%;
+    width: 50%;
+    min-height: 30px;
+    padding: 16px;
+    border: 5px solid grey;
+    background-color: white;
+    z-index:1002;
+    /*overflow: auto;*/
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 2px grey;
+    background: rgb(249,247,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(249,247,255,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,247,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f7ff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 
+}
 
+#closeLightBox{
+    float:right;
+    border:3px solid white;
+    -webkit-border-radius: 999px;
+    -moz-border-radius: 999px;
+    border-radius: 999px;
+    width:30px;
+    height: 30px;
+    color:white;
+    background-color:#414042;
+    box-shadow: 4px 4px 2px grey;
+    text-align: center;
+    font-size: 16pt;
+    line-height: 30px;
+    position: relative;
+    top:-30px;
+    left:30px;
+    cursor: pointer;
+    z-index: 10000;
+}
 
+.stopwatch{
+   /**/
+   width:40px;
+   height: 40px;
+   text-align: center;
+   background-image:url('../images/stopwatch.png');
+   background-repeat: no-repeat;
+}
+
+.poker{
+   width:40px;
+   height: 40px;
+   text-align: center;
+   background-image:url('../images/poker.png');
+   background-repeat: no-repeat;
+}
+
+button{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #ffffff;
+	padding: 2px 5px;
+	background: -moz-linear-gradient(
+		top,
+		#d4d4d4 0%,
+		#5e5e5e);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#d4d4d4),
+		to(#5e5e5e));
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	border: 1px solid #8a8a8a;
+	-moz-box-shadow:
+		0px 1px 3px rgba(0,0,0,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	-webkit-box-shadow:
+		0px 1px 3px rgba(0,0,0,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	box-shadow:
+		0px 1px 3px rgba(0,0,0,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	text-shadow:
+		0px -1px 0px rgba(000,000,000,0.4),
+		0px 1px 0px rgba(255,255,255,0.3);
+        cursor:pointer;
+}
+
+button:hover{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #ffffff;
+	padding: 2px 5px;
+	background: -moz-linear-gradient(
+		top,
+		#bcc2bc 0%,
+		#606160);
+	background: -webkit-gradient(
+		linear, left top, left bottom, 
+		from(#bcc2bc),
+		to(#606160));
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	border: 1px solid #8a8a8a;
+	-moz-box-shadow:
+		0px 1px 3px rgba(0,0,0,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	-webkit-box-shadow:
+		0px 1px 3px rgba(0,0,0,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	box-shadow:
+		0px 1px 3px rgba(0,0,0,0.5),
+		inset 0px 0px 2px rgba(255,255,255,1);
+	text-shadow:
+		0px -1px 0px rgba(000,000,000,0.4),
+		0px 1px 0px rgba(255,255,255,0.3);
+}
+
+.colorActive{
+    border:solid;
+}
 

@@ -12,6 +12,8 @@ $(document).ready(function()
     {
         $("#addTask").click(function(){
             ws.send('id,'+"id");
+            $(".colorActive").removeClass("colorActive");
+            $("#StickyYellowSelect").addClass("colorActive");
         });
 	
 	
@@ -140,6 +142,10 @@ $(document).ready(function()
                 $("#"+chars[3]).css('background-image',"url('resources/images/greenstickynote.png')");
             else if (chars[1] == 'purple')
                 $("#"+chars[3]).css('background-image',"url('resources/images/purplestickynote.png')");
+            else if (chars[1] == 'red')
+                $("#"+chars[3]).css('background-image',"url('resources/images/redstickynote.png')");
+            else if (chars[1] == 'blue')
+                $("#"+chars[3]).css('background-image',"url('resources/images/bluestickynote.png')");
         }
             
             
@@ -183,7 +189,7 @@ $(document).ready(function()
         var divIDJquery = "#"+ divID;
         var jqueryOptions = "#"+options;
 
-        var element = '<div class ="draggable" id="'+divID+'"><table style ="width:100%; height: 100%;"><tr ><td title ="Task Name" id="'+TaskName+'" colspan ="3" style ="font-weight:bold; font-size:12pt;">Task Name </td></tr><tr><td title ="Person Responsible" id="'+Responsible+'" colspan ="3" style ="font-size:10pt">Person Responsible</td></tr><tr><td colspan ="3"><div title ="Task Description" id="'+Description+'" class ="stickyContent" style =" width:100%; height:100px;">Description</div></td> </tr><tr><td class = "poker" title ="Story Points" id="'+Points+'" style ="font-size:14pt; font-weight:bold; padding-left:10px;">0</td><td><button id="'+options+'">Options</button></td><td class = "stopwatch" title ="Days Remaining" id="'+Days+'" style ="font-size:14pt; font-weight:bold; padding-right:10px;">0</td></tr></table> </div>';
+        var element = '<div class ="draggable" id="'+divID+'"><table style ="width:100%; height: 100%;"><tr ><td title ="Task Name" id="'+TaskName+'" colspan ="3" style ="font-weight:bold; font-family:Lucida Casual, Comic Sans MS; font-size:12pt;">Task Name </td></tr><tr><td title ="Person Responsible" id="'+Responsible+'" colspan ="3" style ="font-size:10pt">Person Responsible</td></tr><tr><td colspan ="3"><div title ="Task Description" id="'+Description+'" class ="stickyContent" style =" width:100%; font-family:Lucida Casual, Comic Sans MS; overflow:auto; height:100px;">Description</div></td> </tr><tr><td class = "poker" title ="Story Points" id="'+Points+'" style ="font-size:14pt; font-weight:bold; padding-left:10px;">0</td><td><button id="'+options+'">Options</button></td><td class = "stopwatch" title ="Days Remaining" id="'+Days+'" style ="font-size:14pt; font-weight:bold; padding-right:10px;">0</td></tr></table> </div>';
             $("#DragContainer").append(element);
 
        //adding listeners for new element
@@ -229,6 +235,14 @@ $(document).ready(function()
             {
                 $(".colorActive").removeClass("colorActive");
                 $("#light").find(".StickyYellow").addClass("colorActive");
+            }else if (color.indexOf("red") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyRed").addClass("colorActive");
+            }else if (color.indexOf("blue") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyBlue").addClass("colorActive");
             }
                 
             
@@ -334,6 +348,26 @@ $("#addRow").click(function()
         ws.send(str);
         var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
         $(jqueryID).css('background-image',"url('resources/images/greenstickynote.png')");
+    });
+    
+    $("#StickyRedSelect").click(function()
+    {
+        $(".colorActive").removeClass("colorActive");
+        $(this).addClass("colorActive");
+        var str = ('colour,'+ "red" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
+        ws.send(str);
+        var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
+        $(jqueryID).css('background-image',"url('resources/images/redstickynote.png')");
+    });
+    
+    $("#StickyBlueSelect").click(function()
+    {
+        $(".colorActive").removeClass("colorActive");
+        $(this).addClass("colorActive");
+        var str = ('colour,'+ "blue" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
+        ws.send(str);
+        var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
+        $(jqueryID).css('background-image',"url('resources/images/bluestickynote.png')");
     });
     
     $("#stickyFinished").click(function(){
