@@ -100,7 +100,6 @@ public class WebSockets extends BaseWebSocketHandler {
                         {
                             System.out.println(pieces[1]);
                             tasks.get(x).setPos(pieces[1], pieces[2]);
-                            tasks.get(x).dbUpdate();
                             break;
                         }
 
@@ -128,7 +127,6 @@ public class WebSockets extends BaseWebSocketHandler {
                             {
                             tasks.get(x).setDays(pieces[1]); 
                             }
-                            tasks.get(x).dbUpdate();
                             break;
                         }   
                     }
