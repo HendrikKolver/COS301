@@ -1,9 +1,7 @@
-Integration Branch
+Unit Testing Branch
 ----------------------------
 
-This branch is for all mojor test that need to be run before the application is considered working.
-
-Use this branch to integrate and test components before merging to master.
+This branch is to get the Unit Testing framework successfully working.
 
 Important: master must always be working as bug free as possible
 
