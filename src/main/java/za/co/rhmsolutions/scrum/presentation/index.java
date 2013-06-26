@@ -46,9 +46,9 @@ public class index
             if(w.getTasks().get(x).getUpdate())
             {
                 name = w.getTasks().get(x).getID();
-                text = w.getTasks().get(x).getMessage();
+                
 
-                System.out.println(name + "; "+ text);
+                //System.out.println(name + "; "+ text);
                 
                 ts.create(name);
                 w.getTasks().get(x).dbUpdate();

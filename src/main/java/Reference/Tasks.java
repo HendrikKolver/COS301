@@ -1,5 +1,4 @@
 package Reference;
-
 /**
  *
  * @author Hendrik
@@ -9,24 +8,64 @@ public class Tasks {
     private String ID;
     private String topPos,leftPos;
     private String status;
-    private String message;
+    private String description;
+    private String responsible;
+    private String points;
+    private String days;
+    private String colour;
+    
+    public String getColour()
+    {
+        return colour;
+    }
+    
+    public void setColour(String colour) {
+        update = true;
+        this.colour = colour;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public void setDays(String days) {
+        update = true;
+        this.days = days;
+    }
+
+    public String getPoints() {
+        return points;
+    }
+
+    public void setPoints(String points) {
+        update = true;
+        this.points = points;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public void setResponsible(String responsible) {
+        update = true;
+        this.responsible = responsible;
+    }
     private String tID;
     private boolean update;
-    
-    public boolean getUpdate()
-    {
-       return update; 
-    }
     
     public Tasks(String n, String i)
     {
         update = true;
-        name = n;
+        name = "Task Name";
+        responsible = "Person Responsible";
         ID = i;
-        message = "Your Text Here...";
+        description = "Task Description";
+        points = "0";
+        days = "0";
         topPos = "0";
         leftPos = "0";
         tID = i+"ID";
+        colour = "yellow";
     }
 
     public String getLeftPos() {
@@ -37,13 +76,13 @@ public class Tasks {
         return topPos;
     }
 
-    public String getMessage() {
-        return message;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMessage(String message) {
+    public void setDescription(String message) {
         update = true;
-        this.message = message;
+        this.description = message;
     }
 
     public String getID() {
@@ -91,6 +130,11 @@ public class Tasks {
     public void dbUpdate()
     {
         update = false;
+    }
+    
+    public boolean getUpdate()
+    {
+        return update; 
     }
             
     
