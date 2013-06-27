@@ -66,6 +66,7 @@ public class Tasks {
         leftPos = "0";
         tID = i+"ID";
         colour = "yellow";
+        status = "notStarted";
     }
 
     public String getLeftPos() {
@@ -107,11 +108,22 @@ public class Tasks {
         return status;
     }
     
+    public void setStatus(String status) {
+        update = true;
+        this.status = status;
+    }
+    
     public void setPos(String x, String y)
     {
         topPos = x; 
         leftPos = y;
         update = true;
+        if (Double.parseDouble(y)<273)
+            setStatus("notStarted");
+        else if (Double.parseDouble(y)<722)
+            setStatus("inProgress");
+        else 
+            setStatus("completed");
     }
     
     public void setTextID(String s)

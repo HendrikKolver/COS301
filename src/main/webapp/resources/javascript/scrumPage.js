@@ -1,3 +1,4 @@
+
 $(document).ready(function()
 {
     //websocket connection
@@ -21,7 +22,6 @@ $(document).ready(function()
         $('.draggable').draggable( {
             cursor: 'move',
             containment: 'document',
-
             stop: function(){
             current = null; 
             }
@@ -49,7 +49,6 @@ $(document).ready(function()
                 var thisPos = $(this).position();
                 var y = thisPos.left;
                 var x = thisPos.top;
-
                 ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
             }
         };
@@ -146,11 +145,36 @@ $(document).ready(function()
                 $("#"+chars[3]).css('background-image',"url('resources/images/redstickynote.png')");
             else if (chars[1] == 'blue')
                 $("#"+chars[3]).css('background-image',"url('resources/images/bluestickynote.png')");
+        }else if (chars[0] == 'burndown')
+        {
+           drawChart(chars[1]);
         }
             
             
             
     }
+    
+    function drawChart(values)
+    {
+        var split = values.split(';');
+        var array = new Array();
+        for (i = 0; i < split.length; i++)
+        {
+            array[i] = { Days: (i+1), Points: split[i] };
+        }
+        $("#myfirstchart").html("");
+        
+        Morris.Line({
+            element: 'myfirstchart',
+            data: array,
+            xkey: 'Days',
+            ykeys: ['Points'],
+            hideHover:['true'],
+            labels: ['Days']
+        });      
+    }
+    
+
 
 
 //----------------------------------------------------------------------------
@@ -376,7 +400,17 @@ $("#addRow").click(function()
 	    document.getElementById('light').style.display='none';
 	    document.getElementById('fade').style.display='none';
 	    
-	});
+    });
+    
+    $("#addDay").click(function()
+    {
+        ws.send('addDay,1');
+    });
+    
+    $("#finishSprint").click(function()
+    {
+        alert('sprint done!');
+    });
 	
 	    
     function dbUpdate(id)
