@@ -49,6 +49,18 @@ public class WebSockets extends BaseWebSocketHandler {
             message = "colour,"+tasks.get(x).getColour()+",a"+","+tasks.get(x).getID();
             connection.send(message);
         }
+        
+        String message = "burndown,";
+            for(int x=0; x<burndownPoints.size();x++)
+            {
+                if(x==burndownPoints.size()-1)
+                {
+                    message+= burndownPoints.get(x);
+                }else
+                    message+= burndownPoints.get(x)+";";
+            }
+            connection.send(message);
+        
         connection.send("addRow,"+rowCount);
         clients.add(connection);
         connectionCount++;
