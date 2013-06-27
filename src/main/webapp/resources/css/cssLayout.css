@@ -7,7 +7,7 @@ body{
         
 }
 
-#container{
+#container1{
         margin: 0 auto;
         width:1400px;
         min-height:800px;
@@ -110,12 +110,6 @@ body{
 }
 
 #toggleContainer{
-        float:left;
-        height:600px;
-        width:40px;
-
-}
-#toggleContainer{
 				position:relative;
 				top:-400px;
 				float:left;
@@ -126,29 +120,29 @@ body{
 			#toggle1{
 				cursor:pointer;
 				position:relative;
-				width:500px;
+				width:700px;
 				height:600px;
-				left:-460px;
+				left:-660px;
 				z-index:2;
 			}
 			
 			#toggle2{
 				cursor:pointer;
 				position:relative;
-				width:500px;
+				width:700px;
 				height:600px;
 				top:-600px;
-				left:-460px;
+				left:-660px;
 				z-index:3;
 			}
 			
 			#toggle3{
 				cursor:pointer;
 				position:relative;
-				width:500px;
+				width:700px;
 				height:600px;
 				top:-1200px;
-				left:-460px;
+				left:-660px;
 				z-index:4;
 			}
 			
@@ -166,7 +160,7 @@ body{
 				position:relative;
 				right:0px;
 				top:-406px;
-				left:412px;
+				left:612px;
 				z-index:1000;
 			}
 *{
@@ -234,6 +228,20 @@ body{
     position:absolute;
     left:200px;
     top: 80px;
+}
+
+#addDay
+{
+    position:absolute;
+    left:200px;
+    top: 140px;
+}
+
+#finishSprint
+{
+    position:absolute;
+    left:200px;
+    top: 200px;
 }
 
 

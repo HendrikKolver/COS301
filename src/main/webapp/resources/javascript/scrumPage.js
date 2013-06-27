@@ -1,3 +1,4 @@
+
 $(document).ready(function()
 {
     //websocket connection
@@ -21,7 +22,6 @@ $(document).ready(function()
         $('.draggable').draggable( {
             cursor: 'move',
             containment: 'document',
-
             stop: function(){
             current = null; 
             }
@@ -49,7 +49,6 @@ $(document).ready(function()
                 var thisPos = $(this).position();
                 var y = thisPos.left;
                 var x = thisPos.top;
-
                 ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
             }
         };
@@ -146,11 +145,71 @@ $(document).ready(function()
                 $("#"+chars[3]).css('background-image',"url('resources/images/redstickynote.png')");
             else if (chars[1] == 'blue')
                 $("#"+chars[3]).css('background-image',"url('resources/images/bluestickynote.png')");
+        }else if (chars[0] == 'burndown')
+        {
+           drawChart(chars[1]);
         }
             
             
             
     }
+    
+    function drawChart(values)
+    {
+        $("#container").html("");
+        
+        var split = values.split(';');
+        var array = new Array();
+        for (i = 0; i < split.length; i++)
+        {
+            array[i] = parseInt(split[i]);
+        }
+
+        $(function () {
+				$('#container').highcharts({
+				    chart: {
+					type: 'line',
+					marginRight: 130,
+					marginBottom: 25
+				    },
+				    title: {
+					text: 'Burndown Chart',
+					x: -20 //center
+				    },
+				    xAxis: {
+					
+				    },
+				    yAxis: {
+					title: {
+					    text: ' Points'
+					},
+					plotLines: [{
+					    value: 0,
+					    width: 1,
+					    color: '#808080'
+					}]
+				    },
+				    tooltip: {
+                                        headerFormat : '<span style="font-size: 12px color:#808080">Day {point.key}</span><br/>',
+					valueSuffix: ' Points'
+				    },
+				    legend: {
+					layout: 'vertical',
+					align: 'right',
+					verticalAlign: 'top',
+					x: -10,
+					y: 100,
+					borderWidth: 0
+				    },
+				    series: [{
+					name: 'Tasks',
+					data: array
+				    }]
+				});
+			    });
+    }
+    
+
 
 
 //----------------------------------------------------------------------------
@@ -376,7 +435,17 @@ $("#addRow").click(function()
 	    document.getElementById('light').style.display='none';
 	    document.getElementById('fade').style.display='none';
 	    
-	});
+    });
+    
+    $("#addDay").click(function()
+    {
+        ws.send('addDay,1');
+    });
+    
+    $("#finishSprint").click(function()
+    {
+        alert('sprint done!');
+    });
 	
 	    
     function dbUpdate(id)

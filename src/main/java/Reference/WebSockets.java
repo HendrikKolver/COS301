@@ -15,8 +15,14 @@ public class WebSockets extends BaseWebSocketHandler {
     
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks = new ArrayList<Tasks>();
+    ArrayList<Integer> burndownPoints = new ArrayList<Integer>();
+    WebSockets()
+    {
+        System.out.println("constructor");
+        burndownPoints.add(0);
+    }
 
-	public ArrayList<Tasks> getTasks()
+    public ArrayList<Tasks> getTasks()
     {
         return tasks;
     }
@@ -43,6 +49,18 @@ public class WebSockets extends BaseWebSocketHandler {
             message = "colour,"+tasks.get(x).getColour()+",a"+","+tasks.get(x).getID();
             connection.send(message);
         }
+        
+        String message = "burndown,";
+            for(int x=0; x<burndownPoints.size();x++)
+            {
+                if(x==burndownPoints.size()-1)
+                {
+                    message+= burndownPoints.get(x);
+                }else
+                    message+= burndownPoints.get(x)+";";
+            }
+            connection.send(message);
+        
         connection.send("addRow,"+rowCount);
         clients.add(connection);
         connectionCount++;
@@ -61,6 +79,12 @@ public class WebSockets extends BaseWebSocketHandler {
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
         boolean check = false;
+        
+        if (pieces[0].equals("addDay"))
+        {
+            int temp = burndownPoints.get(burndownPoints.size()-1);
+            burndownPoints.add(temp);
+        }
         if(pieces[0].equals("id"))
         {
             Random r = new Random();
@@ -95,11 +119,21 @@ public class WebSockets extends BaseWebSocketHandler {
                 {
                     if(pieces[0].equals("position"))
                     {  
-
                         if(pieces[3].equals(tasks.get(x).getID())) 
                         {
                             System.out.println(pieces[1]);
                             tasks.get(x).setPos(pieces[1], pieces[2]);
+                            int tmp = 0;
+                            for (int i = 0; i < tasks.size(); i++) {
+                                if(!(tasks.get(i).getStatus().equals("completed")))
+                                {
+                                    tmp += Integer.parseInt(tasks.get(i).getPoints());
+                                }
+                            }
+                            burndownPoints.set((burndownPoints.size()-1),tmp);
+                            
+                            System.out.println(burndownPoints.toString());
+                            
                             break;
                         }
 
@@ -113,19 +147,33 @@ public class WebSockets extends BaseWebSocketHandler {
                         {
                             if(checkString.equals("me"))
                             {
-                            tasks.get(x).setName(pieces[1]); 
+                                tasks.get(x).setName(pieces[1]); 
                             }else if(checkString.equals("le"))
                             {
-                            tasks.get(x).setResponsible(pieces[1]); 
+                                tasks.get(x).setResponsible(pieces[1]); 
                             }else if(checkString.equals("on"))
                             {
                                 tasks.get(x).setDescription(pieces[1]);
                             }else if(checkString.equals("ts"))
                             {
-                            tasks.get(x).setPoints(pieces[1]); 
+                                tasks.get(x).setPoints(pieces[1]); 
+                                int tmp = 0;
+                                if(pieces[1] != null && pieces[1].length()>0)
+                                {
+                                    for (int i = 0; i < tasks.size(); i++) {
+                                        if(!(tasks.get(i).getStatus().equals("completed")))
+                                        {
+                                            tmp += Integer.parseInt(tasks.get(i).getPoints());
+                                        }
+                                    }
+                                    burndownPoints.set((burndownPoints.size()-1),tmp);
+
+                                    System.out.println(burndownPoints.toString());
+                                }
+                                
                             }else if(checkString.equals("ys"))
                             {
-                            tasks.get(x).setDays(pieces[1]); 
+                                tasks.get(x).setDays(pieces[1]); 
                             }
                             break;
                         }   
@@ -157,6 +205,19 @@ public class WebSockets extends BaseWebSocketHandler {
                 {
                     clients.get(x).send(message);
                 }
+            }
+            message = "burndown,";
+            for(int x=0; x<burndownPoints.size();x++)
+            {
+                if(x==burndownPoints.size()-1)
+                {
+                    message+= burndownPoints.get(x);
+                }else
+                    message+= burndownPoints.get(x)+";";
+            }
+            for(int x=0; x<clients.size();x++)
+            {
+               clients.get(x).send(message); 
             }
             System.out.println("Message sent to clients, Task size: " + tasks.size());
         }
