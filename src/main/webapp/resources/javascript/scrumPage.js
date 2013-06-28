@@ -5,15 +5,16 @@ $(document).ready(function()
     ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
 
     listeners();
-
-
+    
+   
 //----------------------------------------------------------------------------
+
+    
     function listeners()
     {
+        
         $("#addTask").click(function(){
-            ws.send('id,'+"id");
-            $(".colorActive").removeClass("colorActive");
-            $("#StickyYellowSelect").addClass("colorActive");
+            $("[id='form2:testButton']").click(); 
         });
 	
 	
@@ -56,6 +57,27 @@ $(document).ready(function()
         $('.snapHere').droppable(drop);
         
     }
+    
+    function recieveID(ID)
+    {
+        document.getElementById('stickyHiddenID').value = ID;
+        document.getElementById('light').style.display='block';
+        document.getElementById('fade').style.display='block';
+        var id =document.getElementById("stickyHiddenID").value;
+        ws.send('add,'+id);
+
+        var tmpID = "#"+id+"StickyTaskName";
+        document.getElementById("StickyTaskName").value = "Task Name";
+        tmpID = "#"+id+"StickyResponsible";
+        document.getElementById("StickyResponsible").value = "Person Responsible";
+        tmpID = "#"+id+"StickyDescription";
+        document.getElementById("StickyDescription").value = "Task Description";
+        tmpID = "#"+id+"StickyPoints";
+        document.getElementById("StickyPoints").value = 0;
+        tmpID = "#"+id+"StickyDays";
+        document.getElementById("StickyDays").value = 0;
+        addTask(id);  
+    }
 
 //----------------------------------------------------------------------------
     //return function that recieves server reply
@@ -63,29 +85,8 @@ $(document).ready(function()
     {
         var chars = text.split(',');
         var text = (chars[0] +',' + chars[1]);
-        
-        if(chars[0] == 'id')
-        {
-            document.getElementById('stickyHiddenID').value = chars[1];
-            document.getElementById('light').style.display='block';
-            document.getElementById('fade').style.display='block';
-            var id =document.getElementById("stickyHiddenID").value;
-            ws.send('add,'+id);
-		
-            var tmpID = "#"+id+"StickyTaskName";
-            document.getElementById("StickyTaskName").value = "Task Name";
-            tmpID = "#"+id+"StickyResponsible";
-            document.getElementById("StickyResponsible").value = "Person Responsible";
-            tmpID = "#"+id+"StickyDescription";
-            document.getElementById("StickyDescription").value = "Task Description";
-            tmpID = "#"+id+"StickyPoints";
-            document.getElementById("StickyPoints").value = 0;
-            tmpID = "#"+id+"StickyDays";
-            document.getElementById("StickyDays").value = 0;
-            addTask(id); 
-		
-        }
-        else if(chars[0] == 'position')
+
+        if(chars[0] == 'position')
         {      
             var id= "#"+chars[3];
 
@@ -115,8 +116,6 @@ $(document).ready(function()
 
                     addTask(str.substring(0,(l-2)));
                 }
-
-
             //alert(line)
 
             $(id).html(line);
@@ -161,11 +160,14 @@ $(document).ready(function()
         var r = confirm("Are you sure you want to delete this task?");
         if (r == true)
         {
+            var id = $("#stickyHiddenID").val();
+	    dbDelete(id);
             ws.send('remove,'+document.getElementById("stickyHiddenID").value);
             var tmp ="#"+document.getElementById("stickyHiddenID").value;
             $(tmp).remove();
             document.getElementById('light').style.display='none';
             document.getElementById('fade').style.display='none';
+            
         }
         else
         {
@@ -178,6 +180,7 @@ $(document).ready(function()
     //adding of the actual html and calling of listeners()
     function addTask(id)
     {
+        
         var divID = id;
         var TaskName = id+"StickyTaskName";
         var Responsible = id+"StickyResponsible";
@@ -380,8 +383,19 @@ $("#addRow").click(function()
 	
 	    
     function dbUpdate(id)
-    {
-       $("[id='form:command']").click();  
+    { 
+        
+       $("[id='form:updateID']").val(id);
+       $("[id='form:updateForm']").click();
+       
+    }
+    
+    function dbDelete(id)
+    { 
+        
+       $("[id='form3:deleteID']").val(id);
+       $("[id='form3:deleteForm']").click();
+       
     }
     
     

@@ -29,6 +29,18 @@ public class index
     String colour = "colour";
     String updateID;
     String deleteID;
+    String ID;
+    String flag = "false";
+
+    public String getFlag() {
+        System.out.println("andBack");
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        System.out.println("here");
+        this.flag = flag;
+    }
 
     public String getDeleteID() {
         return deleteID;
@@ -43,6 +55,7 @@ public class index
     }
 
     public void setUpdateID(String updateID) {
+        
         this.updateID = updateID;
     }
 
@@ -60,6 +73,11 @@ public class index
 
     public void setText(String text) {
         //this.text = text;
+    }
+    
+    public void setID(String id)
+    {
+        ID = id;
     }
     
     //Creates new task for all new changes using values in w. Not for production purposes
@@ -92,6 +110,7 @@ public class index
     public void update()
     {
         WebSockets w = Reference.w;
+        System.out.println(w.getTasks().size());
         for(int x=0; x< w.getTasks().size();x++)
         {
             if(w.getTasks().get(x).getUpdate() && w.getTasks().get(x).getID().equals(updateID))
@@ -119,34 +138,25 @@ public class index
     }
     
     //Creates a template task using default values and returns id as String
-    public String getID()
-    {
-        long id;
-        id = ts.getID();
-        
-        String s = String.valueOf(id);
-        
-        System.out.println("String id: " + s);
-        
-        return s;
+    public void updateID()
+    {  
+            long id;
+            id = ts.getID();
+            ID = String.valueOf(id);
+            System.out.println("String id: " + ID);
+            WebSockets w = Reference.w;
+            w.addTask(ID);
+            w.sendTasks();
     }
     
     public void delete()
     {
         WebSockets w = Reference.w;
-       for(int x=0; x< w.getTasks().size();x++)
-       {
-            if(w.getTasks().get(x).getID().equals(deleteID))
-            {
-                long id;
-                id = Long.valueOf(deleteID).longValue();
-                
-                ts.delete(id);
-                System.out.println("Delete task " + id);
-                w.getTasks().get(x).dbUpdate();
-                
-               break;
-            }
-        }
+       
+        long id;
+        id = Long.valueOf(deleteID).longValue();
+
+        ts.delete(id);
+        System.out.println("Delete task " + id);      
     }
 }

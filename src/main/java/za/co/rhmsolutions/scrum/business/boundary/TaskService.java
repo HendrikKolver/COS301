@@ -72,7 +72,7 @@ public class TaskService
     { 
        em.createQuery("UPDATE Task t SET t.name='" + name + "', t.topPos='"+ topPos + "', t.leftPos='" + leftPos
                + "', t.status='"+ status + "', t.description='" + description + "', t.responsible='"+ responsible
-               + "', t.points='" + points + "', t.days='"+ days + "', t.colour='" + colour +"'").executeUpdate();
+               + "', t.points='" + points + "', t.days='"+ days + "', t.colour='" + colour +"' WHERE t.id='" + id + "'").executeUpdate();
        
        //em.createQuery("UPDATE Task t SET t.name='jjj' WHERE t.id='152'").executeUpdate();
     }
@@ -82,12 +82,18 @@ public class TaskService
         em.createQuery("DELETE FROM Task t WHERE t.id='" + id+ "'").executeUpdate();
     }
 
-    public List selectTest(String name) {
+    public List selectTest(String name) 
+    {
     return em.createQuery(
     "SELECT e FROM Task e Where e.id = '152'")
     .setMaxResults(10)
     .getResultList();
 }
+    
+    public void listItems()
+    {
+        
+    }
     
     
     
