@@ -245,6 +245,8 @@
                                 <div class ="StickyYellow" id ="StickyYellowSelect" title ="Yellow" style="width:30px; cursor: pointer; height:30px; background-color:rgb(248,220,78); float:left; margin-right:10px;"></div>
                                 <div class ="StickyPurple" id ="StickyPurpleSelect" title ="Purple" style="width:30px; height:30px; cursor: pointer; background-color:rgb(220,144,191); float:left; margin-right:10px;"></div>
                                 <div class ="StickyGreen" id ="StickyGreenSelect" title ="Green" style="width:30px; height:30px; cursor: pointer; background-color:rgb(54,236,11); float:left; margin-right:10px;"></div>
+                                <div class ="StickyRed" id ="StickyRedSelect" title ="Red" style="width:30px; height:30px; cursor: pointer; background-color:#ee5e3e; float:left; margin-right:10px;"></div>
+                                <div class ="StickyBlue" id ="StickyBlueSelect" title ="Blue" style="width:30px; height:30px; cursor: pointer; background-color:#53aae5; float:left; margin-right:10px;"></div>
                             </td>
                         </tr>
                         
@@ -271,12 +273,32 @@
                 
                 <h:outputText value="#{syncServer.startServer()}" />
                 <script type ="text/javascript" src ="resources/javascript/scrumPage.js"></script>
-                
-	<h:form id="form" style="display:none">
-                    <h:commandLink id="command" action="#{index.createTask()}">
-                        <f:ajax execute="@form" />
-                    </h:commandLink>
+
+                <h:form id="form2" style="display:none">
+                   
+                    <h:commandLink id='testButton' action="#{index.updateID()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandLink>
                 </h:form>
+                
+                <h:form id="form" style="display:none">
+                   <h:inputText id="updateID" value="#{index.updateID}"/>
+                    <h:commandLink id='updateForm' action="#{index.update()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandLink>
+                </h:form>
+                
+                <h:form id="form3" style="display:none">
+                   <h:inputText id="deleteID" value="#{index.deleteID}"/>
+                    <h:commandLink id='deleteForm' action="#{index.delete()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandLink>
+                </h:form>
+                
+                
+                
+                
+                
 		
 	    </ui:define>
 

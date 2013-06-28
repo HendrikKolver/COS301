@@ -19,6 +19,45 @@ public class index
     TaskService ts;
     String name;
     String text;
+    String topPos = "topPos";
+    String leftPos = "leftPos";
+    String status = "status";
+    String description = "description";
+    String responsible = "responsible";
+    String points = "points";
+    String days = "days";
+    String colour = "colour";
+    String updateID;
+    String deleteID;
+    String ID;
+    String flag = "false";
+
+    public String getFlag() {
+        System.out.println("andBack");
+        return flag;
+    }
+
+    public void setFlag(String flag) {
+        System.out.println("here");
+        this.flag = flag;
+    }
+
+    public String getDeleteID() {
+        return deleteID;
+    }
+
+    public void setDeleteID(String deleteID) {
+        this.deleteID = deleteID;
+    }
+
+    public String getUpdateID() {
+        return updateID;
+    }
+
+    public void setUpdateID(String updateID) {
+        
+        this.updateID = updateID;
+    }
 
     public String getName() {
         return name;
@@ -36,7 +75,12 @@ public class index
         //this.text = text;
     }
     
+    public void setID(String id)
+    {
+        ID = id;
+    }
     
+    //Creates new task for all new changes using values in w. Not for production purposes
     public void createTask()
     {
         System.out.println("Create Task Clicked!");
@@ -45,15 +89,74 @@ public class index
         {
             if(w.getTasks().get(x).getUpdate())
             {
-                name = w.getTasks().get(x).getID();
-                
+                name = w.getTasks().get(x).getName();
+                topPos = w.getTasks().get(x).getTopPos();
+                leftPos = w.getTasks().get(x).getLeftPos();
+                status = w.getTasks().get(x).getStatus();
+                description = w.getTasks().get(x).getDescription();
+                responsible = w.getTasks().get(x).getResponsible();
+                points = w.getTasks().get(x).getPoints();
+                days = w.getTasks().get(x).getDays();
+                colour = w.getTasks().get(x).getColour();
 
-                //System.out.println(name + "; "+ text);
+                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour);
                 
-                ts.create(name);
                 w.getTasks().get(x).dbUpdate();
             }
         }
-        
+    }
+    
+    //Update task using value of updateID
+    public void update()
+    {
+        WebSockets w = Reference.w;
+        System.out.println(w.getTasks().size());
+        for(int x=0; x< w.getTasks().size();x++)
+        {
+            if(w.getTasks().get(x).getUpdate() && w.getTasks().get(x).getID().equals(updateID))
+            {
+                name = w.getTasks().get(x).getName();
+                topPos = w.getTasks().get(x).getTopPos();
+                leftPos = w.getTasks().get(x).getLeftPos();
+                status = w.getTasks().get(x).getStatus();
+                description = w.getTasks().get(x).getDescription();
+                responsible = w.getTasks().get(x).getResponsible();
+                points = w.getTasks().get(x).getPoints();
+                days = w.getTasks().get(x).getDays();
+                colour = w.getTasks().get(x).getColour();
+
+                long id;
+                id = Long.valueOf(updateID).longValue();
+                
+                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour);
+                System.out.println("Updated task " + id);
+                w.getTasks().get(x).dbUpdate();
+                
+                break;
+            }
+        }
+    }
+    
+    //Creates a template task using default values and returns id as String
+    public void updateID()
+    {  
+            long id;
+            id = ts.getID();
+            ID = String.valueOf(id);
+            System.out.println("String id: " + ID);
+            WebSockets w = Reference.w;
+            w.addTask(ID);
+            w.sendTasks();
+    }
+    
+    public void delete()
+    {
+        WebSockets w = Reference.w;
+       
+        long id;
+        id = Long.valueOf(deleteID).longValue();
+
+        ts.delete(id);
+        System.out.println("Delete task " + id);      
     }
 }

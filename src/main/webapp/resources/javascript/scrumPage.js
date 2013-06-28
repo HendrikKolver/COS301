@@ -5,13 +5,16 @@ $(document).ready(function()
     ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
 
     listeners();
-
-
+    
+   
 //----------------------------------------------------------------------------
+
+    
     function listeners()
     {
+        
         $("#addTask").click(function(){
-            ws.send('id,'+"id");
+            $("[id='form2:testButton']").click(); 
         });
 	
 	
@@ -54,6 +57,27 @@ $(document).ready(function()
         $('.snapHere').droppable(drop);
         
     }
+    
+    function recieveID(ID)
+    {
+        document.getElementById('stickyHiddenID').value = ID;
+        document.getElementById('light').style.display='block';
+        document.getElementById('fade').style.display='block';
+        var id =document.getElementById("stickyHiddenID").value;
+        ws.send('add,'+id);
+
+        var tmpID = "#"+id+"StickyTaskName";
+        document.getElementById("StickyTaskName").value = "Task Name";
+        tmpID = "#"+id+"StickyResponsible";
+        document.getElementById("StickyResponsible").value = "Person Responsible";
+        tmpID = "#"+id+"StickyDescription";
+        document.getElementById("StickyDescription").value = "Task Description";
+        tmpID = "#"+id+"StickyPoints";
+        document.getElementById("StickyPoints").value = 0;
+        tmpID = "#"+id+"StickyDays";
+        document.getElementById("StickyDays").value = 0;
+        addTask(id);  
+    }
 
 //----------------------------------------------------------------------------
     //return function that recieves server reply
@@ -61,29 +85,8 @@ $(document).ready(function()
     {
         var chars = text.split(',');
         var text = (chars[0] +',' + chars[1]);
-        
-        if(chars[0] == 'id')
-        {
-            document.getElementById('stickyHiddenID').value = chars[1];
-            document.getElementById('light').style.display='block';
-            document.getElementById('fade').style.display='block';
-            var id =document.getElementById("stickyHiddenID").value;
-            ws.send('add,'+id);
-		
-            var tmpID = "#"+id+"StickyTaskName";
-            document.getElementById("StickyTaskName").value = "Task Name";
-            tmpID = "#"+id+"StickyResponsible";
-            document.getElementById("StickyResponsible").value = "Person Responsible";
-            tmpID = "#"+id+"StickyDescription";
-            document.getElementById("StickyDescription").value = "Task Description";
-            tmpID = "#"+id+"StickyPoints";
-            document.getElementById("StickyPoints").value = 0;
-            tmpID = "#"+id+"StickyDays";
-            document.getElementById("StickyDays").value = 0;
-            addTask(id); 
-		
-        }
-        else if(chars[0] == 'position')
+
+        if(chars[0] == 'position')
         {      
             var id= "#"+chars[3];
 
@@ -113,8 +116,6 @@ $(document).ready(function()
 
                     addTask(str.substring(0,(l-2)));
                 }
-
-
             //alert(line)
 
             $(id).html(line);
@@ -140,6 +141,10 @@ $(document).ready(function()
                 $("#"+chars[3]).css('background-image',"url('resources/images/greenstickynote.png')");
             else if (chars[1] == 'purple')
                 $("#"+chars[3]).css('background-image',"url('resources/images/purplestickynote.png')");
+            else if (chars[1] == 'red')
+                $("#"+chars[3]).css('background-image',"url('resources/images/redstickynote.png')");
+            else if (chars[1] == 'blue')
+                $("#"+chars[3]).css('background-image',"url('resources/images/bluestickynote.png')");
         }
             
             
@@ -155,11 +160,14 @@ $(document).ready(function()
         var r = confirm("Are you sure you want to delete this task?");
         if (r == true)
         {
+            var id = $("#stickyHiddenID").val();
+	    dbDelete(id);
             ws.send('remove,'+document.getElementById("stickyHiddenID").value);
             var tmp ="#"+document.getElementById("stickyHiddenID").value;
             $(tmp).remove();
             document.getElementById('light').style.display='none';
             document.getElementById('fade').style.display='none';
+            
         }
         else
         {
@@ -172,6 +180,7 @@ $(document).ready(function()
     //adding of the actual html and calling of listeners()
     function addTask(id)
     {
+        
         var divID = id;
         var TaskName = id+"StickyTaskName";
         var Responsible = id+"StickyResponsible";
@@ -183,7 +192,7 @@ $(document).ready(function()
         var divIDJquery = "#"+ divID;
         var jqueryOptions = "#"+options;
 
-        var element = '<div class ="draggable" id="'+divID+'"><table style ="width:100%; height: 100%;"><tr ><td title ="Task Name" id="'+TaskName+'" colspan ="3" style ="font-weight:bold; font-size:12pt;">Task Name </td></tr><tr><td title ="Person Responsible" id="'+Responsible+'" colspan ="3" style ="font-size:10pt">Person Responsible</td></tr><tr><td colspan ="3"><div title ="Task Description" id="'+Description+'" class ="stickyContent" style =" width:100%; height:100px;">Description</div></td> </tr><tr><td class = "poker" title ="Story Points" id="'+Points+'" style ="font-size:14pt; font-weight:bold; padding-left:10px;">0</td><td><button id="'+options+'">Options</button></td><td class = "stopwatch" title ="Days Remaining" id="'+Days+'" style ="font-size:14pt; font-weight:bold; padding-right:10px;">0</td></tr></table> </div>';
+        var element = '<div class ="draggable" id="'+divID+'"><table style ="width:100%; height: 100%;"><tr ><td title ="Task Name" id="'+TaskName+'" colspan ="3" style ="font-weight:bold; font-family:Lucida Casual, Comic Sans MS; font-size:12pt;">Task Name </td></tr><tr><td title ="Person Responsible" id="'+Responsible+'" colspan ="3" style ="font-size:10pt">Person Responsible</td></tr><tr><td colspan ="3"><div title ="Task Description" id="'+Description+'" class ="stickyContent" style =" width:100%; font-family:Lucida Casual, Comic Sans MS; overflow:auto; height:100px;">Description</div></td> </tr><tr><td class = "poker" title ="Story Points" id="'+Points+'" style ="font-size:14pt; font-weight:bold; padding-left:10px;">0</td><td><button id="'+options+'">Options</button></td><td class = "stopwatch" title ="Days Remaining" id="'+Days+'" style ="font-size:14pt; font-weight:bold; padding-right:10px;">0</td></tr></table> </div>';
             $("#DragContainer").append(element);
 
        //adding listeners for new element
@@ -229,6 +238,14 @@ $(document).ready(function()
             {
                 $(".colorActive").removeClass("colorActive");
                 $("#light").find(".StickyYellow").addClass("colorActive");
+            }else if (color.indexOf("red") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyRed").addClass("colorActive");
+            }else if (color.indexOf("blue") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyBlue").addClass("colorActive");
             }
                 
             
@@ -336,6 +353,26 @@ $("#addRow").click(function()
         $(jqueryID).css('background-image',"url('resources/images/greenstickynote.png')");
     });
     
+    $("#StickyRedSelect").click(function()
+    {
+        $(".colorActive").removeClass("colorActive");
+        $(this).addClass("colorActive");
+        var str = ('colour,'+ "red" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
+        ws.send(str);
+        var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
+        $(jqueryID).css('background-image',"url('resources/images/redstickynote.png')");
+    });
+    
+    $("#StickyBlueSelect").click(function()
+    {
+        $(".colorActive").removeClass("colorActive");
+        $(this).addClass("colorActive");
+        var str = ('colour,'+ "blue" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
+        ws.send(str);
+        var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
+        $(jqueryID).css('background-image',"url('resources/images/bluestickynote.png')");
+    });
+    
     $("#stickyFinished").click(function(){
 	var id = $("#stickyHiddenID").val();
 	    dbUpdate(id);
@@ -346,8 +383,19 @@ $("#addRow").click(function()
 	
 	    
     function dbUpdate(id)
-    {
-       $("[id='form:command']").click();  
+    { 
+        
+       $("[id='form:updateID']").val(id);
+       $("[id='form:updateForm']").click();
+       
+    }
+    
+    function dbDelete(id)
+    { 
+        
+       $("[id='form3:deleteID']").val(id);
+       $("[id='form3:deleteForm']").click();
+       
     }
     
     
