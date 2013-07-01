@@ -48,6 +48,10 @@ public class WebSockets extends BaseWebSocketHandler {
             connection.send(message);
             message = "colour,"+tasks.get(x).getColour()+",a"+","+tasks.get(x).getID();
             connection.send(message);
+            message = "commentsUpdate,"+tasks.get(x).getComments()+","+tasks.get(x).getID();
+            connection.send(message);
+            message = "tasksUpdate,"+tasks.get(x).getSubTasks()+","+tasks.get(x).getID();
+            connection.send(message);
         }
         
         String message = "burndown,";
@@ -82,10 +86,26 @@ public class WebSockets extends BaseWebSocketHandler {
         if(pieces[0].equals("commentsUpdate"))
         {
             message = "commentsUpdate,"+pieces[1]+","+pieces[2];
+            for(int x=0; x<tasks.size();x++)
+                {
+                    if(pieces[2].equals(tasks.get(x).getID())) 
+                    {
+                        tasks.get(x).setComments(pieces[1]); 
+                        break;
+                    }   
+                }
         }
         else if(pieces[0].equals("tasksUpdate"))
         {
-           message = "tasksUpdate,"+pieces[1]+","+pieces[2]; 
+           message = "tasksUpdate,"+pieces[1]+","+pieces[2];
+           for(int x=0; x<tasks.size();x++)
+                {
+                    if(pieces[2].equals(tasks.get(x).getID())) 
+                    {
+                        tasks.get(x).setSubTasks(pieces[1]); 
+                        break;
+                    }   
+                }
         }
         else if(pieces[0].equals("closeOptions"))
         {

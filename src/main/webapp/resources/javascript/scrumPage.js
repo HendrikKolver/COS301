@@ -564,9 +564,10 @@ $("#addRow").click(function()
             var id = $("#stickyHiddenID").val();
             $(this).parent().parent().remove();
             $("#"+id+"Hidden").html($("#subTasks").html());
-            ws.send("tasksUpdate,"+$("#subTasks").html()+","+id+"Hidden");
+            ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
         }); 
         
+        $(":checkbox").off('click');
         $(":checkbox").on('click',function()
         {
             var parent = $(this).parent();
