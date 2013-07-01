@@ -23,6 +23,8 @@ public class Task //persistent
     private long id;
 
     String name;
+
+    
     String topPos;
     String leftPos;
     String status;
@@ -67,5 +69,41 @@ public class Task //persistent
     public long getID()
     {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTopPos() {
+        return topPos;
+    }
+
+    public String getLeftPos() {
+        return leftPos;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getResponsible() {
+        return responsible;
+    }
+
+    public String getPoints() {
+        return points;
+    }
+
+    public String getDays() {
+        return days;
+    }
+
+    public String getColour() {
+        return colour;
     }
 }

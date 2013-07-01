@@ -159,4 +159,9 @@ public class index
         ts.delete(id);
         System.out.println("Delete task " + id);      
     }
+    
+    public void getAllTasks()
+    {
+        
+    }
 }

@@ -64,9 +64,12 @@ public class TaskService
         
         System.out.println("ID Returned = " + id);
   
+        getAll();
+        
         return id;
     }
     
+    //Updates task given its id 
     public void update (long id, String name,String topPos, String leftPos, String status, String description, 
             String responsible, String points, String days, String colour)
     { 
@@ -77,6 +80,7 @@ public class TaskService
        //em.createQuery("UPDATE Task t SET t.name='jjj' WHERE t.id='152'").executeUpdate();
     }
     
+    //deletes task given its id
     public void delete (long id)
     {
         em.createQuery("DELETE FROM Task t WHERE t.id='" + id+ "'").executeUpdate();
@@ -88,7 +92,28 @@ public class TaskService
     "SELECT e FROM Task e Where e.id = '152'")
     .setMaxResults(10)
     .getResultList();
-}
+    }
+    
+    public void getAll()
+    {
+        List l = em.createQuery("select c from Task c").setMaxResults(10).getResultList();
+
+        Task[] t = new Task[l.size()];
+        
+        for (int i = 0; i < l.size(); i++) 
+        {
+            t[i] = (Task)(l.get(i));
+        }
+        
+        for (int i = 0; i < t.length; i++) 
+        {
+            System.out.println("id: " + t[i].getID() + "; Name: " + t[i].getName() 
+                    + "; Colour: " + t[i].getColour() + "; Days: " + t[i].getDays() 
+                    + ";Description: " + t[i].getDescription() + " etc...");
+        }
+        
+     
+    }
     
     public void listItems()
     {
