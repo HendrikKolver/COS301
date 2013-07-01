@@ -79,8 +79,23 @@ public class WebSockets extends BaseWebSocketHandler {
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
         boolean check = false;
-        
-        if (pieces[0].equals("addDay"))
+        if(pieces[0].equals("commentsUpdate"))
+        {
+            message = "commentsUpdate,"+pieces[1]+","+pieces[2];
+        }
+        else if(pieces[0].equals("tasksUpdate"))
+        {
+           message = "tasksUpdate,"+pieces[1]+","+pieces[2]; 
+        }
+        else if(pieces[0].equals("closeOptions"))
+        {
+            message = "closeOptions,"+pieces[1]; 
+        }
+        else if(pieces[0].equals("openOptions"))
+        {
+            message = "openOptions,"+pieces[1]; 
+        }
+        else if (pieces[0].equals("addDay"))
         {
             int temp = burndownPoints.get(burndownPoints.size()-1);
             burndownPoints.add(temp);
@@ -127,7 +142,7 @@ public class WebSockets extends BaseWebSocketHandler {
                             for (int i = 0; i < tasks.size(); i++) {
                                 if(!(tasks.get(i).getStatus().equals("completed")))
                                 {
-                                    tmp += Integer.parseInt(tasks.get(i).getPoints());
+                                    tmp += Integer.parseInt(tasks.get(i).getDays());
                                 }
                             }
                             burndownPoints.set((burndownPoints.size()-1),tmp);
@@ -157,23 +172,36 @@ public class WebSockets extends BaseWebSocketHandler {
                             }else if(checkString.equals("ts"))
                             {
                                 tasks.get(x).setPoints(pieces[1]); 
+//                                int tmp = 0;
+//                                if(pieces[1] != null && pieces[1].length()>0)
+//                                {
+//                                    for (int i = 0; i < tasks.size(); i++) {
+//                                        if(!(tasks.get(i).getStatus().equals("completed")))
+//                                        {
+//                                            tmp += Integer.parseInt(tasks.get(i).getPoints());
+//                                        }
+//                                    }
+//                                    burndownPoints.set((burndownPoints.size()-1),tmp);
+//
+//                                    System.out.println(burndownPoints.toString());
+//                                }
+                                
+                            }else if(checkString.equals("ys"))
+                            {
+                                tasks.get(x).setDays(pieces[1]);
                                 int tmp = 0;
                                 if(pieces[1] != null && pieces[1].length()>0)
                                 {
                                     for (int i = 0; i < tasks.size(); i++) {
                                         if(!(tasks.get(i).getStatus().equals("completed")))
                                         {
-                                            tmp += Integer.parseInt(tasks.get(i).getPoints());
+                                            tmp += Integer.parseInt(tasks.get(i).getDays());
                                         }
                                     }
                                     burndownPoints.set((burndownPoints.size()-1),tmp);
 
                                     System.out.println(burndownPoints.toString());
                                 }
-                                
-                            }else if(checkString.equals("ys"))
-                            {
-                                tasks.get(x).setDays(pieces[1]); 
                             }
                             break;
                         }   

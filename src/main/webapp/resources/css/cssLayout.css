@@ -244,7 +244,6 @@ body{
     top: 200px;
 }
 
-
 .black_overlay{
     display: none;
     position: absolute;
@@ -266,9 +265,10 @@ body{
 .white_content {
     display: none;
     position: absolute;
-    top: 25%;
-    left: 25%;
-    width: 50%;
+    top: 12.5%;
+    left: 12.5%;
+    width: 75%;
+    max-width: 1000px;
     min-height: 30px;
     padding: 16px;
     border: 5px solid grey;
