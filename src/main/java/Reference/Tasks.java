@@ -13,6 +13,27 @@ public class Tasks {
     private String points;
     private String days;
     private String colour;
+    private String comments;
+    private String subTasks;
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        update = true;
+        this.comments = comments;
+    }
+
+    public String getSubTasks() {
+        return subTasks;
+    }
+
+    public void setSubTasks(String subTasks) {
+        update = true;
+        this.subTasks = subTasks;
+    }
+    
     
     public String getColour()
     {
@@ -67,6 +88,8 @@ public class Tasks {
         tID = i+"ID";
         colour = "yellow";
         status = "notStarted";
+        comments = "";
+        subTasks = "";
     }
 
     public String getLeftPos() {

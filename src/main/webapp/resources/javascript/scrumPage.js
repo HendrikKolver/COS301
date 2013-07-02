@@ -12,9 +12,7 @@ $(document).ready(function()
     function listeners()
     {
         $("#addTask").click(function(){
-            ws.send('id,'+"id");
-            $(".colorActive").removeClass("colorActive");
-            $("#StickyYellowSelect").addClass("colorActive");
+            $("[id='form2:testButton']").click();
         });
 	
 	
@@ -28,14 +26,14 @@ $(document).ready(function()
         });
         
         //listeners for text area editing
-        $('#light input').bind('input propertychange', function() { 
+        $('.synchingInputs').bind('input propertychange', function() { 
             ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value+$(this).attr('id');
             $(jqueryID).html($(this).val());
 
         });
         
-        $('#light textarea').bind('input propertychange', function() {
+        $('#StickyDescription').bind('input propertychange', function() {
             ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value+$(this).attr('id');
             $(jqueryID).html($(this).val());
@@ -50,6 +48,7 @@ $(document).ready(function()
                 var y = thisPos.left;
                 var x = thisPos.top;
                 ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+		dbUpdate($(ui.draggable).attr('id'));
             }
         };
         $('.snapHere').droppable(drop);
@@ -60,31 +59,11 @@ $(document).ready(function()
     //return function that recieves server reply
     function showMessage(text) 
     {
+        
         var chars = text.split(',');
         var text = (chars[0] +',' + chars[1]);
         
-        if(chars[0] == 'id')
-        {
-            document.getElementById('stickyHiddenID').value = chars[1];
-            document.getElementById('light').style.display='block';
-            document.getElementById('fade').style.display='block';
-            var id =document.getElementById("stickyHiddenID").value;
-            ws.send('add,'+id);
-		
-            var tmpID = "#"+id+"StickyTaskName";
-            document.getElementById("StickyTaskName").value = "Task Name";
-            tmpID = "#"+id+"StickyResponsible";
-            document.getElementById("StickyResponsible").value = "Person Responsible";
-            tmpID = "#"+id+"StickyDescription";
-            document.getElementById("StickyDescription").value = "Task Description";
-            tmpID = "#"+id+"StickyPoints";
-            document.getElementById("StickyPoints").value = 0;
-            tmpID = "#"+id+"StickyDays";
-            document.getElementById("StickyDays").value = 0;
-            addTask(id); 
-		
-        }
-        else if(chars[0] == 'position')
+        if(chars[0] == 'position')
         {      
             var id= "#"+chars[3];
 
@@ -104,7 +83,7 @@ $(document).ready(function()
         }
         else if(chars[0] == 'text')
         {
-
+            
             var line = ""+chars[1]+"";
             var id= "#"+chars[2];
             if($(id).length == 0)
@@ -119,6 +98,7 @@ $(document).ready(function()
             //alert(line)
 
             $(id).html(line);
+            updateLightBox(chars[3]);
         }
         else if(chars[0] == 'remove')
         {
@@ -145,10 +125,40 @@ $(document).ready(function()
                 $("#"+chars[3]).css('background-image',"url('resources/images/redstickynote.png')");
             else if (chars[1] == 'blue')
                 $("#"+chars[3]).css('background-image',"url('resources/images/bluestickynote.png')");
+            
+            updateLightBox(chars[3]);
         }else if (chars[0] == 'burndown')
         {
            drawChart(chars[1]);
+        }else if(chars[0] == 'openOptions')
+        {
+            
+            openLightBox(chars[1]);
+            var htmlValue = $("#"+chars[1]+"Hidden").html();
+            $("#subTasks").html(htmlValue);
+            $("#StickyComments").val($("#"+chars[1]+"HiddenComments").html());
+                
+        }else if(chars[0] == 'closeOptions')
+        {
+            
+            closeOptions(chars[1]);
+            $('#StickyComments').unbind('input propertychange');
+        }else if(chars[0] == 'commentsUpdate')
+        {
+          $('#StickyComments').unbind('input propertychange');
+          var id = chars[2];
+          $("#"+id+"HiddenComments").html(chars[1]);
+          //alert( "hello");
+          $("#StickyComments").val(chars[1]);
+          addDelete();
+        }else if(chars[0] == 'tasksUpdate')
+        {
+            var id = chars[2];
+          $("#"+id+"Hidden").html(chars[1]);
+          $("#subTasks").html(chars[1]);
+          addDelete();
         }
+
             
             
             
@@ -220,6 +230,8 @@ $(document).ready(function()
         var r = confirm("Are you sure you want to delete this task?");
         if (r == true)
         {
+	    var id = $("#stickyHiddenID").val();
+	    dbDelete(id);
             ws.send('remove,'+document.getElementById("stickyHiddenID").value);
             var tmp ="#"+document.getElementById("stickyHiddenID").value;
             $(tmp).remove();
@@ -244,11 +256,13 @@ $(document).ready(function()
         var Points = id+"StickyPoints";
         var Days = id+"StickyDays";
         var options = id+"Options";
+        var hiddenDiv = id+"Hidden";
+        var hiddenComments = id+"HiddenComments";
         
         var divIDJquery = "#"+ divID;
         var jqueryOptions = "#"+options;
 
-        var element = '<div class ="draggable" id="'+divID+'"><table style ="width:100%; height: 100%;"><tr ><td title ="Task Name" id="'+TaskName+'" colspan ="3" style ="font-weight:bold; font-family:Lucida Casual, Comic Sans MS; font-size:12pt;">Task Name </td></tr><tr><td title ="Person Responsible" id="'+Responsible+'" colspan ="3" style ="font-size:10pt">Person Responsible</td></tr><tr><td colspan ="3"><div title ="Task Description" id="'+Description+'" class ="stickyContent" style =" width:100%; font-family:Lucida Casual, Comic Sans MS; overflow:auto; height:100px;">Description</div></td> </tr><tr><td class = "poker" title ="Story Points" id="'+Points+'" style ="font-size:14pt; font-weight:bold; padding-left:10px;">0</td><td><button id="'+options+'">Options</button></td><td class = "stopwatch" title ="Days Remaining" id="'+Days+'" style ="font-size:14pt; font-weight:bold; padding-right:10px;">0</td></tr></table> </div>';
+        var element = '<div class ="draggable" id="'+divID+'"><table style ="width:100%; height: 100%;"><tr ><td title ="Task Name" id="'+TaskName+'" colspan ="3" style ="font-weight:bold; font-family:Lucida Casual, Comic Sans MS; font-size:12pt;">Task Name </td></tr><tr><td title ="Person Responsible" id="'+Responsible+'" colspan ="3" style ="font-size:10pt">Person Responsible</td></tr><tr><td colspan ="3"><div title ="Task Description" id="'+Description+'" class ="stickyContent" style =" width:100%; font-family:Lucida Casual, Comic Sans MS; overflow:auto; height:100px;">Description</div></td> </tr><tr><td class = "poker" title ="Story Points" id="'+Points+'" style ="font-size:14pt; font-weight:bold; padding-left:10px;">0</td><td><button id="'+options+'">Options</button></td><td class = "stopwatch" title ="Days Remaining" id="'+Days+'" style ="font-size:14pt; font-weight:bold; padding-right:10px;">0</td></tr></table><div id="'+hiddenDiv+'" style="display:none;"></div> <div id="'+hiddenComments+'" style="display:none;"></div> </div>';
             $("#DragContainer").append(element);
 
        //adding listeners for new element
@@ -266,6 +280,21 @@ $(document).ready(function()
             var id=$(this).attr('id');
             var tmp = id.length;
             id = id.substring(0,tmp-7);
+            openLightBox(id);
+            var htmlValue = $("#"+id+"Hidden").html();
+            $("#subTasks").html(htmlValue);
+            $("#StickyComments").val($("#"+id+"HiddenComments").html());
+            $("#lightboxNewSubTask").val("");
+            addDelete();
+            ws.send("openOptions,"+id);
+                
+            
+        });  
+
+    }
+    
+    function openLightBox(id)
+        {
             
             document.getElementById("stickyHiddenID").value = id;
             document.getElementById('light').style.display='block';
@@ -302,27 +331,49 @@ $(document).ready(function()
             {
                 $(".colorActive").removeClass("colorActive");
                 $("#light").find(".StickyBlue").addClass("colorActive");
-            }
-                
+            } 
+        }
+        
+        function updateLightBox(id)
+        {
             
-        });
-        
-
-         
-
-//        $(textIDJquery).bind('input propertychange', function() {
-//
-//            ws.send('text,'+ $(this).val() + "," +$(this).next().attr('id')+','+$(this).parent().parent().attr('id'));
-//
-//        });
-//
-//        $(".removeTask").click(function(){
-//            ws.send('remove,'+$(this).parent().attr('id'));
-//            $(this).parent().remove();
-//        });
-        
-
-    }
+            //document.getElementById("stickyHiddenID").value = id;
+            //document.getElementById('light').style.display='block';
+            //document.getElementById('fade').style.display='block';
+            var tmpID = "#"+id+"StickyTaskName";
+            document.getElementById("StickyTaskName").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyResponsible";
+            document.getElementById("StickyResponsible").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyDescription";
+            document.getElementById("StickyDescription").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyPoints";
+            document.getElementById("StickyPoints").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyDays";
+            document.getElementById("StickyDays").value = $(tmpID).html();
+            
+            var color = $("#"+id).css('background-image');
+            if (color.indexOf("green") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyGreen").addClass("colorActive");
+            }else if (color.indexOf("purple") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyPurple").addClass("colorActive");
+            }else if (color.indexOf("yellow") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyYellow").addClass("colorActive");
+            }else if (color.indexOf("red") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyRed").addClass("colorActive");
+            }else if (color.indexOf("blue") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyBlue").addClass("colorActive");
+            } 
+        }
     
     function addRow(i)
     {
@@ -345,6 +396,7 @@ $(document).ready(function()
                             var x = thisPos.top;
 
                             ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+			    dbUpdate($(ui.draggable).attr('id'));
                         }
                     };
                     $(this).find('tr:last').find('.snapHere').droppable(drop);
@@ -370,6 +422,7 @@ $("#addRow").click(function()
                     var x = thisPos.top;
 
                     ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+		    dbUpdate($(ui.draggable).attr('id'));
                 }
             };
             $(this).find('tr:last').find('.snapHere').droppable(drop);
@@ -429,12 +482,17 @@ $("#addRow").click(function()
         $(jqueryID).css('background-image',"url('resources/images/bluestickynote.png')");
     });
     
-    $("#stickyFinished").click(function(){
+    $("#stickyFinished").click(function()
+    {
+        
+        
 	var id = $("#stickyHiddenID").val();
 	    dbUpdate(id);
 	    document.getElementById('light').style.display='none';
 	    document.getElementById('fade').style.display='none';
-	    
+            ws.send("closeOptions,"+id);
+            $("#StickyComments").val("");
+            $('#StickyComments').unbind('input propertychange');
     });
     
     $("#addDay").click(function()
@@ -453,6 +511,87 @@ $("#addRow").click(function()
        $("[id='form:command']").click();  
     }
     
+    function closeOptions(id)
+    {
+        document.getElementById('light').style.display='none';
+	document.getElementById('fade').style.display='none';
+    }
     
+    $("#lightboxAddSubTask").click(function()
+    {
+        var value = $("#lightboxNewSubTask").val();
+        var stringToAppend = '<tr><td style="width:60%;">'+value+'</td><td><input type ="checkbox"/></td><td><button class ="deleteSubTask">Delete</button></td></tr>';
+        $("#subTasks").append(stringToAppend);
+        addDelete();
+        $("#lightboxNewSubTask").val("");
+        var id = $("#stickyHiddenID").val();
+        $("#"+id+"Hidden").html($("#subTasks").html());
+        ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
+    });
+    
+    function addDelete()
+    {
+        $('#StickyComments').unbind('input propertychange');
+        $('#StickyComments').bind('input propertychange', function() 
+        {
+            var id = $("#stickyHiddenID").val();
+            $("#"+id+"HiddenComments").html($(this).val());
+            //alert("Sending");
+            ws.send("commentsUpdate,"+$(this).val()+","+id);
+            
+        });
+        
+       $(".deleteSubTask").on('click',function()
+        {
+            var id = $("#stickyHiddenID").val();
+            $(this).parent().parent().remove();
+            $("#"+id+"Hidden").html($("#subTasks").html());
+            ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
+        }); 
+        
+        $(":checkbox").off('click');
+        $(":checkbox").on('click',function()
+        {
+            var parent = $(this).parent();
+            if($(this).is(':checked'))
+            {
+                $(this).remove();
+                var element ='<input type ="checkbox" checked="checked"/>';
+                $(parent).append(element);
+                addDelete();
+                
+            }
+            else
+            {
+                $(this).remove();
+                var element ='<input type ="checkbox"/>';
+                $(parent).append(element);
+                addDelete();
+                 
+            }
+            var id = $("#stickyHiddenID").val();
+            $(this).parent().parent().remove();
+            $("#"+id+"Hidden").html($("#subTasks").html());
+            ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
+        });
+    }
+    
+	function dbUpdate(id)
+    { 
+        
+       $("[id='form:updateID']").val(id);
+       $("[id='form:updateForm']").click();
+       
+    }
+    
+    function dbDelete(id)
+    { 
+        
+       $("[id='form3:deleteID']").val(id);
+       $("[id='form3:deleteForm']").click();
+       
+    }
+
+
 });
             
