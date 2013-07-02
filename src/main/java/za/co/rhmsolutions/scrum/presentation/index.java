@@ -158,7 +158,7 @@ public class index
             System.out.println("String id: " + ID);
             WebSockets w = Reference.w;
             w.addTask(ID);
-            w.sendTasks();
+            w.sendTasks();      
     }
     
     public void delete()
