@@ -6,6 +6,8 @@ import Reference.Tasks;
 import Reference.WebSockets;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
+import za.co.rhmsolutions.scrum.business.boundary.AppUserService;
+import za.co.rhmsolutions.scrum.business.boundary.ProjectService;
 import za.co.rhmsolutions.scrum.business.boundary.TaskService;
 import za.co.rhmsolutions.scrum.business.entity.Task;
 
@@ -19,6 +21,13 @@ public class index
 {
     @Inject
     TaskService ts;
+    
+    @Inject
+    ProjectService ps;
+    
+    @Inject
+    AppUserService us;
+    
     String name;
     String text;
     String topPos = "topPos";
@@ -144,6 +153,7 @@ public class index
     {  
             long id;
             id = ts.getID();
+
             ID = String.valueOf(id);
             System.out.println("String id: " + ID);
             WebSockets w = Reference.w;
