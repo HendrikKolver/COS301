@@ -8,15 +8,31 @@ public class Tasks {
     private String ID;
     private String topPos,leftPos;
     private String status;
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
     private String description;
     private String responsible;
     private String points;
     private String days;
     private String colour;
+    private String comments;
+    private String subTasks;
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        update = true;
+        this.comments = comments;
+    }
+
+    public String getSubTasks() {
+        return subTasks;
+    }
+
+    public void setSubTasks(String subTasks) {
+        update = true;
+        this.subTasks = subTasks;
+    }
     
     
     public String getColour()
@@ -71,6 +87,9 @@ public class Tasks {
         leftPos = "0";
         tID = i+"ID";
         colour = "yellow";
+        status = "notStarted";
+        comments = "";
+        subTasks = "";
     }
 
     public String getLeftPos() {
@@ -112,11 +131,22 @@ public class Tasks {
         return status;
     }
     
+    public void setStatus(String status) {
+        update = true;
+        this.status = status;
+    }
+    
     public void setPos(String x, String y)
     {
         topPos = x; 
         leftPos = y;
         update = true;
+        if (Double.parseDouble(y)<273)
+            setStatus("notStarted");
+        else if (Double.parseDouble(y)<722)
+            setStatus("inProgress");
+        else 
+            setStatus("completed");
     }
     
     public void setTextID(String s)

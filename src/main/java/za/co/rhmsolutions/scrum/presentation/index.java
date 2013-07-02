@@ -6,8 +6,6 @@ import Reference.Tasks;
 import Reference.WebSockets;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
-import za.co.rhmsolutions.scrum.business.boundary.AppUserService;
-import za.co.rhmsolutions.scrum.business.boundary.ProjectService;
 import za.co.rhmsolutions.scrum.business.boundary.TaskService;
 import za.co.rhmsolutions.scrum.business.entity.Task;
 
@@ -21,13 +19,6 @@ public class index
 {
     @Inject
     TaskService ts;
-    
-    @Inject
-    ProjectService ps;
-    
-    @Inject
-    AppUserService us;
-    
     String name;
     String text;
     String topPos = "topPos";
@@ -42,6 +33,8 @@ public class index
     String deleteID;
     String ID;
     String flag = "false";
+    String comments;
+    String subTasks;
 
     public String getFlag() {
         System.out.println("andBack");
@@ -109,8 +102,10 @@ public class index
                 points = w.getTasks().get(x).getPoints();
                 days = w.getTasks().get(x).getDays();
                 colour = w.getTasks().get(x).getColour();
+                comments = w.getTasks().get(x).getComments();
+                subTasks = w.getTasks().get(x).getSubTasks();
 
-                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour);
+                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
                 
                 w.getTasks().get(x).dbUpdate();
             }
@@ -135,11 +130,14 @@ public class index
                 points = w.getTasks().get(x).getPoints();
                 days = w.getTasks().get(x).getDays();
                 colour = w.getTasks().get(x).getColour();
-
+                comments = w.getTasks().get(x).getComments();
+                subTasks = w.getTasks().get(x).getSubTasks();
+                
+                
                 long id;
                 id = Long.valueOf(updateID).longValue();
                 
-                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour);
+                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
                 System.out.println("Updated task " + id);
                 w.getTasks().get(x).dbUpdate();
                 
@@ -153,12 +151,11 @@ public class index
     {  
             long id;
             id = ts.getID();
-
             ID = String.valueOf(id);
             System.out.println("String id: " + ID);
             WebSockets w = Reference.w;
             w.addTask(ID);
-            w.sendTasks();      
+            w.sendTasks();
     }
     
     public void delete()
@@ -197,6 +194,9 @@ public class index
                tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
                tmp.setResponsible(t[x].getResponsible());
                tmp.setStatus(t[x].getStatus());
+               tmp.setComments(t[x].getComments());
+               tmp.setSubTasks(t[x].getSubTasks());
+               tmp.dbUpdate();
                 System.out.println("Task: "+ x);
                w.getTasks().add(tmp);
                
