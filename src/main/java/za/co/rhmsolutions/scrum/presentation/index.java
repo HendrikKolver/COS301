@@ -2,10 +2,12 @@ package za.co.rhmsolutions.scrum.presentation;
 
 
 import Reference.Reference;
+import Reference.Tasks;
 import Reference.WebSockets;
 import javax.enterprise.inject.Model;
 import javax.inject.Inject;
 import za.co.rhmsolutions.scrum.business.boundary.TaskService;
+import za.co.rhmsolutions.scrum.business.entity.Task;
 
 /**
  *
@@ -162,6 +164,36 @@ public class index
     
     public void getAllTasks()
     {
+        System.out.println("---------------entered the function----------");
         
+        WebSockets w = Reference.w;
+        if(w == null)
+        {
+            w = new WebSockets();
+        }
+        
+        if(w.getTasks().isEmpty())
+        {
+            System.out.println("----------reloading----------");
+            Task t[] = ts.getAll();
+            for(int x=0; x<t.length;x++)
+            {
+               Tasks tmp = new Tasks(String.valueOf(t[x].getID()),String.valueOf(t[x].getID()));
+               tmp.setColour(t[x].getColour());
+               tmp.setDays(t[x].getDays());
+               tmp.setDescription(t[x].getDescription());
+               tmp.setName(t[x].getName());
+               tmp.setPoints(t[x].getPoints());
+               tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
+               tmp.setResponsible(t[x].getResponsible());
+               tmp.setStatus(t[x].getStatus());
+                System.out.println("Task: "+ x);
+               w.getTasks().add(tmp);
+               
+            }
+            
+            w.sendAllTasks();
+            System.out.println("----------done Reloading----------");
+        }
     }
 }

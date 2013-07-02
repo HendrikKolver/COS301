@@ -52,6 +52,9 @@ $(document).ready(function()
                 var x = thisPos.top;
 
                 ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                    dbUpdate($(ui.draggable).attr('id'));
+                    
             }
         };
         $('.snapHere').droppable(drop);
@@ -289,6 +292,9 @@ $(document).ready(function()
                             var x = thisPos.top;
 
                             ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                            ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                            dbUpdate($(ui.draggable).attr('id'));
+                            
                         }
                     };
                     $(this).find('tr:last').find('.snapHere').droppable(drop);
@@ -314,6 +320,8 @@ $("#addRow").click(function()
                     var x = thisPos.top;
 
                     ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                    dbUpdate($(ui.draggable).attr('id'));
+                    
                 }
             };
             $(this).find('tr:last').find('.snapHere').droppable(drop);

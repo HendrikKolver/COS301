@@ -94,7 +94,7 @@ public class TaskService
     .getResultList();
     }
     
-    public void getAll()
+    public Task[] getAll()
     {
         List l = em.createQuery("select c from Task c").setMaxResults(10).getResultList();
 
@@ -112,7 +112,7 @@ public class TaskService
                     + ";Description: " + t[i].getDescription() + " etc...");
         }
         
-     
+        return t;
     }
     
     public void listItems()

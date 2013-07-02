@@ -8,11 +8,16 @@ public class Tasks {
     private String ID;
     private String topPos,leftPos;
     private String status;
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
     private String description;
     private String responsible;
     private String points;
     private String days;
     private String colour;
+    
     
     public String getColour()
     {
