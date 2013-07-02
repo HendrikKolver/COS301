@@ -47,9 +47,9 @@ public class TaskService
     private String colour;
     
     public void create(String name, String topPos, String leftPos, 
-            String status, String description, String responsible, String points, String days, String colour)
+            String status, String description, String responsible, String points, String days, String colour, String comments, String subTasks)
     {
-        Task t = new Task(name, topPos, leftPos, status, description, responsible, points, days, colour);
+        Task t = new Task(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
         em.persist(t);
         System.out.println("ID Found: " + t.getID());
     }
@@ -71,11 +71,11 @@ public class TaskService
     
     //Updates task given its id 
     public void update (long id, String name,String topPos, String leftPos, String status, String description, 
-            String responsible, String points, String days, String colour)
+            String responsible, String points, String days, String colour, String comments, String subTasks)
     { 
        em.createQuery("UPDATE Task t SET t.name='" + name + "', t.topPos='"+ topPos + "', t.leftPos='" + leftPos
                + "', t.status='"+ status + "', t.description='" + description + "', t.responsible='"+ responsible
-               + "', t.points='" + points + "', t.days='"+ days + "', t.colour='" + colour +"' WHERE t.id='" + id + "'").executeUpdate();
+               + "', t.points='" + points + "', t.days='"+ days + "', t.colour='" + colour +"', t.comments='" + comments +"', t.subTasks='" + subTasks +"' WHERE t.id='" + id + "'").executeUpdate();
        
        //em.createQuery("UPDATE Task t SET t.name='jjj' WHERE t.id='152'").executeUpdate();
     }

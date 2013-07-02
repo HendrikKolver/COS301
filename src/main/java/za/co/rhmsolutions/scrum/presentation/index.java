@@ -33,6 +33,8 @@ public class index
     String deleteID;
     String ID;
     String flag = "false";
+    String comments;
+    String subTasks;
 
     public String getFlag() {
         System.out.println("andBack");
@@ -100,8 +102,10 @@ public class index
                 points = w.getTasks().get(x).getPoints();
                 days = w.getTasks().get(x).getDays();
                 colour = w.getTasks().get(x).getColour();
+                comments = w.getTasks().get(x).getComments();
+                subTasks = w.getTasks().get(x).getSubTasks();
 
-                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour);
+                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
                 
                 w.getTasks().get(x).dbUpdate();
             }
@@ -126,11 +130,14 @@ public class index
                 points = w.getTasks().get(x).getPoints();
                 days = w.getTasks().get(x).getDays();
                 colour = w.getTasks().get(x).getColour();
-
+                comments = w.getTasks().get(x).getComments();
+                subTasks = w.getTasks().get(x).getSubTasks();
+                
+                
                 long id;
                 id = Long.valueOf(updateID).longValue();
                 
-                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour);
+                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
                 System.out.println("Updated task " + id);
                 w.getTasks().get(x).dbUpdate();
                 
@@ -187,6 +194,9 @@ public class index
                tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
                tmp.setResponsible(t[x].getResponsible());
                tmp.setStatus(t[x].getStatus());
+               tmp.setComments(t[x].getComments());
+               tmp.setSubTasks(t[x].getSubTasks());
+               tmp.dbUpdate();
                 System.out.println("Task: "+ x);
                w.getTasks().add(tmp);
                
