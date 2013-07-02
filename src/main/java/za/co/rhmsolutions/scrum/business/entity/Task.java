@@ -34,7 +34,7 @@ public class Task //persistent
     String days;
     String colour;
     
-    private long projectID;
+    //private long projectID;
 
     /*needed for JPA*/
     public Task()
@@ -45,10 +45,10 @@ public class Task //persistent
         status = "status";
         description = "description";
         responsible = "responsible";
-        points = "points";
-        days = "days";
+        points = "0";
+        days = "0";
         colour = "colour";
-        projectID = 1;
+        //projectID = 1;
     }
 
     public Task(String name) {
