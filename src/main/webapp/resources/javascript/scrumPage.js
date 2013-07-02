@@ -12,9 +12,7 @@ $(document).ready(function()
     function listeners()
     {
         $("#addTask").click(function(){
-            ws.send('id,'+"id");
-            $(".colorActive").removeClass("colorActive");
-            $("#StickyYellowSelect").addClass("colorActive");
+            $("[id='form2:testButton']").click();
         });
 	
 	
@@ -50,6 +48,7 @@ $(document).ready(function()
                 var y = thisPos.left;
                 var x = thisPos.top;
                 ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+		dbUpdate($(ui.draggable).attr('id'));
             }
         };
         $('.snapHere').droppable(drop);
@@ -64,28 +63,7 @@ $(document).ready(function()
         var chars = text.split(',');
         var text = (chars[0] +',' + chars[1]);
         
-        if(chars[0] == 'id')
-        {
-            document.getElementById('stickyHiddenID').value = chars[1];
-            document.getElementById('light').style.display='block';
-            document.getElementById('fade').style.display='block';
-            var id =document.getElementById("stickyHiddenID").value;
-            ws.send('add,'+id);
-		
-            var tmpID = "#"+id+"StickyTaskName";
-            document.getElementById("StickyTaskName").value = "Task Name";
-            tmpID = "#"+id+"StickyResponsible";
-            document.getElementById("StickyResponsible").value = "Person Responsible";
-            tmpID = "#"+id+"StickyDescription";
-            document.getElementById("StickyDescription").value = "Task Description";
-            tmpID = "#"+id+"StickyPoints";
-            document.getElementById("StickyPoints").value = 0;
-            tmpID = "#"+id+"StickyDays";
-            document.getElementById("StickyDays").value = 0;
-            addTask(id); 
-		
-        }
-        else if(chars[0] == 'position')
+        if(chars[0] == 'position')
         {      
             var id= "#"+chars[3];
 
@@ -252,6 +230,8 @@ $(document).ready(function()
         var r = confirm("Are you sure you want to delete this task?");
         if (r == true)
         {
+	    var id = $("#stickyHiddenID").val();
+	    dbDelete(id);
             ws.send('remove,'+document.getElementById("stickyHiddenID").value);
             var tmp ="#"+document.getElementById("stickyHiddenID").value;
             $(tmp).remove();
@@ -416,6 +396,7 @@ $(document).ready(function()
                             var x = thisPos.top;
 
                             ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+			    dbUpdate($(ui.draggable).attr('id'));
                         }
                     };
                     $(this).find('tr:last').find('.snapHere').droppable(drop);
@@ -441,6 +422,7 @@ $("#addRow").click(function()
                     var x = thisPos.top;
 
                     ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+		    dbUpdate($(ui.draggable).attr('id'));
                 }
             };
             $(this).find('tr:last').find('.snapHere').droppable(drop);
@@ -594,7 +576,21 @@ $("#addRow").click(function()
         });
     }
     
-
+	function dbUpdate(id)
+    { 
+        
+       $("[id='form:updateID']").val(id);
+       $("[id='form:updateForm']").click();
+       
+    }
+    
+    function dbDelete(id)
+    { 
+        
+       $("[id='form3:deleteID']").val(id);
+       $("[id='form3:deleteForm']").click();
+       
+    }
 
 
 });

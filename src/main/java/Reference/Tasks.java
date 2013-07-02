@@ -14,12 +14,14 @@ public class Tasks {
     private String days;
     private String colour;
     private String comments;
+    private String subTasks;
 
     public String getComments() {
         return comments;
     }
 
     public void setComments(String comments) {
+        update = true;
         this.comments = comments;
     }
 
@@ -28,9 +30,10 @@ public class Tasks {
     }
 
     public void setSubTasks(String subTasks) {
+        update = true;
         this.subTasks = subTasks;
     }
-    private String subTasks;
+    
     
     public String getColour()
     {
