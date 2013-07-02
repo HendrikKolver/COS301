@@ -11,22 +11,12 @@
         <script type ="text/javascript" src ="resources/javascript/jquery.js"></script>
         <script type = "text/javascript" src="resources/javascript/jqueryui.js"></script>
         <script type = "text/javascript" src="resources/javascript/script.js"></script>
-        
-        <link rel="stylesheet" href="resources/css/morris-0.4.3.min.css"/>
-        <script src="resources/javascript/raphael-min.js"></script>
-        <script src="resources/javascript/morris-0.4.3.min.js"></script>
-        
-        <script type = "text/javascript" src="resources/javascript/highcharts.js"></script>
-	<script type = "text/javascript" src="resources/javascript/exporting.js"></script>
-        
-        <link rel="stylesheet" href="resources/css/accordion.css"/>
-    
         <title>Distributed Scrum Teamboard</title>
     </h:head>
 
     <h:body>
         
-        <div id = 'container1' >
+        <div id = 'container' >
 			<div id = 'header'>
 				<span id = 'logo'><img src = 'resources/images/logo.png' title = 'Distributed Scrum Board' height = '70px'/></span>
                                 <span id = 'logo2'><img src = 'resources/images/epiuse.png' title = 'Epi-Use' height = '40px'/></span>
@@ -35,9 +25,9 @@
 				<table id = 'nav'>
 					<tr>
                                             <h:form>
-                                                <td><h:commandButton class="navLink" value="Index" action="index" /></td>
 						<td><h:commandButton class="navLink" value="Scrum Board" action="scrum" /></td>
-						<td><h:commandButton class="navLink" value="Project Backlog" action="projectBacklog"/></td>
+                                                <td><h:commandButton class="navLink" value="Index" action="index" /></td>
+						<td><div class = 'navLink'>Link 2</div></td>
 						<td><div class = 'navLink'>Link 3</div></td>
 						<td><div class = 'navLink'>Link 4</div></td>
 						

@@ -16,7 +16,7 @@ $(document).ready(function()
                     $("#tog2").show();
                     $("#replacement2").hide();
                     $('.t2Active').animate({
-                    marginLeft:'-=658px'
+                    marginLeft:'-=458px'
                     }, 300, function()
                     {
                             $('#toggle2').removeClass('t2Active');
@@ -27,7 +27,7 @@ $(document).ready(function()
                             $("#tblTog1").hide();
                             $('#toggle1').addClass('t1Active');
                             $('#toggle1').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -39,7 +39,7 @@ $(document).ready(function()
                     $("#tog3").show();
                     $("#replacement3").hide();
                     $('.t3Active').animate({
-                    marginLeft:'-=658px'
+                    marginLeft:'-=458px'
                     }, 300, function()
                     {
                             $('#toggle3').removeClass('t3Active');
@@ -50,7 +50,7 @@ $(document).ready(function()
                             $("#tblTog1").hide();
                             $('#toggle1').addClass('t1Active');
                             $('#toggle1').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {       
@@ -64,7 +64,7 @@ $(document).ready(function()
                             $("#tblTog1").hide();
                             $('#toggle1').addClass('t1Active');
                             $('#toggle1').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -79,7 +79,7 @@ $(document).ready(function()
             $("#tog1").show();
             $("#replacement1").hide();
             $('#toggle1').animate({
-            marginLeft:'-=658px'
+            marginLeft:'-=458px'
 
             }, 300, function()
             {
@@ -95,7 +95,7 @@ $(document).ready(function()
                     $("#tog1").show();
                     $("#replacement1").hide();
                     $('.t1Active').animate({
-                    marginLeft:'-=658px'
+                    marginLeft:'-=458px'
                     }, 300, function()
                     {
                             $('#toggle1').removeClass('t1Active');
@@ -106,7 +106,7 @@ $(document).ready(function()
                             $("#tblTog2").hide();
                             $('#toggle2').addClass('t2Active');
                             $('#toggle2').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -118,7 +118,7 @@ $(document).ready(function()
                     $("#tog3").show();
                     $("#replacement3").hide();
                     $('.t3Active').animate({
-                    marginLeft:'-=658px'
+                    marginLeft:'-=458px'
                     }, 300, function()
                     {
                             $('#toggle3').removeClass('t3Active');
@@ -129,7 +129,7 @@ $(document).ready(function()
                             $("#tblTog2").hide();
                             $('#toggle2').addClass('t2Active');
                             $('#toggle2').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -143,7 +143,7 @@ $(document).ready(function()
                             $("#tblTog2").hide();
                             $('#toggle2').addClass('t2Active');
                             $('#toggle2').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -158,7 +158,7 @@ $(document).ready(function()
             $("#tog2").show();
             $("#replacement2").hide();
             $('#toggle2').animate({
-            marginLeft:'-=658px'
+            marginLeft:'-=458px'
 
             }, 300, function()
             {
@@ -175,7 +175,7 @@ $(document).ready(function()
                     $("#tog1").show();
                     $("#replacement1").hide();
                     $('.t1Active').animate({
-                    marginLeft:'-=658px'
+                    marginLeft:'-=458px'
                     }, 300, function()
                     {
                             $('#toggle1').removeClass('t1Active');
@@ -186,7 +186,7 @@ $(document).ready(function()
                             $("#tblTog3").hide();
                             $('#toggle3').addClass('t3Active');
                             $('#toggle3').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -199,7 +199,7 @@ $(document).ready(function()
                     $("#tog2").show();
                     $("#replacement2").hide();
                     $('.t2Active').animate({
-                    marginLeft:'-=658px'
+                    marginLeft:'-=458px'
                     }, 300, function()
                     {
                             $('#toggle2').removeClass('t2Active');
@@ -210,7 +210,7 @@ $(document).ready(function()
                             $("#tblTog3").hide();
                             $('#toggle3').addClass('t3Active');
                             $('#toggle3').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -224,7 +224,7 @@ $(document).ready(function()
                             $("#tblTog3").hide();
                             $('#toggle3').addClass('t3Active');
                             $('#toggle3').animate({
-                            marginLeft:'+=658px'
+                            marginLeft:'+=458px'
 
                             }, 300, function()
                             {
@@ -240,7 +240,7 @@ $(document).ready(function()
             $("#tog3").show();
             $("#replacement3").hide();
             $('#toggle3').animate({
-            marginLeft:'-=658px'
+            marginLeft:'-=458px'
 
             }, 300, function()
             {

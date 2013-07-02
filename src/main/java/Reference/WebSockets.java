@@ -15,13 +15,6 @@ public class WebSockets extends BaseWebSocketHandler {
     
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks = new ArrayList<Tasks>();
-    ArrayList<Integer> burndownPoints = new ArrayList<Integer>();
-    
-    public WebSockets()
-    {
-        System.out.println("constructor");
-        burndownPoints.add(0);
-    }
 
     public ArrayList<Tasks> getTasks()
     {
@@ -87,7 +80,7 @@ public class WebSockets extends BaseWebSocketHandler {
 	
     //initial connection made by client
     @Override
-     public void onOpen(WebSocketConnection connection) {
+    public void onOpen(WebSocketConnection connection) {
         for(int x=0; x<tasks.size();x++)
         {
             String message = "position,"+tasks.get(x).getTopPos()+","+tasks.get(x).getLeftPos()+","+tasks.get(x).getID();
@@ -106,23 +99,7 @@ public class WebSockets extends BaseWebSocketHandler {
             connection.send(message);
             message = "colour,"+tasks.get(x).getColour()+",a"+","+tasks.get(x).getID();
             connection.send(message);
-            message = "commentsUpdate,"+tasks.get(x).getComments()+","+tasks.get(x).getID();
-            connection.send(message);
-            message = "tasksUpdate,"+tasks.get(x).getSubTasks()+","+tasks.get(x).getID();
-            connection.send(message);
         }
-        
-        String message = "burndown,";
-            for(int x=0; x<burndownPoints.size();x++)
-            {
-                if(x==burndownPoints.size()-1)
-                {
-                    message+= burndownPoints.get(x);
-                }else
-                    message+= burndownPoints.get(x)+";";
-            }
-            connection.send(message);
-        
         connection.send("addRow,"+rowCount);
         clients.add(connection);
         connectionCount++;
@@ -141,43 +118,7 @@ public class WebSockets extends BaseWebSocketHandler {
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
         boolean check = false;
-        if(pieces[0].equals("commentsUpdate"))
-        {
-            message = "commentsUpdate,"+pieces[1]+","+pieces[2];
-            for(int x=0; x<tasks.size();x++)
-                {
-                    if(pieces[2].equals(tasks.get(x).getID())) 
-                    {
-                        tasks.get(x).setComments(pieces[1]); 
-                        break;
-                    }   
-                }
-        }
-        else if(pieces[0].equals("tasksUpdate"))
-        {
-           message = "tasksUpdate,"+pieces[1]+","+pieces[2];
-           for(int x=0; x<tasks.size();x++)
-                {
-                    if(pieces[2].equals(tasks.get(x).getID())) 
-                    {
-                        tasks.get(x).setSubTasks(pieces[1]); 
-                        break;
-                    }   
-                }
-        }
-        else if(pieces[0].equals("closeOptions"))
-        {
-            message = "closeOptions,"+pieces[1]; 
-        }
-        else if(pieces[0].equals("openOptions"))
-        {
-            message = "openOptions,"+pieces[1]; 
-        }
-        else if (pieces[0].equals("addDay"))
-        {
-            int temp = burndownPoints.get(burndownPoints.size()-1);
-            burndownPoints.add(temp);
-        }
+
         if(pieces[0].equals("add"))
         {
             Tasks tmp = new Tasks(pieces[1],pieces[1]);
@@ -200,85 +141,47 @@ public class WebSockets extends BaseWebSocketHandler {
         else if (pieces[0].equals("position") || pieces[0].equals("text"))
         {
 
+            for(int x=0; x<tasks.size();x++)
+            {
+                if(pieces[0].equals("position"))
+                {  
 
-                for(int x=0; x<tasks.size();x++)
-                {
-                    if(pieces[0].equals("position"))
-                    {  
-                        if(pieces[3].equals(tasks.get(x).getID())) 
-                        {
-                            System.out.println(pieces[1]);
-                            tasks.get(x).setPos(pieces[1], pieces[2]);
-                            int tmp = 0;
-                            for (int i = 0; i < tasks.size(); i++) {
-                                if(!(tasks.get(i).getStatus().equals("completed")))
-                                {
-                                    tmp += Integer.parseInt(tasks.get(i).getDays());
-                                }
-                            }
-                            burndownPoints.set((burndownPoints.size()-1),tmp);
-                            
-                            System.out.println(burndownPoints.toString());
-                            
-                            break;
-                        }
-
-                    }
-                    else if(pieces[0].equals("text"))
+                    if(pieces[3].equals(tasks.get(x).getID())) 
                     {
-                    int length = pieces[2].length();
-                    String checkString = pieces[2].substring(length-2,length);
-                    // System.out.println("Check!!!!!!!!!!!!!!!!!!: "+ checkString);
-                        if(pieces[3].equals(tasks.get(x).getID())) 
-                        {
-                            if(checkString.equals("me"))
-                            {
-                                tasks.get(x).setName(pieces[1]); 
-                            }else if(checkString.equals("le"))
-                            {
-                                tasks.get(x).setResponsible(pieces[1]); 
-                            }else if(checkString.equals("on"))
-                            {
-                                tasks.get(x).setDescription(pieces[1]);
-                            }else if(checkString.equals("ts"))
-                            {
-                                tasks.get(x).setPoints(pieces[1]); 
-//                                int tmp = 0;
-//                                if(pieces[1] != null && pieces[1].length()>0)
-//                                {
-//                                    for (int i = 0; i < tasks.size(); i++) {
-//                                        if(!(tasks.get(i).getStatus().equals("completed")))
-//                                        {
-//                                            tmp += Integer.parseInt(tasks.get(i).getPoints());
-//                                        }
-//                                    }
-//                                    burndownPoints.set((burndownPoints.size()-1),tmp);
-//
-//                                    System.out.println(burndownPoints.toString());
-//                                }
-                                
-                            }else if(checkString.equals("ys"))
-                            {
-                                tasks.get(x).setDays(pieces[1]);
-                                int tmp = 0;
-                                if(pieces[1] != null && pieces[1].length()>0)
-                                {
-                                    for (int i = 0; i < tasks.size(); i++) {
-                                        if(!(tasks.get(i).getStatus().equals("completed")))
-                                        {
-                                            tmp += Integer.parseInt(tasks.get(i).getDays());
-                                        }
-                                    }
-                                    burndownPoints.set((burndownPoints.size()-1),tmp);
-
-                                    System.out.println(burndownPoints.toString());
-                                }
-                            }
-                            break;
-                        }   
+                        System.out.println(pieces[1]);
+                        tasks.get(x).setPos(pieces[1], pieces[2]);
+                        break;
                     }
 
                 }
+                else if(pieces[0].equals("text"))
+                {
+                int length = pieces[2].length();
+                String checkString = pieces[2].substring(length-2,length);
+                // System.out.println("Check!!!!!!!!!!!!!!!!!!: "+ checkString);
+                    if(pieces[3].equals(tasks.get(x).getID())) 
+                    {
+                        if(checkString.equals("me"))
+                        {
+                        tasks.get(x).setName(pieces[1]); 
+                        }else if(checkString.equals("le"))
+                        {
+                        tasks.get(x).setResponsible(pieces[1]); 
+                        }else if(checkString.equals("on"))
+                        {
+                            tasks.get(x).setDescription(pieces[1]);
+                        }else if(checkString.equals("ts"))
+                        {
+                        tasks.get(x).setPoints(pieces[1]); 
+                        }else if(checkString.equals("ys"))
+                        {
+                        tasks.get(x).setDays(pieces[1]); 
+                        }
+                        break;
+                    }   
+                }
+
+            }
         }
         else if (pieces[0].equals("addRow"))
         {
@@ -304,19 +207,6 @@ public class WebSockets extends BaseWebSocketHandler {
             {
                 clients.get(x).send(message);
             }
-        }
-        message = "burndown,";
-        for(int x=0; x<burndownPoints.size();x++)
-        {
-            if(x==burndownPoints.size()-1)
-            {
-                message+= burndownPoints.get(x);
-            }else
-                message+= burndownPoints.get(x)+";";
-        }
-        for(int x=0; x<clients.size();x++)
-        {
-            clients.get(x).send(message); 
         }
         System.out.println("Message sent to clients, Task size: " + tasks.size());
         

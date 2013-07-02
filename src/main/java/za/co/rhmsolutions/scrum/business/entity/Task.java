@@ -33,21 +33,8 @@ public class Task //persistent
     String points;
     String days;
     String colour;
-    String comments;
-    String subTasks;
-
     
-
-    public void setComments(String comments) {
-        this.comments = comments;
-    }
-
-    
-
-    public void setSubTasks(String subTasks) {
-        this.subTasks = subTasks;
-    }
-    
+    private long projectID;
 
     /*needed for JPA*/
     public Task()
@@ -61,8 +48,7 @@ public class Task //persistent
         points = "points";
         days = "days";
         colour = "colour";
-        comments = "";
-        subTasks = "";
+        projectID = 1;
     }
 
     public Task(String name) {
@@ -70,7 +56,7 @@ public class Task //persistent
     }
     
     public Task(String name, String topPos, String leftPos, 
-            String status, String description, String responsible, String points, String days, String colour, String comments, String subTasks) {
+            String status, String description, String responsible, String points, String days, String colour) {
         System.out.println("name: "+name);
         this.name = name;
         this.topPos = topPos;
@@ -81,16 +67,6 @@ public class Task //persistent
         this.points = points;
         this.days = days;
         this.colour = colour;
-        this.comments = comments;
-        this.subTasks = subTasks;
-    }
-    
-    public String getSubTasks() {
-        return subTasks;
-    }
-    
-    public String getComments() {
-        return comments;
     }
     
     public long getID()
