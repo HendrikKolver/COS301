@@ -1,10 +1,12 @@
 //js for the working of the tabs
+
 $(document).ready(function()
-{					
+{
+    
     $("#replacement1").hide();
     $("#replacement2").hide();
     $("#replacement3").hide();
-
+    
     $("#tog1").hide();
     $("#tog2").hide();
     $("#tog3").hide();
@@ -255,5 +257,5 @@ $(document).ready(function()
     {
        document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';
     });
-    
+   
 });

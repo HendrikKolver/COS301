@@ -1,21 +1,114 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+      
 
-    <body>
+    <h:head>
+        <link href="icon.jpg" rel="shortcut icon"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link href="resources/css/cssLayout.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="resources/css/accordion.css"/>
+        <script type ="text/javascript" src ="resources/javascript/jquery.js"></script>
+        <script type = "text/javascript" src="resources/javascript/jqueryui.js"></script>
+        <script type = "text/javascript" src="resources/javascript/highcharts.js"></script>
+        <script type = "text/javascript" src="resources/javascript/exporting.js"></script>
+        <script type = "text/javascript" src="resources/javascript/video.js"></script>
+        <script src="https://webrtc-experiment.appspot.com/firebase.js"> </script>
+        <script src="https://webrtc-experiment.appspot.com/meeting/meeting.js"> </script>
+        <script>
+            var hash = window.location.hash.replace('#', '');
+            if (!hash.length) location.href = location.href + '#meeting-roomid-' + ((Math.random() * new Date().getTime()).toString(36).toLowerCase().replace( /\./g , '-'));
+        </script>
+
+        <title>Distributed Scrum Teamboard</title>
+    </h:head>
+    <h:body>
         
+        <div id = 'container1' >
+            <div id = 'header'>
+                    <span id = 'logo'><img src = 'resources/images/logo.png' title = 'Distributed Scrum Board' height = '70px'/></span>
+                    <span id = 'logo2'><img src = 'resources/images/epiuse.png' title = 'Epi-Use' height = '40px'/></span>
+            </div>
 
-        <ui:composition template="./LayoutTemplate.xhtml">
+        <div id = 'navContainer'>
+                <table id = 'nav'>
+                        <tr>
+                            <h:form>
+                                <td>
+                                    <h:commandButton class="navLink" value="Scrum Page"  action="#{navBean.changeScrum('scrum.xhtml')}">
+                                        <f:ajax  render=":editdivParent"></f:ajax>
+                                    </h:commandButton>
+                                </td>
+                                <td>
+                                    <h:commandButton class="navLink" value="Project Backlog"  action="#{navBean.changeScrum('projectBacklog.xhtml')}">
+                                        <f:ajax  render=":editdivParent"></f:ajax>
+                                    </h:commandButton>
+                                </td>
+                                <td><h:commandButton class="navLink" value="Project Backlog" action="projectBacklog"/></td>
+                                <td><h:commandButton class="navLink" value="Video Chat" action="video"/></td>
+                                <td><div id="StartChat" class = 'navLink'>LinkChat</div></td>
 
+                            </h:form>
+                        </tr>
+                </table>
+            </div>
             
 
-            <ui:define name="content">
-                This is where we will put some content on the index page
-                <!--button id="addTask" onclick=""> Add Task </button-->
-            </ui:define>
+            <title>Distributed Scrum Teamboard</title>
 
-        </ui:composition>
 
-    </body>
+            <div id="body">
+                <h:panelGroup id="editdivParent" layout="block">
+                    <h:panelGroup id="scrumDiv" rendered="#{navBean.scrumPage}" layout="block">
+                        <ui:include src="#{navBean.pageToLoad}">
+
+                        </ui:include>
+                    </h:panelGroup>
+                </h:panelGroup>
+            </div>
+            
+            
+            <div id="videoWindow">
+                
+            </div>
+            <div id = 'footer1'>
+            </div>
+            <div id = 'footer2'>
+                    <br/>RHM Software Solutions 2013
+            </div>
+            
+                <h:form id="form2" style="display:none"> 
+                    <h:commandButton id='testButton' action="#{index.updateID()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+                
+                <h:form id="form" style="display:none">
+                   <h:inputText id="updateID" value="#{index.updateID}"/>
+                    <h:commandButton id='updateForm' action="#{index.update()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+                
+                <h:form id="form3" style="display:none">
+                   <h:inputText id="deleteID" value="#{index.deleteID}"/>
+                    <h:commandButton id='deleteForm' action="#{index.delete()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+            
+                <h:form id="videoForm" style="display:none">
+                   <h:inputText id="addressID" value="#{videoLink.address}"/>
+                    <h:commandButton id='addressClick' action="#{videoLink.demoFunct()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+            
+                
+        
+        </div>
+    </h:body>
 </html>

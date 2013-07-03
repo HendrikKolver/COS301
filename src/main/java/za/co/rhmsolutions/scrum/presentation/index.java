@@ -55,11 +55,12 @@ public class index
     }
 
     public String getUpdateID() {
+        //System.out.println("Getting update ID: " + updateID);
         return updateID;
     }
 
     public void setUpdateID(String updateID) {
-        
+        //System.out.println("Setting update ID: " + updateID);
         this.updateID = updateID;
     }
 

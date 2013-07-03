@@ -1,10 +1,11 @@
 
 $(document).ready(function()
 {
+    
     //websocket connection
     var ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket');
     ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
-
+    
     listeners();
 
 
@@ -12,7 +13,9 @@ $(document).ready(function()
     function listeners()
     {
         $("#addTask").click(function(){
+            
             $("[id='form2:testButton']").click();
+            
         });
 	
 	
@@ -577,21 +580,21 @@ $("#addRow").click(function()
     }
     
 	function dbUpdate(id)
-    { 
-        
-       $("[id='form:updateID']").val(id);
-       $("[id='form:updateForm']").click();
-       
-    }
-    
-    function dbDelete(id)
-    { 
-        
-       $("[id='form3:deleteID']").val(id);
-       $("[id='form3:deleteForm']").click();
-       
-    }
+        { 
 
+            $("[id='form:updateID']").val(id);
+            $("[id='form:updateForm']").click();
+            //alert($("[id='form:updateID']").val());
+
+        }
+
+        function dbDelete(id)
+        { 
+
+            $("[id='form3:deleteID']").val(id);
+            $("[id='form3:deleteForm']").click();
+
+        }
 
 });
             

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>WebRTC</title> 
+    </head>
+    <body>
+
+        <section class="plusone-gplus">
+            <div class="g-plusone" data-href="https://webrtc-experiment.appspot.com/"></div>
+        </section>
+        <section>
+            <h2>Setup a new meeting:</h2>
+
+            <button id="setup-new-meeting">Setup New Meeting</button>
+        </section>
+        <table style="border-left: 1px solid black; width: 100%;">
+            <tr>
+                <td>
+                    <h2 style="display: block; text-align: center;">
+                        Local Media Stream</h2>
+                    <section id="local-media-stream"></section>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h2 style="display: block; text-align: center;">
+                        Remote Media Streams</h2>
+                    <section id="remote-media-streams"></section>
+                </td>
+            </tr>
+        </table>
+        <script>
+            var hash = window.location.hash.replace('#', '');
+            var meeting = new Meeting(hash);
+
+            var remoteMediaStreams = document.getElementById('remote-media-streams');
+            var localMediaStream = document.getElementById('local-media-stream');
+
+        // on getting media stream
+            meeting.onaddstream = function(e) {
+                if (e.type == 'local') localMediaStream.appendChild(e.video);
+                if (e.type == 'remote') remoteMediaStreams.insertBefore(e.video, remoteMediaStreams.firstChild);
+            };
+
+        // using firebase for signaling
+            meeting.firebase = 'rtcweb';
+
+        // if someone leaves; just remove his video
+            meeting.onuserleft = function(userid) {
+                var video = document.getElementById(userid);
+                if (video) video.parentNode.removeChild(video);
+            };
+
+        // check pre-created meeting rooms
+            meeting.check();
+
+            document.getElementById('setup-new-meeting').onclick = function() {
+                // setup new meeting room
+                meeting.setup('meeting room name');
+                this.disabled = true;
+
+                //this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
+    
+            };
+        </script>
+        
+    </body>
+</html>

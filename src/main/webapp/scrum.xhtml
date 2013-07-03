@@ -6,9 +6,9 @@
       xmlns:f="http://java.sun.com/jsf/core">
 
     <body>
-   <ui:composition template="./LayoutTemplate.xhtml">
-
-            <ui:define name="content">
+                
+                
+                
                 <div id="content">
                     <input type="hidden" id="stickyHiddenID" value=""></input>
                     
@@ -315,37 +315,15 @@
                 
                 <h:outputText value="#{syncServer.startServer()}" />
                 <h:outputText value="#{index.getAllTasks()}" />
-                <script type ="text/javascript" src ="resources/javascript/scrumPage.js"></script>
+                
 
-                <h:form id="form2" style="display:none">
-                   
-                    <h:commandLink id='testButton' action="#{index.updateID()}"> 
-                      <f:ajax execute="@form"/>
-                  </h:commandLink>
-                </h:form>
-                
-                <h:form id="form" style="display:none">
-                   <h:inputText id="updateID" value="#{index.updateID}"/>
-                    <h:commandLink id='updateForm' action="#{index.update()}"> 
-                      <f:ajax execute="@form"/>
-                  </h:commandLink>
-                </h:form>
-                
-                <h:form id="form3" style="display:none">
-                   <h:inputText id="deleteID" value="#{index.deleteID}"/>
-                    <h:commandLink id='deleteForm' action="#{index.delete()}"> 
-                      <f:ajax execute="@form"/>
-                  </h:commandLink>
-                </h:form>
                 
                 
                 
+                <script type ="text/javascript" src="resources/javascript/scrumPage.js"></script>
+                <script type ="text/javascript" src="resources/javascript/script.js"></script>
                 
                 
-		
-	    </ui:define>
 
-        </ui:composition>
- 
     </body>
 </html>
