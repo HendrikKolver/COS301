@@ -17,7 +17,7 @@
         <script type = "text/javascript" src="resources/javascript/exporting.js"></script>
         <script type = "text/javascript" src="resources/javascript/video.js"></script>
         <script src="https://webrtc-experiment.appspot.com/firebase.js"> </script>
-        <script src="https://webrtc-experiment.appspot.com/meeting/meeting.js"> </script>
+        <script src="resources/javascript/meeting.js"> </script>
         <script>
             var hash = window.location.hash.replace('#', '');
             if (!hash.length) location.href = location.href + '#meeting-roomid-' + ((Math.random() * new Date().getTime()).toString(36).toLowerCase().replace( /\./g , '-'));
@@ -71,14 +71,33 @@
             </div>
             
             
-            <div id="videoWindow">
+            <div id ="onBottom">
+
+                <div id="videoWindow">
+                    <table id ="chatTable" style="margin: 0 auto; text-align: center; width:100%; height:100%">
+                        <tr>
+                            <td>
+                                <div id="videoLoad" style ="width: 100%; margin: 0 auto"> 
+                                </div>
+                            </td>
+                            <td style="width:247px; border-left:solid;">
+                            </td>
+                        </tr>
+                        
+                    </table>
+                </div>
                 
+                <div id="videoOptions">
+                    <div id ="chatNowBtn">Group Chat</div>
+                </div>
             </div>
-            <div id = 'footer1'>
+            
+            
+            <!--<div id = 'footer1'>
             </div>
             <div id = 'footer2'>
                     <br/>RHM Software Solutions 2013
-            </div>
+            </div>-->
             
                 <h:form id="form2" style="display:none"> 
                     <h:commandButton id='testButton' action="#{index.updateID()}"> 
@@ -103,6 +122,13 @@
                 <h:form id="videoForm" style="display:none">
                    <h:inputText id="addressID" value="#{videoLink.address}"/>
                     <h:commandButton id='addressClick' action="#{videoLink.demoFunct()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+		
+		<h:form id="videoStart" style="display:none">
+                   <h:inputText id="videoID" value="#{videoLink.serverStarted}"/>
+                    <h:commandButton id='videoClick' action="#{videoLink.demoFunct()}"> 
                       <f:ajax execute="@form"/>
                   </h:commandButton>
                 </h:form>

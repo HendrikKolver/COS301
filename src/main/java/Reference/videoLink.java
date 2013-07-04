@@ -15,6 +15,15 @@ import javax.faces.bean.ManagedBean;
 @ManagedBean(name = "videoLink")
 public class videoLink {
     String address = "";
+    boolean serverStarted = false;
+
+    public boolean isServerStarted() {
+        return videoAddressHolder.serverStarted;
+    }
+
+    public void setServerStarted(boolean serverStarted) {
+        videoAddressHolder.serverStarted = serverStarted;
+    }
 
     public String getAddress() {
         System.out.println("get Address!: " + videoAddressHolder.address);
@@ -28,7 +37,9 @@ public class videoLink {
     
     public void demoFunct()
     {
-        System.out.println("wck;;;ovmvd");
+        System.out.println("dummy call");
     }
+    
+   
     
 }

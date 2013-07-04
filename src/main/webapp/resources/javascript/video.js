@@ -1,15 +1,24 @@
 $(document).ready(function()
 {
+    $("#videoWindow").hide();
+    
     if($("[id='videoForm:addressID']").val()!= "")
         {
             document.location.replace($("[id='videoForm:addressID']").val());
         }
-    $("#videoWindow").load("videoChat.html");
+    $("#videoLoad").load("videoChat.html");
     $("#StartChat").click(function(){
         
-        $("[id='videoForm:addressID']").val(location.href);
-        $("[id='videoForm:addressClick']").click();
+        $("[id='videoStart:videoID']").val('false');
+        $("[id='videoStart:videoClick']").click();
+        
+        //alert("here");
         //alert($("[id='videoForm:addressID']").val());
+    });
+    
+    $("#chatNowBtn").click(function()
+    {
+        $("#videoWindow").slideToggle();
     });
     
 });

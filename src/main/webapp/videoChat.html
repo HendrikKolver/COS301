@@ -4,42 +4,43 @@
         <title>WebRTC</title> 
     </head>
     <body>
+        
+        
+        <div id ="appendHere" style="text-align: center; width:500px; height: 480px; margin: 0 auto;">
+        </div>
 
-        <section class="plusone-gplus">
-            <div class="g-plusone" data-href="https://webrtc-experiment.appspot.com/"></div>
-        </section>
-        <section>
-            <h2>Setup a new meeting:</h2>
-
-            <button id="setup-new-meeting">Setup New Meeting</button>
-        </section>
-        <table style="border-left: 1px solid black; width: 100%;">
-            <tr>
-                <td>
-                    <h2 style="display: block; text-align: center;">
-                        Local Media Stream</h2>
-                    <section id="local-media-stream"></section>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <h2 style="display: block; text-align: center;">
-                        Remote Media Streams</h2>
-                    <section id="remote-media-streams"></section>
-                </td>
-            </tr>
-        </table>
         <script>
             var hash = window.location.hash.replace('#', '');
             var meeting = new Meeting(hash);
 
-            var remoteMediaStreams = document.getElementById('remote-media-streams');
-            var localMediaStream = document.getElementById('local-media-stream');
+            var remoteMediaStreams = document.getElementById('appendHere');
+            var localMediaStream = document.getElementById('appendHere');
 
         // on getting media stream
             meeting.onaddstream = function(e) {
-                if (e.type == 'local') localMediaStream.appendChild(e.video);
+                if (e.type == 'local') $(localMediaStream).append(e.video); //localMediaStream(localMediaStream.appendChild(e.video);
                 if (e.type == 'remote') remoteMediaStreams.insertBefore(e.video, remoteMediaStreams.firstChild);
+                
+                var x = document.getElementsByTagName("video").length;
+                switch (x)
+                {
+                   case 1:{
+                           $("video").css("width","500px");   
+                   } break;
+                   case 2:{
+                           $("video").css("width","300px");   
+                   };break;
+                   case 3: case 4: {
+                           $("video").css("width","200px");   
+                   };break;
+                   case 5: case 6: {
+                           $("video").css("width","180px");   
+                   };break;
+                   default:
+                       {
+                          $("video").css("width","120px"); 
+                       }
+                }
             };
 
         // using firebase for signaling
@@ -49,19 +50,52 @@
             meeting.onuserleft = function(userid) {
                 var video = document.getElementById(userid);
                 if (video) video.parentNode.removeChild(video);
+                
+                var x = document.getElementsByTagName("video").length;
+                switch (x)
+                {
+                   case 1:{
+                           $("video").css("width","500px");   
+                   } break;
+                   case 2:{
+                           $("video").css("width","300px");   
+                   };break;
+                   case 3: case 4: {
+                           $("video").css("width","200px");   
+                   };break;
+                   case 5: case 6: {
+                           $("video").css("width","180px");   
+                   };break;
+                   default:
+                       {
+                          $("video").css("width","120px"); 
+                       }
+                }
             };
 
         // check pre-created meeting rooms
             meeting.check();
+            
+            if($("[id='videoStart:videoID']").val() == 'false')
+                {
+                    alert("hi");
+                    meeting.setup('meeting room name');
+                    $("[id='videoStart:videoID']").val('true');
+                    $("[id='videoStart:videoClick']").click();
+                    $("[id='videoForm:addressID']").val(location.href);
+                    $("[id='videoForm:addressClick']").click();
+                }
+                
+           // 
 
-            document.getElementById('setup-new-meeting').onclick = function() {
-                // setup new meeting room
-                meeting.setup('meeting room name');
-                this.disabled = true;
-
-                //this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
-    
-            };
+//            document.getElementById('setup-new-meeting').onclick = function() {
+//                // setup new meeting room
+//                meeting.setup('meeting room name');
+//                this.disabled = true;
+//
+//                //this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
+//    
+//            };
         </script>
         
     </body>
