@@ -21,6 +21,7 @@ public class WebSockets extends BaseWebSocketHandler {
     {
         System.out.println("constructor");
         burndownPoints.add(0);
+        Reference.tasks = this.tasks;
     }
 
     public ArrayList<Tasks> getTasks()

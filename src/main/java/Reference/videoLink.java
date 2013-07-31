@@ -1,16 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Reference;
 
 import javax.ejb.Singleton;
 import javax.faces.bean.ManagedBean;
 
-/**
- *
- * @author growthpoint
- */
 @Singleton
 @ManagedBean(name = "videoLink")
 public class videoLink {

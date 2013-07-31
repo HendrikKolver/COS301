@@ -22,6 +22,7 @@
             var hash = window.location.hash.replace('#', '');
             if (!hash.length) location.href = location.href + '#meeting-roomid-' + ((Math.random() * new Date().getTime()).toString(36).toLowerCase().replace( /\./g , '-'));
         </script>
+        <script type = "text/javascript" src="resources/javascript/chat.js"></script>
 
         <title>Distributed Scrum Teamboard</title>
     </h:head>
@@ -47,7 +48,9 @@
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton>
                                 </td>
-                                <td><h:commandButton class="navLink" value="Project Backlog" action="projectBacklog"/></td>
+                                <td><h:commandButton class="navLink" value="Planning Poker"  action="#{navBean.changeScrum('planningPoker.xhtml')}">
+                                        <f:ajax  render=":editdivParent"></f:ajax>
+                                    </h:commandButton></td>
                                 <td><h:commandButton class="navLink" value="Video Chat" action="video"/></td>
                                 <td><div id="StartChat" class = 'navLink'>LinkChat</div></td>
 
@@ -74,6 +77,9 @@
             <div id ="onBottom">
 
                 <div id="videoWindow">
+                    <div id ="videoWindowtop" style ="height:40px;">
+                        
+                    </div>
                     <table id ="chatTable" style="margin: 0 auto; text-align: center; width:100%; height:100%">
                         <tr>
                             <td>
@@ -81,9 +87,29 @@
                                 </div>
                             </td>
                             <td style="width:247px; border-left:solid;">
+                                <div id ="textChat">
+                                    <div id ="textChatHeader">Name: <input style="max-width:130px;" type ="text" id ="chatName"/></div>
+                                    <div id ="textChatSection">
+                                        <!--<span style="color:white; font-size:10pt;"><br/><br/>No messages</span>-->
+                                        
+                                        <!--<div class='chatMsg'>
+                                            <table>
+                                                <tr>
+                                                    <td class ="chatMsgUser">Matthew:</td>
+                                                    <td class ="chatMsgContent">This is some form of jquery chat that i am developing</td>
+                                                    <td class ="chatMsgTime">10.52</td>
+                                                </tr>
+                                            </table>
+                                        </div>-->
+                                    </div>
+                                    <div id ="textChatInputSection">
+                                        <textarea id ="clientMsg" style ="resize: none;" rows="2" cols="32"></textarea>
+                                        <br/>
+                                        <button id ="textChatSend">Send</button>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
-                        
                     </table>
                 </div>
                 
@@ -133,8 +159,25 @@
                   </h:commandButton>
                 </h:form>
             
-                
-        
+<!--                <h:form id="textChatHolder" style="display:none">
+                   <h:inputText id="htmlValue" value="#{textChat.htmlContent}"/>
+                    <h:commandButton id='htmlChatClick' action="#{textChat.demoFunct()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+            
+                <h:form id="textChatHolderGetter" style="display:none">
+                   <h:inputText id="getHtmlValue" value="#{textChat.getCheatVar()}"/>
+                    <h:commandButton id='getHtmlChatClick' action="#{textChat.demoFunct()}"> 
+                        <f:ajax render="getHtmlValue"></f:ajax>
+                  </h:commandButton>
+                </h:form>-->
+            
+            <h:outputText value="#{syncServer.startChat()}" />
+            
+            
+            
+
         </div>
     </h:body>
 </html>

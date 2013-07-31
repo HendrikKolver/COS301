@@ -91,7 +91,9 @@
 
             // Firebase is capable to store data in JSON format
             // root.transmitOnce = true;
+            
             var socket = new window.Firebase('https://' + (root.firebase || 'chat') + '.firebaseIO.com/' + channel);
+            
             socket.on('child_added', function(snap) {
                 var data = snap.val();
                 if (data.userid != userid) {
@@ -331,10 +333,18 @@
                 });
 
                 !root.transmitOnce && setTimeout(transmit, 3000);
+                
             })();
 
             // if broadcaster leaves; clear all JSON files from Firebase servers
-            if (socket.onDisconnect) socket.onDisconnect().remove();
+            if (socket.onDisconnect) 
+                {
+//                    peers[0].signaler.signal({
+//                    roomid: signaler.roomid,
+//                    broadcasting: true
+//                    });
+                    socket.onDisconnect().remove();
+                }
         };
 
         // called for each new participant
