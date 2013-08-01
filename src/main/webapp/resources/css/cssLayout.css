@@ -631,3 +631,107 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e1e1', end
     color:rgb(131,131,131);
     font-size: 9pt;
 }
+
+.planningPokerCard :hover{
+        border:1px solid rgb(209,228,152);
+        background: rgb(222,229,197); /* Old browsers */
+        background: -moz-radial-gradient(center, ellipse cover,  rgba(222,229,197,1) 0%, rgba(186,209,112,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(222,229,197,1)), color-stop(100%,rgba(186,209,112,1))); /* Chrome,Safari4+ */
+        background: -webkit-radial-gradient(center, ellipse cover,  rgba(222,229,197,1) 0%,rgba(186,209,112,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-radial-gradient(center, ellipse cover,  rgba(222,229,197,1) 0%,rgba(186,209,112,1) 100%); /* Opera 12+ */
+        background: -ms-radial-gradient(center, ellipse cover,  rgba(222,229,197,1) 0%,rgba(186,209,112,1) 100%); /* IE10+ */
+        background: radial-gradient(ellipse at center,  rgba(222,229,197,1) 0%,rgba(186,209,112,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dee5c5', endColorstr='#bad170',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.planningPokerCard
+{
+        padding:7px;
+        height:100px;
+        width:60px;
+        background-color: rgb(237,244,215);
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;				
+        -webkit-box-shadow: 1px 2px 8px rgba(50, 50, 50, 0.75);
+        -moz-box-shadow:    1px 2px 8px rgba(50, 50, 50, 0.75);
+        box-shadow:         1px 2px 8px rgba(50, 50, 50, 0.75);
+        border:1px solid rgb(143,185,99);
+        float: left;
+        margin:2px;
+        cursor:pointer;
+}
+
+.planningPokerInner
+{
+        font-family:"Arial";
+        height:98px;
+        line-height:98px;			
+        width:58px;
+        border:1px solid rgb(143,185,99);
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;
+        background-color:white;
+        text-align:center;
+        font-size:26pt;
+        font-weight:bold;
+        color: white;
+        text-shadow:1px 2px 6px black;
+        background: #dfecb7; /* Old browsers */
+        background: -moz-radial-gradient(center, ellipse cover,  #dfecb7 0%, #b0d24f 100%); /* FF3.6+ */
+        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,#dfecb7), color-stop(100%,#b0d24f)); /* Chrome,Safari4+ */
+        background: -webkit-radial-gradient(center, ellipse cover,  #dfecb7 0%,#b0d24f 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-radial-gradient(center, ellipse cover,  #dfecb7 0%,#b0d24f 100%); /* Opera 12+ */
+        background: -ms-radial-gradient(center, ellipse cover,  #dfecb7 0%,#b0d24f 100%); /* IE10+ */
+        background: radial-gradient(ellipse at center,  #dfecb7 0%,#b0d24f 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dfecb7', endColorstr='#b0d24f',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+
+
+.myChosenCard
+{
+        padding:7px;
+        height:100px;
+        width:60px;
+        background-color: #f4f0d7;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;				
+        -webkit-box-shadow: 1px 2px 8px rgba(50, 50, 50, 0.75);
+        -moz-box-shadow:    1px 2px 8px rgba(50, 50, 50, 0.75);
+        box-shadow:         1px 2px 8px rgba(50, 50, 50, 0.75);
+        border:1px solid #bbb228;
+        float: left;
+        margin:2px;
+        cursor:pointer;
+}
+
+.myChosenCardInner
+{
+        font-family:"Arial";
+        height:98px;
+        line-height:98px;			
+        width:58px;
+        border:1px solid #bbb228;
+        -webkit-border-radius: 15px;
+        -moz-border-radius: 15px;
+        border-radius: 15px;
+        background-color:white;
+        text-align:center;
+        font-size:26pt;
+        font-weight:bold;
+
+        color: white;
+        text-shadow:1px 2px 6px black;
+        background: rgb(228,227,166); /* Old browsers */
+        background: -moz-radial-gradient(center, ellipse cover,  rgba(228,227,166,1) 0%, rgba(220,213,97,1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(228,227,166,1)), color-stop(100%,rgba(220,213,97,1))); /* Chrome,Safari4+ */
+        background: -webkit-radial-gradient(center, ellipse cover,  rgba(228,227,166,1) 0%,rgba(220,213,97,1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-radial-gradient(center, ellipse cover,  rgba(228,227,166,1) 0%,rgba(220,213,97,1) 100%); /* Opera 12+ */
+        background: -ms-radial-gradient(center, ellipse cover,  rgba(228,227,166,1) 0%,rgba(220,213,97,1) 100%); /* IE10+ */
+        background: radial-gradient(ellipse at center,  rgba(228,227,166,1) 0%,rgba(220,213,97,1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e4e3a6', endColorstr='#dcd561',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+
+}

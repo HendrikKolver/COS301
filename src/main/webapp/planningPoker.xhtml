@@ -5,11 +5,61 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <body>
-        <div>
-            <h1> hello </h1>
-        </div>
-        <h:outputText value="#{syncServer.startPlanningPoker()}" />
+        <div id = "cardHolder">
+			Choose a card:<br/>
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">0</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">1/2</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">1</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">2</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">3</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">5</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">8</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">13</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">20</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">40</div>
+			</div>
+			
+			<div class = "planningPokerCard">
+				<div class = "planningPokerInner">100</div>
+			</div>
+		</div>
+		
+		<br/><br/><br/><br/><br/><br/><br/><br/>
+		<div id = "selectedCardHolder">
+				<!--Content added here dynamically-->
+		</div>
+                <button id="nextTask">Next Task</button>
+                <div id="taskInfo"></div>
+       
 
-        <script type ="text/javascript" src="resources/javascript/planningPoker.js"></script>
+        
     </body>
 </html>

@@ -39,6 +39,7 @@ public class ChatSocket  extends BaseWebSocketHandler {
         clients.add(connection);
         connection.send(chatHistory);
         connectionCount++;
+        //System.out.println("clientCOunt: "+ connectionCount);
     }
 
     //client disconnects

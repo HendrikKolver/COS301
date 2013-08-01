@@ -22,6 +22,7 @@ public class PlanningPoker  extends BaseWebSocketHandler {
     
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks;
+    ArrayList<String> currentState;
     private int count;
     
     
@@ -30,16 +31,30 @@ public class PlanningPoker  extends BaseWebSocketHandler {
         System.out.println("constructor");
         tasks = Reference.getTasks();
         count = 0;
+        currentState = new ArrayList<String>();
     }
 	
     //initial connection made by client
     @Override
      public void onOpen(WebSocketConnection connection) {
-        System.out.println("ClientConnected!");
-        clients.add(connection);
-        connectionCount++;
-        connection.send("hello");
+        boolean exists = false;
+        System.out.println("connectionData:"+connection.httpRequest().body());
+        for (int i = 0; i < clients.size(); i++) {
+            if(connection.equals(clients.get(i)))
+            {
+               exists = true;
+               break;
+            }
+        }
         
+        if(!exists)
+        {
+            System.out.println("ClientConnected!");
+            clients.add(connection);
+            connectionCount++;
+            //connection.send("hello");   
+        }
+        System.out.println("clientCOunt: "+ connectionCount);
         
     }
 
@@ -65,23 +80,30 @@ public class PlanningPoker  extends BaseWebSocketHandler {
             }
             else
             {
+                
                 message = "taskInfo,"+tasks.get(count).getName()+","+tasks.get(count).getDescription();
                 count++;
             }
-        }
-        
-        
-        
-        //send message to all clients
-        for(int x=0; x<clients.size();x++)
+           for(int x=0; x<clients.size();x++)
+            {
+               // if(!clients.get(x).equals(connection))
+               // {
+                    clients.get(x).send(message);
+                //}
+            }
+        }else if(pieces[0].equals("choice"))
         {
-//            if(!clients.get(x).equals(connection))
-//            {
-                clients.get(x).send(message);
-            //}
+            //do nothing with message
+            //currentState.add(message);
+            for(int x=0; x<clients.size();x++)
+            {
+                if(!clients.get(x).equals(connection))
+                {
+                    clients.get(x).send(message);
+                }
+            }
         }
-        
-        
+
     }
 
     public static void main() {
