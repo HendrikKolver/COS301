@@ -1,7 +1,7 @@
 //js for the working of the tabs
 
-$(document).ready(function()
-{
+//$(document).ready(function()
+//{
     
     $("#replacement1").hide();
     $("#replacement2").hide();
@@ -258,4 +258,4 @@ $(document).ready(function()
        document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';
     });
    
-});
+//});

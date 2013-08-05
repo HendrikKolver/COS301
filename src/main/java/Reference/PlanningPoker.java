@@ -23,6 +23,7 @@ public class PlanningPoker  extends BaseWebSocketHandler {
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks;
     ArrayList<String> currentState;
+    ArrayList<String> choices = new ArrayList<String>();
     private int count;
     
     
@@ -39,21 +40,12 @@ public class PlanningPoker  extends BaseWebSocketHandler {
      public void onOpen(WebSocketConnection connection) {
         boolean exists = false;
         System.out.println("connectionData:"+connection.httpRequest().body());
-        for (int i = 0; i < clients.size(); i++) {
-            if(connection.equals(clients.get(i)))
-            {
-               exists = true;
-               break;
-            }
-        }
         
-        if(!exists)
-        {
-            System.out.println("ClientConnected!");
+            System.out.println("ClientConnected to planning poker!");
             clients.add(connection);
             connectionCount++;
             //connection.send("hello");   
-        }
+
         System.out.println("clientCOunt: "+ connectionCount);
         
     }
@@ -84,14 +76,24 @@ public class PlanningPoker  extends BaseWebSocketHandler {
                 message = "taskInfo,"+tasks.get(count).getName()+","+tasks.get(count).getDescription();
                 count++;
             }
+           //send task to all clients
            for(int x=0; x<clients.size();x++)
             {
-               // if(!clients.get(x).equals(connection))
-               // {
                     clients.get(x).send(message);
-                //}
             }
         }else if(pieces[0].equals("choice"))
+        {
+            //do nothing with message
+            choices.add(message);
+            for(int x=0; x<clients.size();x++)
+            {
+                if(!clients.get(x).equals(connection))
+                {
+                    clients.get(x).send(message);
+                }
+            }
+        }
+        else if(pieces[0].equals("flip"))
         {
             //do nothing with message
             //currentState.add(message);
@@ -103,6 +105,16 @@ public class PlanningPoker  extends BaseWebSocketHandler {
                 }
             }
         }
+        else if(pieces[0].equals("join"))
+        {
+            for (int i = 0; i < choices.size(); i++) {
+                connection.send(choices.get(i));   
+            }
+                    
+        }
+        
+        
+        
 
     }
 

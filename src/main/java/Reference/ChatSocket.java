@@ -53,7 +53,7 @@ public class ChatSocket  extends BaseWebSocketHandler {
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
        chatHistory+= message;
-        System.out.println("recievedMessage");
+        System.out.println("recievedMessage Chat");
 
         //send message to all clients
         for(int x=0; x<clients.size();x++)

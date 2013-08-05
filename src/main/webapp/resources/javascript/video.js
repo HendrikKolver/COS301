@@ -4,7 +4,8 @@ $(document).ready(function()
     
     if($("[id='videoForm:addressID']").val()!= "")
         {
-            document.location.replace($("[id='videoForm:addressID']").val());
+           // alert(location.port);
+            document.location.replace("http://"+location.hostname+":"+location.port+location.pathname+$("[id='videoForm:addressID']").val());
         }
     $("#videoLoad").load("videoChat.html");
     $("#StartChat").click(function(){
@@ -18,7 +19,7 @@ $(document).ready(function()
     
     $("#chatNowBtn").click(function()
     {
-        $("#videoWindow").slideToggle();
+        $("#videoWindow").stop().slideToggle();
     });
     
 });

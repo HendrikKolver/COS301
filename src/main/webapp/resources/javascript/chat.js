@@ -1,8 +1,9 @@
 $(document).ready(function()
 {
-        var ws = new WebSocket('ws://' +window.location.hostname+':1237'+ '/chatSocket');
+    //$("#chatName").val(person);
+        var wsChat = new WebSocket('ws://' +window.location.hostname+':1237'+ '/chatSocket');
         
-        ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
+        wsChat.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
       
      //ws.send('remove,'+document.getElementById("stickyHiddenID").value); 
      
@@ -31,7 +32,7 @@ $(document).ready(function()
                 var str = "<div class='chatMsg'><table><tr><td class ='chatMsgUser'>"+user+"</td><td class ='chatMsgContent'>"+clientmsg+"</td><td class ='chatMsgTime'>"+localTime+"</td></tr></table></div>";
                 //$("[id='textChatHolder:htmlValue']").val(str); //Set value
                 //$("[id='textChatHolder:htmlChatClick']").click();
-                ws.send(str);
+                wsChat.send(str);
                 tmpVal = $("#textChatSection").html()+str;
                 $("#textChatSection").html(tmpVal); //Output to html
                 

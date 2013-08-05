@@ -75,14 +75,21 @@
 
         // check pre-created meeting rooms
             meeting.check();
-            
+//           alert("tester");
+//            var tmp = (location.href).indexOf("#meeting");
+//                    var tester = (location.href).substring(parseInt(tmp));
+//                    alert("tester");
+                    
             if($("[id='videoStart:videoID']").val() == 'false')
                 {
                     //alert("hi");
                     meeting.setup('meeting room name');
                     $("[id='videoStart:videoID']").val('true');
                     $("[id='videoStart:videoClick']").click();
-                    $("[id='videoForm:addressID']").val(location.href);
+                    var tmp = (location.href).indexOf("#meeting");
+                    var tester = (location.href).substring(parseInt(tmp));
+                    alert(tester);
+                    $("[id='videoForm:addressID']").val(tester);
                     $("[id='videoForm:addressClick']").click();
                 }
                 

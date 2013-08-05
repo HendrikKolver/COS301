@@ -4,14 +4,11 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-
-    <body>
-                
-                
-                
+    
+    <body> 
+    <script type = "text/javascript" src="resources/javascript/another.js"></script>
                 <div id="content">
                     <input type="hidden" id="stickyHiddenID" value=""></input>
-                    
                     <div id = 'toggleStuff'>
 					<div id = 'toggleTable' style="width:44px">
 						<table>
@@ -36,7 +33,7 @@
 					
 				
 					<div id = 'toggleContainer'>
-						<div id = 'toggle1' style="">
+						<div id = 'toggle1' >
 							<table style = 'padding:0'>
 								<tr style = 'width:100%'>
 									<td style='width:660px; height:600px; border: 1px solid black;  border-left: 0; background-color:lightgray;'>                                      
@@ -57,8 +54,6 @@
 							<table style = 'padding:0'>
 								<tr style = 'width:100%'>
 									<td style='width:660px; height:600px; border: 1px solid black;  border-left: 0; background-color:lightgray;'>
-										<!--<img src = 'resources/images/burndown.jpg' style = 'width:350px; position:relative; top:-100px; left:80px;'/>-->
-                                                                                <!--<div id="myfirstchart" style="margin-left:70px; background-color: white; width:500px; height: 250px;"></div>-->
                                                                                 <div id="container" style="width: 500px; height: 350px; border:solid; margin: 0 auto"></div>    
 									</td>
 									
@@ -82,10 +77,9 @@
 							</table>	
 						</div>
 					</div>
-					
 				</div>
                     
-                    <div id = 'toggleTable2' style='width:90px;'>
+                              <div id = 'toggleTable2' style='width:90px;'>
 						<table>
 							<tr>
 								<td style = 'height:130px; width:40px; cursor:pointer;'>
@@ -105,7 +99,8 @@
 						</table>
 					</div>
 
-                    <div id="DragContainer" style ="position:relative; top:-800px; min-height: 0px">
+                    <div id ="extraContainer" style ="position: absolute; top:160px;">
+                    <div id="DragContainer" style ="position:relative; left:40px; min-height: 0px;">
                         <table class = "snaptarget" cellspacing="15">
                             <tr>
                                 <th colspan ="2"> Not Started</th>
@@ -163,50 +158,11 @@
                                     <td class="snapHere"></td>
                                     <td class="snapHere"></td>
                             </tr>
-                           
-
                         </table>
-                    
-<!--                        <div class ="draggable" id="101">
-                            
-                            <table style ="width:100%; height: 100%;">
-                                <tr >
-                                    <td id="101StickyTaskName" colspan ='3' style ="font-weight:bold; font-size:14pt;">
-                                        Heading
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td id="101StickyResponsible" colspan ='3' style ="font-size:10pt">
-                                        Matthew Mills
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan ='3'>
-                                        <div id="101StickyDescription" class ="stickyContent" style ="border:solid; width:100%; height:110px;">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td id="101StickyPoints" style ="font-size:14pt; padding-left:10px;">
-                                        <b>2</b>
-                                    </td>
-                                    <td>
-                                        <button id="101Options">Options</button>
-                                    </td>
-                                    <td id="101StickyDays" style ="font-size:14pt; padding-right:10px;">
-                                        <b>7</b>
-                                    </td>
-                                </tr>
-                            </table>
-                                
-                        </div>-->
-                        
-			
                     </div>
-                    
+                    </div>
                 </div>
-
-                <div id="light" class="white_content">
+               <div id="light" class="white_content">
                     <span id ="closeLightBox">
                         <b>X</b>
                     </span>
@@ -313,17 +269,17 @@
                 <div id="fade" class="black_overlay">
                 </div>
                 
-                <h:outputText value="#{syncServer.startServer()}" />
+                
                 <h:outputText value="#{index.getAllTasks()}" />
-                
-
-                
+    
                 
                 
-                <script type ="text/javascript" src="resources/javascript/scrumPage.js"></script>
+                
+                <script>
+                    joinScrum();
+                </script>
+                
                 <script type ="text/javascript" src="resources/javascript/script.js"></script>
-                
-                
-
+                            
     </body>
 </html>
