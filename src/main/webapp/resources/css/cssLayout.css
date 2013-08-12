@@ -119,60 +119,60 @@ html.noscroll
 }
 
 #toggleContainer{
-				position:relative;
-				top:-400px;
-                                margin-bottom: -400px;
-				float:left;
-				height:600px;
-				width:40px;
-			}
-			
-			#toggle1{
-				cursor:pointer;
-				position:relative;
-				width:700px;
-				height:600px;
-				left:-660px;
-				z-index:2;
-			}
-			
-			#toggle2{
-				cursor:pointer;
-				position:relative;
-				width:700px;
-				height:600px;
-				top:-600px;
-				left:-660px;
-				z-index:3;
-			}
-			
-			#toggle3{
-				cursor:pointer;
-				position:relative;
-				width:700px;
-				height:600px;
-				top:-1200px;
-				left:-660px;
-				z-index:4;
-			}
-			
-			#tog1{
-				pointer:cursor;
-			}
-			
-			#toggleTable{
-				z-index:10;
-				position:relative;
-				left:-5px;
-			}
-			
-			#toggleTable2{
-				position:relative;
-				right:0px;
-				top:-406px;
-				left:612px;
-				z-index:1000;
-			}
+        position:relative;
+        top:-400px;
+        margin-bottom: -400px;
+        float:left;
+        height:600px;
+        width:40px;
+}
+
+#toggle1{
+        cursor:pointer;
+        position:relative;
+        width:700px;
+        height:600px;
+        left:-660px;
+        z-index:2;
+}
+
+#toggle2{
+        cursor:pointer;
+        position:relative;
+        width:700px;
+        height:600px;
+        top:-600px;
+        left:-660px;
+        z-index:3;
+}
+
+#toggle3{
+        cursor:pointer;
+        position:relative;
+        width:700px;
+        height:600px;
+        top:-1200px;
+        left:-660px;
+        z-index:4;
+}
+
+#tog1{
+        pointer:cursor;
+}
+
+#toggleTable{
+        z-index:10;
+        position:relative;
+        left:-5px;
+}
+
+#toggleTable2{
+        position:relative;
+        right:0px;
+        top:-406px;
+        left:612px;
+        z-index:1000;
+}
 *{
     font-family: Arial;
 }

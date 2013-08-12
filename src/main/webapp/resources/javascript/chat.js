@@ -1,17 +1,15 @@
 $(document).ready(function()
 {
-    //$("#chatName").val(person);
+    
         var wsChat = new WebSocket('ws://' +window.location.hostname+':1237'+ '/chatSocket');
         
         wsChat.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
       
-     //ws.send('remove,'+document.getElementById("stickyHiddenID").value); 
+    
      
         function showMessage(text) 
         {
-           // alert(text);
             loadLog(text);
-            //ws.send("next,next");
         }
     
         $("#textChatSection").html( $("[id='textChatHolder:htmlValue']").val());
@@ -39,9 +37,7 @@ $(document).ready(function()
 	});
         
         function loadLog(str){
-           // alert(str);
-               
-             //$("[id='textChatHolderGetter:getHtmlChatClick']").click();
+           
                var oldscrollHeight = $("#textChatSection").attr("scrollHeight") - 20;
               tmpVal = $("#textChatSection").html()+str;
                $("#textChatSection").html(tmpVal);
@@ -54,5 +50,5 @@ $(document).ready(function()
                	$("#textChatSection").animate({ scrollTop: newscrollHeight }, 'normal'); //Autoscroll to bottom of div
                }				
 	}
-	//setInterval (loadLog, 4000);	//Reload file every 10 seconds
+	
 });

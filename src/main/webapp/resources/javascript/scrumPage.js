@@ -3,17 +3,9 @@ var ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket');
 
 function joinScrum()
 {
- //   alert("before doc . ready");
-//    if(ws ==null)
-//    {
-//       // alert("called it");
-//       ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket'); 
-//    }
-    //$(document).ready(function()
-    //{ 
-     //   alert("before ws is used");
         //websocket connection
         ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
+        
         ws.send("join,join");
         
         listeners();
@@ -176,6 +168,8 @@ function joinScrum()
 
 
         }
+        
+        //--------------------------------------------------------------------------------------
 
         function drawChart(values)
         {
@@ -231,9 +225,6 @@ function joinScrum()
                                     });
                                 });
         }
-
-
-
 
     //----------------------------------------------------------------------------
 
@@ -305,88 +296,90 @@ function joinScrum()
             });  
 
         }
+        
+        //--------------------------------------------------------------------------------------
 
         function openLightBox(id)
+        {
+
+            document.getElementById("stickyHiddenID").value = id;
+            document.getElementById('light').style.display='block';
+            document.getElementById('fade').style.display='block';
+            var tmpID = "#"+id+"StickyTaskName";
+            document.getElementById("StickyTaskName").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyResponsible";
+            document.getElementById("StickyResponsible").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyDescription";
+            document.getElementById("StickyDescription").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyPoints";
+            document.getElementById("StickyPoints").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyDays";
+            document.getElementById("StickyDays").value = $(tmpID).html();
+
+            var color = $("#"+id).css('background-image');
+            if (color.indexOf("green") >= 0)
             {
-
-                document.getElementById("stickyHiddenID").value = id;
-                document.getElementById('light').style.display='block';
-                document.getElementById('fade').style.display='block';
-                var tmpID = "#"+id+"StickyTaskName";
-                document.getElementById("StickyTaskName").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyResponsible";
-                document.getElementById("StickyResponsible").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyDescription";
-                document.getElementById("StickyDescription").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyPoints";
-                document.getElementById("StickyPoints").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyDays";
-                document.getElementById("StickyDays").value = $(tmpID).html();
-
-                var color = $("#"+id).css('background-image');
-                if (color.indexOf("green") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyGreen").addClass("colorActive");
-                }else if (color.indexOf("purple") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyPurple").addClass("colorActive");
-                }else if (color.indexOf("yellow") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyYellow").addClass("colorActive");
-                }else if (color.indexOf("red") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyRed").addClass("colorActive");
-                }else if (color.indexOf("blue") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyBlue").addClass("colorActive");
-                } 
-            }
-
-            function updateLightBox(id)
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyGreen").addClass("colorActive");
+            }else if (color.indexOf("purple") >= 0)
             {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyPurple").addClass("colorActive");
+            }else if (color.indexOf("yellow") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyYellow").addClass("colorActive");
+            }else if (color.indexOf("red") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyRed").addClass("colorActive");
+            }else if (color.indexOf("blue") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyBlue").addClass("colorActive");
+            } 
+        }
+        //--------------------------------------------------------------------------------------
 
-                //document.getElementById("stickyHiddenID").value = id;
-                //document.getElementById('light').style.display='block';
-                //document.getElementById('fade').style.display='block';
-                var tmpID = "#"+id+"StickyTaskName";
-                document.getElementById("StickyTaskName").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyResponsible";
-                document.getElementById("StickyResponsible").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyDescription";
-                document.getElementById("StickyDescription").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyPoints";
-                document.getElementById("StickyPoints").value = $(tmpID).html();
-                tmpID = "#"+id+"StickyDays";
-                document.getElementById("StickyDays").value = $(tmpID).html();
+        function updateLightBox(id)
+        {
 
-                var color = $("#"+id).css('background-image');
-                if (color.indexOf("green") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyGreen").addClass("colorActive");
-                }else if (color.indexOf("purple") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyPurple").addClass("colorActive");
-                }else if (color.indexOf("yellow") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyYellow").addClass("colorActive");
-                }else if (color.indexOf("red") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyRed").addClass("colorActive");
-                }else if (color.indexOf("blue") >= 0)
-                {
-                    $(".colorActive").removeClass("colorActive");
-                    $("#light").find(".StickyBlue").addClass("colorActive");
-                } 
-            }
+            var tmpID = "#"+id+"StickyTaskName";
+            document.getElementById("StickyTaskName").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyResponsible";
+            document.getElementById("StickyResponsible").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyDescription";
+            document.getElementById("StickyDescription").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyPoints";
+            document.getElementById("StickyPoints").value = $(tmpID).html();
+            tmpID = "#"+id+"StickyDays";
+            document.getElementById("StickyDays").value = $(tmpID).html();
+
+            var color = $("#"+id).css('background-image');
+            if (color.indexOf("green") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyGreen").addClass("colorActive");
+            }else if (color.indexOf("purple") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyPurple").addClass("colorActive");
+            }else if (color.indexOf("yellow") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyYellow").addClass("colorActive");
+            }else if (color.indexOf("red") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyRed").addClass("colorActive");
+            }else if (color.indexOf("blue") >= 0)
+            {
+                $(".colorActive").removeClass("colorActive");
+                $("#light").find(".StickyBlue").addClass("colorActive");
+            } 
+        }
+            
+            //--------------------------------------------------------------------------------------
 
         function addRow(i)
         {
@@ -444,6 +437,8 @@ function joinScrum()
             });
             ws.send("addRow,"+"1");
         });
+        
+        //--------------------------------------------------------------------------------------
 
 
         $("#StickyYellowSelect").click(function()
@@ -456,6 +451,8 @@ function joinScrum()
             $(jqueryID).css('background-image',"url('resources/images/yellowstickynote.png')");
 
         });
+        
+        //--------------------------------------------------------------------------------------
 
         $("#StickyPurpleSelect").click(function()
         {
@@ -466,6 +463,8 @@ function joinScrum()
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/purplestickynote.png')");
         });
+        
+        //--------------------------------------------------------------------------------------
 
         $("#StickyGreenSelect").click(function()
         {
@@ -476,6 +475,8 @@ function joinScrum()
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/greenstickynote.png')");
         });
+        
+        //--------------------------------------------------------------------------------------
 
         $("#StickyRedSelect").click(function()
         {
@@ -486,6 +487,8 @@ function joinScrum()
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/redstickynote.png')");
         });
+        
+        //--------------------------------------------------------------------------------------
 
         $("#StickyBlueSelect").click(function()
         {
@@ -496,11 +499,11 @@ function joinScrum()
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/bluestickynote.png')");
         });
+        
+        //--------------------------------------------------------------------------------------
 
         $("#stickyFinished").click(function()
         {
-
-
             var id = $("#stickyHiddenID").val();
                 dbUpdate(id);
                 document.getElementById('light').style.display='none';
@@ -509,28 +512,35 @@ function joinScrum()
                 $("#StickyComments").val("");
                 $('#StickyComments').unbind('input propertychange');
         });
+        
+        //--------------------------------------------------------------------------------------
 
         $("#addDay").click(function()
         {
             ws.send('addDay,1');
         });
+        
+        //--------------------------------------------------------------------------------------
 
         $("#finishSprint").click(function()
         {
             alert('sprint done!');
         });
-
+        
+        //--------------------------------------------------------------------------------------
 
         function dbUpdate(id)
         {
         $("[id='form:command']").click();  
         }
+        //--------------------------------------------------------------------------------------
 
         function closeOptions(id)
         {
             document.getElementById('light').style.display='none';
             document.getElementById('fade').style.display='none';
         }
+        //--------------------------------------------------------------------------------------
 
         $("#lightboxAddSubTask").click(function()
         {
@@ -543,6 +553,7 @@ function joinScrum()
             $("#"+id+"Hidden").html($("#subTasks").html());
             ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
         });
+        //--------------------------------------------------------------------------------------
 
         function addDelete()
         {
@@ -590,24 +601,30 @@ function joinScrum()
                 ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
             });
         }
+        
+        //--------------------------------------------------------------------------------------
 
-            function dbUpdate(id)
-            { 
+        function dbUpdate(id)
+        { 
 
-                $("[id='form:updateID']").val(id);
-                $("[id='form:updateForm']").click();
-                //alert($("[id='form:updateID']").val());
+            $("[id='form:updateID']").val(id);
+            $("[id='form:updateForm']").click();
+            //alert($("[id='form:updateID']").val());
 
-            }
+        }
+        
+        //--------------------------------------------------------------------------------------
 
-            function dbDelete(id)
-            { 
+        function dbDelete(id)
+        { 
 
-                $("[id='form3:deleteID']").val(id);
-                $("[id='form3:deleteForm']").click();
+            $("[id='form3:deleteID']").val(id);
+            $("[id='form3:deleteForm']").click();
 
-            }
+        }
+        
+        //--------------------------------------------------------------------------------------
 
-    //});
+    
 }
             
