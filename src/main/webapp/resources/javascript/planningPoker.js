@@ -5,22 +5,55 @@ function joinRoom()
 {
 $(document).ready(function()
 {
-    if(person == "")
-        person=prompt("Please enter your name","name");
-
-        wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
-        wsPoker.send('join,join');
-      
-     
-     $('body').on('click', '#nextTask', function() {
-        
-            wsPoker.send("next,next");
-            $(".side-2").attr("class",'flip side-2');
-            $(".side-1").attr("class",'flip side-1');
-            wsPoker.send("flip,flipBack");
+    //Populates drop-down list dynamically based on the cards on screen
+    $(".planningPokerCard").each(function()
+    {
+        $("#selectFinalPlanningPoker").append("<option>"+$(this).children(":first").html()+"</option>");
     });
     
-    //--------------------------------------------------------------------------------------
+    
+    if(person == "")
+    person=prompt("Please enter your name","name");
+
+    wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
+    wsPoker.send('join,join');
+      
+
+    $('body').on('click', '#nextTask', function() {
+        
+            wsPoker.send("next,next");
+    });
+    
+    //Scores have been resolved, add points to task and move on
+    $('body').on('click', '#sumbitPlanningAmount', function() 
+    {
+        var currentTask = $("#planningPokerCardSelector").val();
+        var r=confirm("Add '"+currentTask+"' to Sprint?")
+        if (r==false)
+            return;
+        var finalPoints = $("#selectFinalPlanningPoker").val();
+        if ($("#previouslyPlannedTaskList").find("#planningFindThis").length > 0)   //If no tasks yet
+            $("#previouslyPlannedTaskList").html("");   //Erase the 'No tasks' message
+            $("#previouslyPlannedTaskList").append('<div class="plannedAlreadyInner">'+
+                                                        '<table style="width:100%">'+
+                                                            '<tr style="width:100%">'+
+                                                                '<td style="width:85%">'+currentTask+'</td>'+
+                                                                '<td style="border-left:1px solid #ccc; text-align: center; width:15%"><b>'+finalPoints+'pts</b></td>'+
+                                                            '</tr>'+
+                                                        '</table>'+
+                                                ' </div>');
+            
+            $("#planningPokerCardSelector").children().each(function()
+            {
+                if ($(this).val() == currentTask)
+                {    
+                    //TODO: add actual values to DB & reset cards
+                    $("#selectFinalPlanningPoker").val("0");
+                    $(this).remove();
+                    return;
+                }   
+            });
+        });
 
      
     function showMessage(text) 
@@ -51,6 +84,7 @@ $(document).ready(function()
             }
         }else if(chars[0] == "taskInfo")
         {
+            //$("#taskInfo").html(chars[1]+"</br>"+chars[2]);
             $("#taskToPlan").html(chars[1]);
             $("#taskToPlanDescription").html(chars[2]);
         }
@@ -74,8 +108,6 @@ $(document).ready(function()
         
     }
     
-    //--------------------------------------------------------------------------------------
-    
     $(".planningPokerCard").hover(function()
     {
             addTitles(this);
@@ -84,8 +116,6 @@ $(document).ready(function()
     $(document.body).on("hover", ".myChosenCard", function(){
             addTitles($(".myChosenCard"));
     });
-    
-    //--------------------------------------------------------------------------------------
 
     function addTitles(elmnt)
     {
@@ -96,8 +126,6 @@ $(document).ready(function()
             else
                     $(elmnt).attr("title",$(elmnt).children(":first").html()+" Points");
     }
-    
-    //--------------------------------------------------------------------------------------
 
 
     $(document.body).on("click", ".planningPokerCard",function()
@@ -115,8 +143,6 @@ $(document).ready(function()
             $(this).removeClass("planningPokerCard").addClass("myChosenCard");
             $(this).children(":first").removeClass("planningPokerCardInner").addClass("myChosenCardInner");	
     });
-    
-    //--------------------------------------------------------------------------------------
 
 
     $(document.body).on("click", "#flipCards",function()
@@ -126,8 +152,6 @@ $(document).ready(function()
             calculateAllScores();
             wsPoker.send("flip,flip");
     });
-    
-    //--------------------------------------------------------------------------------------
 
     $(document.body).on("click", "#flipBack",function()
     {
@@ -135,15 +159,13 @@ $(document).ready(function()
             $(".side-1").attr("class",'flip side-1');
             wsPoker.send("flip,flipBack");
     });
-    
-    //--------------------------------------------------------------------------------------
 
     function addCard(number,name)
-    {    
-        $("#cardTableR1").append("<td id ='tdCard"+name+"'><div class = 'otherCards' style ='text-align: center'><div class='side-1 flip flip-side1'><div class = 'unrevealedCard'><div class = 'unrevealedCardInner'>X</div></div></div><div class='side-2 flip flip-side2'><div class = 'planningPokerCard' id='chosenCard"+name+"'><div class = 'planningPokerInner'>"+number+"</div></div></div><span style ='position:relative; top:-150px; text-align: center; margin-bottom: -150px;' class = 'cardUser'>"+name+"</span></div></td>");
+    {
+            //alert(number+" "+name); //Gets called too many times
+            //$("#tdCard"+name).remove();
+            $("#cardTableR1").append("<td id ='tdCard"+name+"'><div class = 'otherCards' style ='text-align: center'><div class='side-1 flip flip-side1'><div class = 'unrevealedCard'><div class = 'unrevealedCardInner'>X</div></div></div><div class='side-2 flip flip-side2'><div class = 'planningPokerCard' id='chosenCard"+name+"'><div class = 'planningPokerInner'>"+number+"</div></div></div><span style ='position:relative; top:-150px; text-align: center; margin-bottom: -150px;' class = 'cardUser'>"+name+"</span></div></td>");
     }
-    
-    //--------------------------------------------------------------------------------------
 
 
     function calculateAllScores()
@@ -160,8 +182,6 @@ $(document).ready(function()
             });
             $("#outputAAverages").html(Math.round((compute/counter)*100)/100);
     }
-    
-    //--------------------------------------------------------------------------------------
     
 });
 }

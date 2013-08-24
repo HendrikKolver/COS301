@@ -17,20 +17,18 @@
         <script type = "text/javascript" src="resources/javascript/video.js"></script>
         <script src="https://webrtc-experiment.appspot.com/firebase.js"> </script>
         <script src="resources/javascript/meeting.js"> </script>
-        <script type = "text/javascript" src="resources/javascript/chat.js"></script>
         <script>
             var hash = window.location.hash.replace('#', '');
             if (!hash.length) location.href = location.href + '#meeting-roomid-' + ((Math.random() * new Date().getTime()).toString(36).toLowerCase().replace( /\./g , '-'));
         </script>
-        
+        <script type = "text/javascript" src="resources/javascript/chat.js"></script>
+
         <title>Distributed Scrum Teamboard</title>
     </h:head>
     <h:body>
         <h:outputText value="#{syncServer.startChat()}" />
-        <h:outputText value="#{syncServer.startPlanningPoker()}" />
-        <h:outputText value="#{syncServer.startServer()}" />
-        
-        
+             <h:outputText value="#{syncServer.startPlanningPoker()}" />
+             <h:outputText value="#{syncServer.startServer()}" />
         <div id = 'container1' >
             <div id = 'header'>
                     <span id = 'logo'><img src = 'resources/images/logo.png' title = 'Distributed Scrum Board' height = '70px'/></span>
@@ -61,6 +59,10 @@
                         </tr>
                 </table>
             </div>
+            
+
+            <title>Distributed Scrum Teamboard</title>
+
 
             <div id="body">
                 <h:panelGroup id="editdivParent" layout="block">
@@ -102,6 +104,31 @@
                                         <button id ="textChatSend">Send</button>
                                     </div>
                                 </div>
+                                <!--<div id ="textChat">
+                                    <table style ="position: relative; left:-50px;">
+                                        <tr>
+                                            <td>
+                                                 <div id ="textChatHeader">Name: <input style="max-width:130px;" type ="text" id ="chatName"/>
+                                                 </div>
+                                            </td>
+                                        </tr>
+                                        <tr style ="height:215px;">
+                                            <td>
+                                                <div id ="textChatSection">
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr style ="height:70px;">
+                                            <td>
+                                                <div id ="textChatInputSection">
+                                                    <textarea id ="clientMsg" style ="resize: none;" rows="2" cols="32"></textarea>
+                                                    <br/>
+                                                    <button id ="textChatSend">Send</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table> 
+                                </div>-->
                             </td>
                         </tr>
                     </table>
@@ -114,7 +141,13 @@
                 
             </div>
             
-            <!-- JSF components used for backing bean communication -->
+            
+            <!--<div id = 'footer1'>
+            </div>
+            <div id = 'footer2'>
+                    <br/>RHM Software Solutions 2013
+            </div>-->
+            
                 <h:form id="form2" style="display:none"> 
                     <h:commandButton id='testButton' action="#{index.updateID()}"> 
                       <f:ajax execute="@form"/>
@@ -148,10 +181,26 @@
                       <f:ajax execute="@form"/>
                   </h:commandButton>
                 </h:form>
-
-            <!-- add the js files that connects to the websocket server-->
+            
+<!--                <h:form id="textChatHolder" style="display:none">
+                   <h:inputText id="htmlValue" value="#{textChat.htmlContent}"/>
+                    <h:commandButton id='htmlChatClick' action="#{textChat.demoFunct()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+            
+                <h:form id="textChatHolderGetter" style="display:none">
+                   <h:inputText id="getHtmlValue" value="#{textChat.getCheatVar()}"/>
+                    <h:commandButton id='getHtmlChatClick' action="#{textChat.demoFunct()}"> 
+                        <f:ajax render="getHtmlValue"></f:ajax>
+                  </h:commandButton>
+                </h:form>-->
+            
+            
+             
              <script type ="text/javascript" src="resources/javascript/planningPoker.js"></script>
              <script type ="text/javascript" src="resources/javascript/scrumPage.js"></script>
+            
 
         </div>
     </h:body>

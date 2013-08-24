@@ -237,7 +237,7 @@ public class WebSockets extends BaseWebSocketHandler {
                         {
                         int length = pieces[2].length();
                         String checkString = pieces[2].substring(length-2,length);
-                       
+                        // System.out.println("Check!!!!!!!!!!!!!!!!!!: "+ checkString);
                             if(pieces[3].equals(tasks.get(x).getID())) 
                             {
                                 if(checkString.equals("me"))

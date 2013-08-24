@@ -4,7 +4,8 @@
         <title>WebRTC</title> 
     </head>
     <body>
-
+        
+        
         <div id ="appendHere" style=" text-align: center; width:500px; height: 480px; margin: 0 auto;">
         </div>
 
@@ -74,19 +75,34 @@
 
         // check pre-created meeting rooms
             meeting.check();
-       
+//           alert("tester");
+//            var tmp = (location.href).indexOf("#meeting");
+//                    var tester = (location.href).substring(parseInt(tmp));
+//                    alert("tester");
+                    
             if($("[id='videoStart:videoID']").val() == 'false')
                 {
-                    
+                    //alert("hi");
                     meeting.setup('meeting room name');
                     $("[id='videoStart:videoID']").val('true');
                     $("[id='videoStart:videoClick']").click();
                     var tmp = (location.href).indexOf("#meeting");
                     var tester = (location.href).substring(parseInt(tmp));
+                    alert(tester);
                     $("[id='videoForm:addressID']").val(tester);
                     $("[id='videoForm:addressClick']").click();
                 }
+                
+           // 
 
+//            document.getElementById('setup-new-meeting').onclick = function() {
+//                // setup new meeting room
+//                meeting.setup('meeting room name');
+//                this.disabled = true;
+//
+//                //this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
+//    
+//            };
         </script>
         
     </body>
