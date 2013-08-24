@@ -649,6 +649,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e1e1', end
     font-size: 9pt;
 }
 
+#cardHolder{
+    
+}
+
+
 
 .cardContainer{
         width:80px;
@@ -881,7 +886,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e1e1', end
 }
 
 #planningPokerContent{
-    width:900px;
+    width:1000px;
     margin:0 auto;
     padding-top: 30px;
     
@@ -895,3 +900,74 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e1e1e1', end
 #planningPokerHeaderTable td{
     padding:5px;
 }
+
+.vr{
+    background: -moz-radial-gradient(center, ellipse cover, rgba(0,0,0,0.65) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+background: -webkit-radial-gradient(center, ellipse cover, rgba(0,0,0,0.65) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-radial-gradient(center, ellipse cover, rgba(0,0,0,0.65) 0%,rgba(255,255,255,0) 100%); /* Opera 12+ */
+background: -ms-radial-gradient(center, ellipse cover, rgba(0,0,0,0.65) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
+background: radial-gradient(ellipse at center, rgba(0,0,0,0.65) 0%,rgba(255,255,255,0) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+#taskToPlanDescription{
+    margin: 0 auto;   
+    width: 340px;
+    margin-top: 5px;
+}
+
+
+
+.styled-select select {
+   background: transparent;
+   width: 368px;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+   }
+   
+   .styled-select {
+    margin: 0 auto;   
+    width: 340px;
+    height: 34px;
+    overflow: hidden;
+    background: url(../images/new_arrow.jpg) no-repeat right #ddd;
+    border: 1px solid #ccc;
+   }
+   
+   .styled-select2 select {
+   background: transparent;
+   width: 108px;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+   }
+   
+   .styled-select2 {
+    margin: 0 auto;   
+    width: 80px;
+    height: 34px;
+    overflow: hidden;
+    background: url(../images/new_arrow.jpg) no-repeat right #ddd;
+    border: 1px solid #ccc;
+   }
+   
+   .plannedAlreadyInner{
+       width:99%;
+       height:34px;
+       border:1px solid #ccc;
+       background-color:#ddd;
+   }
+   
+   .planningPokerBtn{
+       width:80px;
+   }

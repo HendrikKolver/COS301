@@ -1,6 +1,5 @@
 $(document).ready(function()
 {
-    //$("#chatName").val(person);
         var wsChat = new WebSocket('ws://' +window.location.hostname+':1237'+ '/chatSocket');
         
         wsChat.onmessage = function(msg) {showMessage(msg.data);};//recieves a message

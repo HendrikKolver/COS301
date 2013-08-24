@@ -5,20 +5,55 @@ function joinRoom()
 {
 $(document).ready(function()
 {
+    //Populates drop-down list dynamically based on the cards on screen
+    $(".planningPokerCard").each(function()
+    {
+        $("#selectFinalPlanningPoker").append("<option>"+$(this).children(":first").html()+"</option>");
+    });
+    
+    
     if(person == "")
-        person=prompt("Please enter your name","name");
+    person=prompt("Please enter your name","name");
 
-        wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
-        wsPoker.send('join,join');
+    wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
+    wsPoker.send('join,join');
       
-     //wsPoker.send('remove,'+document.getElementById("stickyHiddenID").value);
-     $('body').on('click', '#nextTask', function() {
+
+    $('body').on('click', '#nextTask', function() {
         
             wsPoker.send("next,next");
-            $(".side-2").attr("class",'flip side-2');
-            $(".side-1").attr("class",'flip side-1');
-            wsPoker.send("flip,flipBack");
     });
+    
+    //Scores have been resolved, add points to task and move on
+    $('body').on('click', '#sumbitPlanningAmount', function() 
+    {
+        var currentTask = $("#planningPokerCardSelector").val();
+        var r=confirm("Add '"+currentTask+"' to Sprint?")
+        if (r==false)
+            return;
+        var finalPoints = $("#selectFinalPlanningPoker").val();
+        if ($("#previouslyPlannedTaskList").find("#planningFindThis").length > 0)   //If no tasks yet
+            $("#previouslyPlannedTaskList").html("");   //Erase the 'No tasks' message
+            $("#previouslyPlannedTaskList").append('<div class="plannedAlreadyInner">'+
+                                                        '<table style="width:100%">'+
+                                                            '<tr style="width:100%">'+
+                                                                '<td style="width:85%">'+currentTask+'</td>'+
+                                                                '<td style="border-left:1px solid #ccc; text-align: center; width:15%"><b>'+finalPoints+'pts</b></td>'+
+                                                            '</tr>'+
+                                                        '</table>'+
+                                                ' </div>');
+            
+            $("#planningPokerCardSelector").children().each(function()
+            {
+                if ($(this).val() == currentTask)
+                {    
+                    //TODO: add actual values to DB & reset cards
+                    $("#selectFinalPlanningPoker").val("0");
+                    $(this).remove();
+                    return;
+                }   
+            });
+        });
 
      
     function showMessage(text) 
