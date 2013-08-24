@@ -4,14 +4,11 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
-
-    <body>
-   <ui:composition template="./LayoutTemplate.xhtml">
-
-            <ui:define name="content">
+    
+    <body> 
+    <script type = "text/javascript" src="resources/javascript/another.js"></script>
                 <div id="content">
                     <input type="hidden" id="stickyHiddenID" value=""></input>
-                    
                     <div id = 'toggleStuff'>
 					<div id = 'toggleTable' style="width:44px">
 						<table>
@@ -36,7 +33,7 @@
 					
 				
 					<div id = 'toggleContainer'>
-						<div id = 'toggle1' style="">
+						<div id = 'toggle1' >
 							<table style = 'padding:0'>
 								<tr style = 'width:100%'>
 									<td style='width:660px; height:600px; border: 1px solid black;  border-left: 0; background-color:lightgray;'>                                      
@@ -57,8 +54,6 @@
 							<table style = 'padding:0'>
 								<tr style = 'width:100%'>
 									<td style='width:660px; height:600px; border: 1px solid black;  border-left: 0; background-color:lightgray;'>
-										<!--<img src = 'resources/images/burndown.jpg' style = 'width:350px; position:relative; top:-100px; left:80px;'/>-->
-                                                                                <!--<div id="myfirstchart" style="margin-left:70px; background-color: white; width:500px; height: 250px;"></div>-->
                                                                                 <div id="container" style="width: 500px; height: 350px; border:solid; margin: 0 auto"></div>    
 									</td>
 									
@@ -82,10 +77,9 @@
 							</table>	
 						</div>
 					</div>
-					
 				</div>
                     
-                    <div id = 'toggleTable2' style='width:90px;'>
+                              <div id = 'toggleTable2' style='width:90px;'>
 						<table>
 							<tr>
 								<td style = 'height:130px; width:40px; cursor:pointer;'>
@@ -105,7 +99,8 @@
 						</table>
 					</div>
 
-                    <div id="DragContainer" style ="position:relative; top:-800px; min-height: 0px">
+                    <div id ="extraContainer" style ="position: absolute; top:160px;">
+                    <div id="DragContainer" style ="position:relative; left:40px; min-height: 0px;">
                         <table class = "snaptarget" cellspacing="15">
                             <tr>
                                 <th colspan ="2"> Not Started</th>
@@ -163,130 +158,128 @@
                                     <td class="snapHere"></td>
                                     <td class="snapHere"></td>
                             </tr>
-                           
-
                         </table>
-                    
-<!--                        <div class ="draggable" id="101">
-                            
-                            <table style ="width:100%; height: 100%;">
-                                <tr >
-                                    <td id="101StickyTaskName" colspan ='3' style ="font-weight:bold; font-size:14pt;">
-                                        Heading
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td id="101StickyResponsible" colspan ='3' style ="font-size:10pt">
-                                        Matthew Mills
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan ='3'>
-                                        <div id="101StickyDescription" class ="stickyContent" style ="border:solid; width:100%; height:110px;">
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td id="101StickyPoints" style ="font-size:14pt; padding-left:10px;">
-                                        <b>2</b>
-                                    </td>
-                                    <td>
-                                        <button id="101Options">Options</button>
-                                    </td>
-                                    <td id="101StickyDays" style ="font-size:14pt; padding-right:10px;">
-                                        <b>7</b>
-                                    </td>
-                                </tr>
-                            </table>
-                                
-                        </div>-->
-                        
-			
                     </div>
-                    
+                    </div>
                 </div>
-                
-                <div id="light" class="white_content">
+               <div id="light" class="white_content">
                     <span id ="closeLightBox">
                         <b>X</b>
                     </span>
-                    <table cellpadding ="8">
-                        <tr>
-                            <th colspan="2"><h2>Sticky Note Editor</h2></th>
-                        </tr>
-                        
-                        <tr>
-                            <td>Task Name:</td>
-                            <td><input type='text' id="StickyTaskName" maxlength="15"></input></td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Person Responsible:</td>
-                            <td><input type='text' id="StickyResponsible"></input></td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Description:</td>
-                            <td>
-                                <textarea rows ='6' cols ='22' id="StickyDescription">
-                                </textarea>
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Points:</td>
-                            <td><input type='number' id="StickyPoints"></input></td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Days Left:</td>
-                            <td><input type='number' min='0' max='31' id="StickyDays"></input></td>
-                        </tr>
-                        
-                        <tr>
-                            <td>Color:</td>
-                            <td name ="color"> 
-                                <div class ="StickyYellow" id ="StickyYellowSelect" title ="Yellow" style="width:30px; cursor: pointer; height:30px; background-color:rgb(248,220,78); float:left; margin-right:10px;"></div>
-                                <div class ="StickyPurple" id ="StickyPurpleSelect" title ="Purple" style="width:30px; height:30px; cursor: pointer; background-color:rgb(220,144,191); float:left; margin-right:10px;"></div>
-                                <div class ="StickyGreen" id ="StickyGreenSelect" title ="Green" style="width:30px; height:30px; cursor: pointer; background-color:rgb(54,236,11); float:left; margin-right:10px;"></div>
-                                <div class ="StickyRed" id ="StickyRedSelect" title ="Red" style="width:30px; height:30px; cursor: pointer; background-color:#ee5e3e; float:left; margin-right:10px;"></div>
-                                <div class ="StickyBlue" id ="StickyBlueSelect" title ="Blue" style="width:30px; height:30px; cursor: pointer; background-color:#53aae5; float:left; margin-right:10px;"></div>
-                            </td>
-                        </tr>
-                        
-                        <tr>
-                            <td style="width:30%;">
-                            </td>
-                            
-                            <td>
-                                <table>
-                                    <tr>
-                                        <br/>
-                                        <td style ="width:50%"><button id ='stickyFinished'>Finished</button></td>
-                                        <td style ="width:50%"><button id="stickyDelete">Delete</button></td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
+                    <h1>Sticky Note Editor</h1>
+                    <div id ="editorTbl1" style ="float:left;">
+                        <table cellpadding ="8">
+                            <tr>
+                                <td>Task Name:</td>
+                                <td><input class="synchingInputs" type='text' id="StickyTaskName" maxlength="15"></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Person Responsible:</td>
+                                <td><input class="synchingInputs" type='text' id="StickyResponsible"></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Description:</td>
+                                <td>
+                                    <textarea rows ='6' cols ='22' id="StickyDescription">
+                                    </textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Points:</td>
+                                <td><input class="synchingInputs" type='number' id="StickyPoints"></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Days Left:</td>
+                                <td><input class="synchingInputs" type='number' min='0' max='31' id="StickyDays"></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Color:</td>
+                                <td name ="color"> 
+                                    <div class ="StickyYellow" id ="StickyYellowSelect" title ="Yellow" style="width:30px; cursor: pointer; height:30px; background-color:rgb(248,220,78); float:left; margin-right:10px;"></div>
+                                    <div class ="StickyPurple" id ="StickyPurpleSelect" title ="Purple" style="width:30px; height:30px; cursor: pointer; background-color:rgb(220,144,191); float:left; margin-right:10px;"></div>
+                                    <div class ="StickyGreen" id ="StickyGreenSelect" title ="Green" style="width:30px; height:30px; cursor: pointer; background-color:rgb(54,236,11); float:left; margin-right:10px;"></div>
+                                    <div class ="StickyRed" id ="StickyRedSelect" title ="Red" style="width:30px; height:30px; cursor: pointer; background-color:#ee5e3e; float:left; margin-right:10px;"></div>
+                                    <div class ="StickyBlue" id ="StickyBlueSelect" title ="Blue" style="width:30px; height:30px; cursor: pointer; background-color:#53aae5; float:left; margin-right:10px;"></div>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:30%;">
+                                </td>
+
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <br/>
+                                            <td style ="width:50%"><button id ='stickyFinished'>Finished</button></td>
+                                            <td style ="width:50%"><button id="stickyDelete">Delete</button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                     
+                    <div id ="editorTbl2" style ="">
+                        <table cellpadding ="8">
+                            <tr>
+                                <td><b>Sub-tasks</b></td>
+                                <td></td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <input id ="lightboxNewSubTask" type="text" />
+                                </td>
+                                <td>
+                                    <button id ='lightboxAddSubTask'>Add</button>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="2">
+                                    <table id ="subTasks" style="width:100%; ">
+                                        <tr>
+                                            <td style="width:60%;" >Do some more stuff</td>
+                                            <td><input type ="checkbox"/></td>
+                                            <td><button class="deleteSubTask">Delete</button></td>
+                                        </tr>
+                                    </table>
+                               </td>
+                            </tr>
+                            <tr>
+                                <td><b>Comments</b></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <textarea id ="StickyComments" rows ='6' cols ='22'>
+                                        Default Text...
+                                    </textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
-                
+               
                 <div id="fade" class="black_overlay">
                 </div>
                 
-                <h:outputText value="#{syncServer.startServer()}" />
-                <script type ="text/javascript" src ="resources/javascript/scrumPage.js"></script>
                 
-	<h:form id="form" style="display:none">
-                    <h:commandLink id="command" action="#{index.createTask()}">
-                        <f:ajax execute="@form" />
-                    </h:commandLink>
-                </h:form>
-		
-	    </ui:define>
-
-        </ui:composition>
- 
+                <h:outputText value="#{index.getAllTasks()}" />
+    
+                
+                
+                
+                <script>
+                    joinScrum();
+                </script>
+                
+                <script type ="text/javascript" src="resources/javascript/script.js"></script>
+                            
     </body>
 </html>

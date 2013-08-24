@@ -16,4 +16,15 @@ public class syncServer {
     public void startServer() {
             WebSockets.main();
     }
+    
+    public void startPlanningPoker()
+    {
+       PlanningPoker.main(); 
+    }
+    
+    public void startChat()
+    {
+       ChatSocket.main(); 
+    }
+    
 }

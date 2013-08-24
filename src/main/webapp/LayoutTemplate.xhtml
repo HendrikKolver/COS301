@@ -18,6 +18,8 @@
         
         <script type = "text/javascript" src="resources/javascript/highcharts.js"></script>
 	<script type = "text/javascript" src="resources/javascript/exporting.js"></script>
+        
+        <link rel="stylesheet" href="resources/css/accordion.css"/>
     
         <title>Distributed Scrum Teamboard</title>
     </h:head>
@@ -33,9 +35,9 @@
 				<table id = 'nav'>
 					<tr>
                                             <h:form>
-						<td><h:commandButton class="navLink" value="Scrum Board" action="scrum" /></td>
                                                 <td><h:commandButton class="navLink" value="Index" action="index" /></td>
-						<td><div class = 'navLink'>Link 2</div></td>
+						<td><h:commandButton class="navLink" value="Scrum Board" action="scrum" /></td>
+						<td><h:commandButton class="navLink" value="Project Backlog" action="projectBacklog"/></td>
 						<td><div class = 'navLink'>Link 3</div></td>
 						<td><div class = 'navLink'>Link 4</div></td>
 						

@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 COS301
 ======
 
-=======
->>>>>>> origin/develop
 COS 301 Main Project
 
 -Use the develop branch for new features
@@ -12,8 +9,3 @@ COS 301 Main Project
 
 -Once the integration branch is tested and all features are working perfectly merge with master branch
 
-<<<<<<< HEAD
-NB!: The master branch must always be working and deployable 
-=======
-NB!: The master branch must always be working and deployable
->>>>>>> origin/develop
