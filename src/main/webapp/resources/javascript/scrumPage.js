@@ -1,18 +1,7 @@
-
 var ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket');
 
 function joinScrum()
 {
- //   alert("before doc . ready");
-//    if(ws ==null)
-//    {
-//       // alert("called it");
-//       ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket'); 
-//    }
-    //$(document).ready(function()
-    //{ 
-     //   alert("before ws is used");
-        //websocket connection
         ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
         ws.send("join,join");
         
@@ -607,7 +596,9 @@ function joinScrum()
                 $("[id='form3:deleteForm']").click();
 
             }
+            
+            //join scrum page
+            
 
-    //});
 }
             

@@ -11,6 +11,12 @@ $(document).ready(function()
         $("#selectFinalPlanningPoker").append("<option>"+$(this).children(":first").html()+"</option>");
     });
     
+    $("#planningPokerCardSelector").change(function () {
+        var txt = $(this).val();
+        //alert(txt);
+        wsPoker.send("changeTask,"+txt);
+    }).trigger('change');
+    
     
     if(person == "")
     person=prompt("Please enter your name","name");
@@ -42,7 +48,7 @@ $(document).ready(function()
                                                             '</tr>'+
                                                         '</table>'+
                                                 ' </div>');
-            
+            wsPoker.send("finishTask,"+currentTask+","+finalPoints);
             $("#planningPokerCardSelector").children().each(function()
             {
                 if ($(this).val() == currentTask)
@@ -104,7 +110,23 @@ $(document).ready(function()
                 $(".side-2").attr("class",'flip side-2');
                 $(".side-1").attr("class",'flip side-1');
             }
+        }else 
+        if(chars[0] == "unplannedTask")
+        {
+            $("#planningPokerCardSelector").append("<option id='taskOption"+chars[2]+"'>"+chars[1]+"</option>");
         }
+        else if(chars[0] == "changeTask")
+        {
+            //alert("here");
+            $("#planningPokerCardSelector").val(chars[1]);
+        }
+        else if(chars[0] == "description")
+        {
+            //insert code here$
+            alert("here");
+            $("#taskToPlanDescription").html("<b><i>Description:</i></b>"+chars[1]);
+        }
+       
         
     }
     
