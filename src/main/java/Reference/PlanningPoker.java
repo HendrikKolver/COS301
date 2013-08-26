@@ -44,7 +44,9 @@ public class PlanningPoker  extends BaseWebSocketHandler {
             System.out.println("ClientConnected to planning poker!");
             clients.add(connection);
             connectionCount++;
-            //connection.send("hello");   
+            //connection.send("hello");  
+            
+            
 
         System.out.println("clientCOunt: "+ connectionCount);
         
@@ -110,8 +112,52 @@ public class PlanningPoker  extends BaseWebSocketHandler {
             for (int i = 0; i < choices.size(); i++) {
                 connection.send(choices.get(i));   
             }
+            
+            for(int i=0; i<tasks.size();i++)
+            {
+                //This will eventually only be the project backlog that will be looped excluding tasks already in the sprintBacklog/Completed
+                if(!tasks.get(i).getSprintBacklog())
+                    connection.send("unplannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID());
+            }
                     
         }
+        else if(pieces[0].equals("changeTask"))
+        {
+            for(int x=0; x<clients.size();x++)
+            {
+                if(!clients.get(x).equals(connection))
+                {
+                    clients.get(x).send(message);
+                }
+            }
+            for(int x=0; x<clients.size();x++)
+            {
+                for(int i=0; i<tasks.size();i++)
+                {
+                    if(pieces[1].equals(tasks.get(i).getName()))
+                        clients.get(x).send("description,"+tasks.get(i).getDescription());
+                }
+            }
+        }
+        else if(pieces[0].equals("finishTask"))
+        {
+            for (int i = 0; i < tasks.size(); i++) {
+                if(tasks.get(i).getName().equals(pieces[1]))
+                {
+                    tasks.get(i).setPoints(pieces[2]);
+                    tasks.get(i).setSprintBacklog(true);
+                }
+            }
+            
+           for(int x=0; x<clients.size();x++)
+            {
+                if(!clients.get(x).equals(connection))
+                {
+                    clients.get(x).send(message);
+                }
+            }
+        }
+        
         
         
         

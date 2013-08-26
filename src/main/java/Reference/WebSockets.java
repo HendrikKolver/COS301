@@ -40,32 +40,8 @@ public class WebSockets extends BaseWebSocketHandler {
         for(int x=0; x<clients.size();x++)
         {
             int i = tasks.size()-1;
-            String message = "position,"+tasks.get(i).getTopPos()+","+tasks.get(i).getLeftPos()+","+tasks.get(i).getID();
-            clients.get(x).send(message);
-            
-            String ID = tasks.get(i).getID();
-            message = "text,"+tasks.get(i).getName()+","+ID+"StickyTaskName";
-            clients.get(x).send(message);
-            message = "text,"+tasks.get(i).getResponsible()+","+ID+"StickyResponsible";
-            clients.get(x).send(message);
-            message = "text,"+tasks.get(i).getDescription()+","+ID+"StickyDescription";
-            clients.get(x).send(message);
-            message = "text,"+tasks.get(i).getPoints()+","+ID+"StickyPoints";
-            clients.get(x).send(message);
-            message = "text,"+tasks.get(i).getDays()+","+ID+"StickyDays";
-            clients.get(x).send(message);
-            message = "colour,"+tasks.get(i).getColour()+",a"+","+tasks.get(i).getID();
-            clients.get(x).send(message);
-        }
-    }
-    
-    public void sendAllTasks()
-    {
-        for(int x=0; x<clients.size();x++)
-        {
-            for(int i=0; i<tasks.size();i++)
+            if(tasks.get(i).getSprintBacklog())
             {
-                
                 String message = "position,"+tasks.get(i).getTopPos()+","+tasks.get(i).getLeftPos()+","+tasks.get(i).getID();
                 clients.get(x).send(message);
 
@@ -82,6 +58,35 @@ public class WebSockets extends BaseWebSocketHandler {
                 clients.get(x).send(message);
                 message = "colour,"+tasks.get(i).getColour()+",a"+","+tasks.get(i).getID();
                 clients.get(x).send(message);
+            }
+        }
+    }
+    
+    public void sendAllTasks()
+    {
+        for(int x=0; x<clients.size();x++)
+        {
+            for(int i=0; i<tasks.size();i++)
+            {
+                if(tasks.get(i).getSprintBacklog())
+                {   
+                    String message = "position,"+tasks.get(i).getTopPos()+","+tasks.get(i).getLeftPos()+","+tasks.get(i).getID();
+                    clients.get(x).send(message);
+
+                    String ID = tasks.get(i).getID();
+                    message = "text,"+tasks.get(i).getName()+","+ID+"StickyTaskName";
+                    clients.get(x).send(message);
+                    message = "text,"+tasks.get(i).getResponsible()+","+ID+"StickyResponsible";
+                    clients.get(x).send(message);
+                    message = "text,"+tasks.get(i).getDescription()+","+ID+"StickyDescription";
+                    clients.get(x).send(message);
+                    message = "text,"+tasks.get(i).getPoints()+","+ID+"StickyPoints";
+                    clients.get(x).send(message);
+                    message = "text,"+tasks.get(i).getDays()+","+ID+"StickyDays";
+                    clients.get(x).send(message);
+                    message = "colour,"+tasks.get(i).getColour()+",a"+","+tasks.get(i).getID();
+                    clients.get(x).send(message);
+                }
             }
         }
     }
@@ -110,28 +115,31 @@ public class WebSockets extends BaseWebSocketHandler {
         if(pieces[0].equals("join"))
         {
            for(int x=0; x<tasks.size();x++)
-        {
-            message = "position,"+tasks.get(x).getTopPos()+","+tasks.get(x).getLeftPos()+","+tasks.get(x).getID();
-            connection.send(message);
-            
-            String ID = tasks.get(x).getID();
-            message = "text,"+tasks.get(x).getName()+","+ID+"StickyTaskName";
-            connection.send(message);
-            message = "text,"+tasks.get(x).getResponsible()+","+ID+"StickyResponsible";
-            connection.send(message);
-            message = "text,"+tasks.get(x).getDescription()+","+ID+"StickyDescription";
-            connection.send(message);
-            message = "text,"+tasks.get(x).getPoints()+","+ID+"StickyPoints";
-            connection.send(message);
-            message = "text,"+tasks.get(x).getDays()+","+ID+"StickyDays";
-            connection.send(message);
-            message = "colour,"+tasks.get(x).getColour()+",a"+","+tasks.get(x).getID();
-            connection.send(message);
-            message = "commentsUpdate,"+tasks.get(x).getComments()+","+tasks.get(x).getID();
-            connection.send(message);
-            message = "tasksUpdate,"+tasks.get(x).getSubTasks()+","+tasks.get(x).getID();
-            connection.send(message);
-        }
+            {
+                if(tasks.get(x).getSprintBacklog())
+                {
+                    message = "position,"+tasks.get(x).getTopPos()+","+tasks.get(x).getLeftPos()+","+tasks.get(x).getID();
+                    connection.send(message);
+
+                    String ID = tasks.get(x).getID();
+                    message = "text,"+tasks.get(x).getName()+","+ID+"StickyTaskName";
+                    connection.send(message);
+                    message = "text,"+tasks.get(x).getResponsible()+","+ID+"StickyResponsible";
+                    connection.send(message);
+                    message = "text,"+tasks.get(x).getDescription()+","+ID+"StickyDescription";
+                    connection.send(message);
+                    message = "text,"+tasks.get(x).getPoints()+","+ID+"StickyPoints";
+                    connection.send(message);
+                    message = "text,"+tasks.get(x).getDays()+","+ID+"StickyDays";
+                    connection.send(message);
+                    message = "colour,"+tasks.get(x).getColour()+",a"+","+tasks.get(x).getID();
+                    connection.send(message);
+                    message = "commentsUpdate,"+tasks.get(x).getComments()+","+tasks.get(x).getID();
+                    connection.send(message);
+                    message = "tasksUpdate,"+tasks.get(x).getSubTasks()+","+tasks.get(x).getID();
+                    connection.send(message);
+                }
+            }
         
             message = "burndown,";
             for(int x=0; x<burndownPoints.size();x++)
@@ -149,7 +157,7 @@ public class WebSockets extends BaseWebSocketHandler {
         else
         {
             
-        
+
             if(pieces[0].equals("commentsUpdate"))
             {
                 message = "commentsUpdate,"+pieces[1]+","+pieces[2];

@@ -15,6 +15,7 @@ public class Tasks {
     private String colour;
     private String comments;
     private String subTasks;
+    private boolean sprintBacklog;
 
     public String getComments() {
         return comments;
@@ -90,6 +91,18 @@ public class Tasks {
         status = "notStarted";
         comments = "";
         subTasks = "";
+        sprintBacklog = false;
+    }
+    
+    public boolean getSprintBacklog()
+    {
+     return sprintBacklog;   
+    
+    }
+    
+    public void setSprintBacklog(boolean s)
+    {
+        sprintBacklog = s;   
     }
 
     public String getLeftPos() {

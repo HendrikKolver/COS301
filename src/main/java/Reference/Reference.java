@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Reference {
     public static WebSockets w;
     public static PlanningPoker p;
-    public static ArrayList<Tasks> tasks;
+    public static ArrayList<Tasks> tasks; 
     public static ChatSocket chatSocket;
     
    public static WebSockets getWebSockets()

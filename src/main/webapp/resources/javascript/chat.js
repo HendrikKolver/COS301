@@ -1,8 +1,11 @@
 $(document).ready(function()
 {
-        var wsChat = new WebSocket('ws://' +window.location.hostname+':1237'+ '/chatSocket');
+    var wsChat;
+    setTimeout(function () {
+            wsChat = new WebSocket('ws://' +window.location.hostname+':1237'+ '/chatSocket');
+            wsChat.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
+        }, 500);
         
-        wsChat.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
       
      //ws.send('remove,'+document.getElementById("stickyHiddenID").value); 
      
