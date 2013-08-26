@@ -179,6 +179,7 @@ public class index
         if(w == null)
         {
             w = new WebSockets();
+            Reference.w = w;
         }
         
         if(w.getTasks().isEmpty())
@@ -189,11 +190,19 @@ public class index
             {
                Tasks tmp = new Tasks(String.valueOf(t[x].getID()),String.valueOf(t[x].getID()));
                tmp.setColour(t[x].getColour());
-               tmp.setDays(t[x].getDays());
+               if(t[x].getDays()==null || !isInteger(t[x].getDays()))
+               {
+                   tmp.setDays("0");
+               }else
+                tmp.setDays(t[x].getDays());
                tmp.setDescription(t[x].getDescription());
                tmp.setName(t[x].getName());
                tmp.setPoints(t[x].getPoints());
-               tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
+               if(t[x].getTopPos()==null ||t[x].getLeftPos()==null || !isInteger(t[x].getTopPos()) || !isInteger(t[x].getLeftPos()))
+               {
+                   tmp.setPos("0","0");
+               }else
+                   tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
                tmp.setResponsible(t[x].getResponsible());
                tmp.setStatus(t[x].getStatus());
                tmp.setComments(t[x].getComments());
@@ -207,5 +216,16 @@ public class index
             w.sendAllTasks();
             System.out.println("----------done Reloading----------");
         }
+    }
+    
+    public boolean isInteger(String s) 
+    {
+        try { 
+            Integer.parseInt(s); 
+        } catch(NumberFormatException e) { 
+            return false; 
+        }
+
+        return true;
     }
 }

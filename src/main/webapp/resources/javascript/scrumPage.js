@@ -1,24 +1,50 @@
-var ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket');
+//alert("alert5");
+var ws;
+//delay to give the server a chance to start up    
+//    setTimeout(function () {
+//            ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket');
+//    }, 3000);
 
+
+//alert("alert6");
+var listernersCalled = false;
 function joinScrum()
 {
-        ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
-        ws.send("join,join");
         
-        listeners();
+        //alert("JoinScrum");
         
+    if(!listernersCalled)
+    {
+        initialListeners(); 
+        ws = new WebSocket('ws://' +window.location.hostname+':1234'+ '/websocket');
+    }
+    
+    ws.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
+    
+    setTimeout(function () {
+            listeners();
+            ws.send("join,join");
+    }, 500);
+    
+            
+        //alert("alert8");
     //----------------------------------------------------------------------------
-        function listeners()
+        function initialListeners()
         {
+            
+            listernersCalled = true;
             $(document.body).on("click", "#addTask",function()
             {
-
+                alert("Am i called twice?");
                 $("[id='form2:testButton']").click();
-
+                
             });
+            
 
-
-            //make sticky notes draggable
+        }
+        function listeners()
+        {
+           //make sticky notes draggable
             $('.draggable').draggable( {
                 cursor: 'move',
                 containment: 'document',
@@ -40,9 +66,9 @@ function joinScrum()
                 var jqueryID = "#"+ document.getElementById("stickyHiddenID").value+$(this).attr('id');
                 $(jqueryID).html($(this).val());
             });
-
+            
             //snap location listeners
-            var drop = {
+        var drop = {
                 drop: function(ev, ui) 
                 {
                     $(ui.draggable).offset({top: ($(this).offset().top), left: ($(this).offset().left)});
@@ -53,10 +79,10 @@ function joinScrum()
                     dbUpdate($(ui.draggable).attr('id'));
                 }
             };
-            $('.snapHere').droppable(drop);
-
+            
+            $('.snapHere').droppable(drop); 
         }
-
+        
     //----------------------------------------------------------------------------
         //return function that recieves server reply
         function showMessage(text) 
@@ -499,12 +525,12 @@ function joinScrum()
                 $('#StickyComments').unbind('input propertychange');
         });
 
-        $("#addDay").click(function()
+        $("#addDay").on("click",function()
         {
             ws.send('addDay,1');
         });
 
-        $("#finishSprint").click(function()
+        $("#finishSprint").on("click",function()
         {
             alert('sprint done!');
         });
@@ -521,7 +547,7 @@ function joinScrum()
             document.getElementById('fade').style.display='none';
         }
 
-        $("#lightboxAddSubTask").click(function()
+        $("#lightboxAddSubTask").on("click",function()
         {
             var value = $("#lightboxNewSubTask").val();
             var stringToAppend = '<tr><td style="width:60%;">'+value+'</td><td><input type ="checkbox"/></td><td><button class ="deleteSubTask">Delete</button></td></tr>';
@@ -596,8 +622,10 @@ function joinScrum()
                 $("[id='form3:deleteForm']").click();
 
             }
-            
+            //alert("alert9");
             //join scrum page
+            
+            //alert("alert10");
             
 
 }

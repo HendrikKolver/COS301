@@ -21,12 +21,12 @@
             var hash = window.location.hash.replace('#', '');
             if (!hash.length) location.href = location.href + '#meeting-roomid-' + ((Math.random() * new Date().getTime()).toString(36).toLowerCase().replace( /\./g , '-'));
         </script>
-        <script type = "text/javascript" src="resources/javascript/chat.js"></script>
+        
 
         <title>Distributed Scrum Teamboard</title>
     </h:head>
     <h:body>
-        <h:outputText value="#{syncServer.startChat()}" />
+            <h:outputText value="#{syncServer.startChat()}" />
              <h:outputText value="#{syncServer.startPlanningPoker()}" />
              <h:outputText value="#{syncServer.startServer()}" />
         <div id = 'container1' >
@@ -59,9 +59,6 @@
                         </tr>
                 </table>
             </div>
-            
-
-            <title>Distributed Scrum Teamboard</title>
 
 
             <div id="body">
@@ -159,9 +156,10 @@
                 </h:form>
             
             
-             
+            
              <script type ="text/javascript" src="resources/javascript/planningPoker.js"></script>
              <script type ="text/javascript" src="resources/javascript/scrumPage.js"></script>
+             <script type = "text/javascript" src="resources/javascript/chat.js"></script>
             
 
         </div>
