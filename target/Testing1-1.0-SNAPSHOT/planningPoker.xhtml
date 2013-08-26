@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+        
+        <div id ="planningPokerContent">
+            
+            <div id ="planningPokerTop">
+            <table style ="width:100%; height:150px; vertical-align: top; margin:5px;">
+                <tr>
+                    <td style="width:448px; vertical-align: top;">
+                        <div style ="width:100%; text-align: center; font-size: 14pt; font-weight: bold;">Tasks to Plan</div>
+                        <br/>
+                        <div class="styled-select">
+                            <select id ="planningPokerCardSelector">
+<!--                                <option>The First Task</option>
+                                <option>The Second Task</option>
+                                <option>Third Task</option>
+                                <option>Fourth Task</option>-->
+                            </select>
+                        </div>
+                        <div id ="taskToPlanDescription"><b><i>Description:</i></b>Some sort of description</div>
+                    </td>
+                    
+                    <td style="width:1px;" class="vr"></td>
+                    
+                    <td style="width:448px; vertical-align: top;">
+                        <div style ="width:100%; text-align: center; font-size: 14pt; font-weight: bold;">Planned Already</div> 
+                        <br/>
+                        <div id="previouslyPlannedTaskList" style ="margin: 0 auto; overflow:auto; width: 340px; max-height:100px; background-color: #ddd; border: 1px #ccc">
+                            <!--<div class="plannedAlreadyInner">
+                                <table style="width:100%">
+                                    <tr style="width:100%">
+                                        <td style="width:85%">The First task</td>
+                                        <td style="border-left:1px solid #ccc; text-align: center; width:15%"><b>5pts</b></td>
+                                    </tr>
+                                </table>
+                            </div>-->
+                            <div id="planningFindThis" style="height:34px; text-align: center; line-height: 34px">None Currently</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+            
+            <div id = "cardHolder">
+                            
+                           <!-- <table id ="planningPokerHeaderTable" style ="text-align: left;">
+                                <tr>
+                                    <td>Task To Plan:</td>
+                                    <th style ="font-size:16pt"><div id ="taskToPlan">Task Name</div></th>
+                                </tr>
+                                <tr>
+                                    <td style ="vertical-align: top;">Task Description:</td>
+                                    <td style="max-width: 300px;"><i><div id ="taskToPlanDescription">Task description here...</div></i></td>
+                                </tr>
+                                <tr>
+                                    <td>Average Points:</td>
+                                    <th><div id = "outputAAverages">Waiting...</div></th>
+                                </tr>
+                            </table>-->
+                            <!--<button id="nextTask">Next Task</button>-->
+                            <div id="taskInfo"></div>
+                            <br/>
+                            <div style="margin-left:55px" class = "planningPokerCard">
+                                    <div class = "planningPokerInner">0</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">1</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">2</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">3</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">5</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">8</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">13</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">20</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">40</div>
+                            </div>
+
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">100</div>
+                            </div>
+                            <div class = "planningPokerCard">
+                                    <div class = "planningPokerInner">?</div>
+                            </div>
+                    </div>
+                    <br/><br/><br/><br/><br/><br/><br/><br/>
+                    
+                    
+                    <div style="margin-left:50px;">
+
+                        <button class ="planningPokerBtn" id = "flipCards">Flip
+                        </button> 
+
+                        <button class ="planningPokerBtn" id = "flipBack">Flip Back
+                        </button>
+                        
+                        
+                        <table style ="float:right; margin-right:40px;">
+                            <tr>
+                                <td>
+                                    Final Points:
+                                </td>
+                                <td>
+                                     <div class="styled-select2" style="float:right;">
+                                        <select id ="selectFinalPlanningPoker">
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button class ="planningPokerBtn" id = "sumbitPlanningAmount">Submit
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <br/>
+
+                        <div id = "selectedCardHolder">
+                                <table id ="cardTable">
+                                        <tr id = "cardTableR1">
+                                                <!--Appended Content goes here-->
+                                        </tr>
+                                </table>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    joinRoom();  
+                </script>
+
+        
+    </body>
+</html>
