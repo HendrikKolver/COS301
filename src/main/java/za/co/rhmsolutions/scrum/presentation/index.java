@@ -197,12 +197,19 @@ public class index
                 tmp.setDays(t[x].getDays());
                tmp.setDescription(t[x].getDescription());
                tmp.setName(t[x].getName());
-               tmp.setPoints(t[x].getPoints());
+               if(t[x].getPoints()==null || !isInteger(t[x].getPoints()))
+               {
+                   tmp.setPoints("0");
+               }
+               else
+                tmp.setPoints(t[x].getPoints());
+               
                if(t[x].getTopPos()==null ||t[x].getLeftPos()==null || !isInteger(t[x].getTopPos()) || !isInteger(t[x].getLeftPos()))
                {
                    tmp.setPos("0","0");
                }else
                    tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
+               
                tmp.setResponsible(t[x].getResponsible());
                tmp.setStatus(t[x].getStatus());
                tmp.setComments(t[x].getComments());
@@ -225,7 +232,6 @@ public class index
         } catch(NumberFormatException e) { 
             return false; 
         }
-
         return true;
     }
 }

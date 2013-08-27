@@ -35,7 +35,7 @@ function joinScrum()
             listernersCalled = true;
             $(document.body).on("click", "#addTask",function()
             {
-                alert("Am i called twice?");
+                //alert("Am i called twice?");
                 $("[id='form2:testButton']").click();
                 
             });

@@ -24,6 +24,8 @@ public class PlanningPoker  extends BaseWebSocketHandler {
     ArrayList<Tasks> tasks;
     ArrayList<String> currentState;
     ArrayList<String> choices = new ArrayList<String>();
+    String currentTask = "";
+    String currentDescription = "";
     private int count;
     
     
@@ -118,11 +120,21 @@ public class PlanningPoker  extends BaseWebSocketHandler {
                 //This will eventually only be the project backlog that will be looped excluding tasks already in the sprintBacklog/Completed
                 if(!tasks.get(i).getSprintBacklog())
                     connection.send("unplannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID());
+                else
+                    connection.send("plannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID()+","+tasks.get(i).getPoints());
+                    
+            }
+            
+            if(!currentTask.equals(""))
+            {
+                connection.send(currentTask);
+                connection.send(currentDescription);
             }
                     
         }
         else if(pieces[0].equals("changeTask"))
         {
+            currentTask = message;
             for(int x=0; x<clients.size();x++)
             {
                 if(!clients.get(x).equals(connection))
@@ -135,7 +147,11 @@ public class PlanningPoker  extends BaseWebSocketHandler {
                 for(int i=0; i<tasks.size();i++)
                 {
                     if(pieces[1].equals(tasks.get(i).getName()))
+                    {
                         clients.get(x).send("description,"+tasks.get(i).getDescription());
+                        currentDescription = "description,"+tasks.get(i).getDescription();
+                    }
+                    
                 }
             }
         }
@@ -146,6 +162,9 @@ public class PlanningPoker  extends BaseWebSocketHandler {
                 {
                     tasks.get(i).setPoints(pieces[2]);
                     tasks.get(i).setSprintBacklog(true);
+                    choices = new ArrayList<String>();
+                    break;
+                    
                 }
             }
             
@@ -157,11 +176,16 @@ public class PlanningPoker  extends BaseWebSocketHandler {
                 }
             }
         }
-        
-        
-        
-        
-
+        else if(pieces[0].equals("removeAllCards"))
+        {
+            for(int x=0; x<clients.size();x++)
+            {
+                if(!clients.get(x).equals(connection))
+                {
+                    clients.get(x).send(message);
+                }
+            }
+        }
     }
 
     public static void main() {

@@ -1,11 +1,9 @@
-var wsPoker 
-
+var wsPoker; 
 var person = "";
 var isPlanningPokerListeners = false;
+var isChanged = false;
 function joinRoom()
-{
-	
-	    
+{       isChanged = false;
         if(!isPlanningPokerListeners)
         {
             planningPokerlisteners();
@@ -18,27 +16,27 @@ function joinRoom()
             person=prompt("Please enter your name","name"); 
         }
             
-
         wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
         
         setTimeout(function () {
             //alert("here");
+            
              wsPoker.send('join,join');
+             
         }, 500);
 
         function planningPokerlisteners()
         {
-            
             isPlanningPokerListeners = true;
-            
-            
-            
             //Scores have been resolved, add points to task and move on
                 $('body').on('click', '#sumbitPlanningAmount', function() 
                 {
-
-
                         var currentTask = $("#planningPokerCardSelector").val();
+                        if(currentTask == null)
+                        {
+                            alert("There are no tasks left to plan");
+                            return;  
+                        }
                         var r=confirm("Add '"+currentTask+"' to Sprint?")
                         if (r==false)
                             return;
@@ -54,6 +52,8 @@ function joinRoom()
                                                                         '</table>'+
                                                                 ' </div>');
                             wsPoker.send("finishTask,"+currentTask+","+finalPoints);
+                            wsPoker.send("removeAllCards,removeAllCards");
+                            
                             $("#planningPokerCardSelector").children().each(function()
                             {
                                 if ($(this).val() == currentTask)
@@ -64,7 +64,7 @@ function joinRoom()
                                     return;
                                 }   
                             });
-
+                            removeAllCards();
                     });
                     
                     $(document.body).on("click", ".planningPokerCard",function()
@@ -105,25 +105,26 @@ function joinRoom()
         //Populates drop-down list dynamically based on the cards on screen
         $(".planningPokerCard").each(function()
         {
-            $("#selectFinalPlanningPoker").append("<option>"+$(this).children(":first").html()+"</option>");
+            if ($(this).children(":first").html() != '?') //Question mark would break DB
+                $("#selectFinalPlanningPoker").append("<option>"+$(this).children(":first").html()+"</option>");
         });
         
         $("#planningPokerCardSelector").change(function () {
                 var txt = $(this).val();
-            //alert(txt);
-                wsPoker.send("changeTask,"+txt);
-
+                if(!isChanged)
+                {
+                    isChanged = true;
+                }
+                else
+                {
+                    wsPoker.send("changeTask,"+txt);
+                }
+                
             }).trigger('change');
-
-
-        
-       
-
 
         $('body').on('click', '#nextTask', function() { 
             wsPoker.send("next,next");
         });
-
 
             function addToSprint(points,task)
             {
@@ -152,6 +153,13 @@ function joinRoom()
                     });
             }
 
+            function removeAllCards()
+            {
+                $("#cardTableR1").html("");
+                var x = $(".myChosenCard");
+                $(x).removeClass("myChosenCard").addClass("planningPokerCard");
+                $(x).children(":first").removeClass("myChosenCardInner").addClass("planningPokerCardInner");
+            }
 
         function showMessage(text) 
         {
@@ -219,6 +227,14 @@ function joinRoom()
             {
                 addToSprint(chars[2],chars[1]);
             }
+            else if(chars[0] == "removeAllCards")
+            {
+                removeAllCards();
+            }
+            else if(chars[0] == "plannedTask")
+            {
+                addToSprint(chars[3],chars[1]);
+            }
 
 
         }
@@ -265,6 +281,4 @@ function joinRoom()
                 });
                 $("#outputAAverages").html(Math.round((compute/counter)*100)/100);
         }
-	    
-	
 }
