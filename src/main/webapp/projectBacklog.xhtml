@@ -7,9 +7,28 @@
     <body>
                 
                 <script>
-		    $(function() {
-			$("#accordion").accordion();
-		    });
+                    $(document).ready(function(){
+                        $(function() {
+                            $("#accordion").accordion();
+                            $("#accordionSprint").accordion();
+                        
+
+                            $("#accordionContainerSprint").hide();
+
+                            $("#switch").click(function(){
+                                if($("#accordionContainer").is(":visible"))
+                                    {
+                                        $("#accordionContainer").hide();
+                                        $("#accordionContainerSprint").show(); 
+                                    }else
+                                    {
+                                        $("#accordionContainer").show();
+                                        $("#accordionContainerSprint").hide(); 
+                                    }
+
+                            });
+                        });
+                    });
 		</script>
                 
                 
@@ -47,7 +66,7 @@
                         }
                 </style>
                 
-               
+                <button id="switch"> Ugly ass switch button</button>
 
                 <div id ="accordionContainer">
                     <div id="accordion">
@@ -138,6 +157,138 @@
                         <h3>Completed</h3>
                         <div>
                         <h:dataTable value="#{projectBean.completedList}" var="o"
+                                        styleClass="order-table"
+                                        headerClass="order-table-header"
+                                        rowClasses="order-table-row">
+
+                                        <h:column>
+                                                <!-- column header -->
+                                                <f:facet name="header">Title</f:facet>
+                                                <!-- row record -->
+                                                #{o.name}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Person Responsible</f:facet>
+                                                #{o.responsible}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Description</f:facet>
+                                                #{o.description}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Story Points</f:facet>
+                                                #{o.points}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header">Days Remaining</f:facet>
+                                                #{o.days}
+                                        </h:column>
+                            
+                                        <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <button class ="tblButton" >Options</button>
+                                        </h:column>
+
+
+                                </h:dataTable>
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div id ="accordionContainerSprint">
+                    <div id="accordionSprint">
+                        <h3>Not Started</h3>
+                        <div>
+                                <h:dataTable value="#{projectBean.sprintNotStarted}" var="o"
+                                        styleClass="order-table"
+                                        headerClass="order-table-header"
+                                        rowClasses="order-table-row">
+
+                                        <h:column>
+                                                <!-- column header -->
+                                                <f:facet name="header">Title</f:facet>
+                                                <!-- row record -->
+                                                #{o.name}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Person Responsible</f:facet>
+                                                #{o.responsible}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Description</f:facet>
+                                                #{o.description}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Story Points</f:facet>
+                                                #{o.points}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header">Days Remaining</f:facet>
+                                                #{o.days}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <button class ="tblButton" >Options</button>
+                                        </h:column>
+
+                                </h:dataTable>
+				
+                        </div>
+                        <h3> In Progress </h3>
+                        <div>
+                        <h:dataTable value="#{projectBean.sprintInProgress}" var="o"
+                                        styleClass="order-table"
+                                        headerClass="order-table-header"
+                                        rowClasses="order-table-row">
+
+                                        <h:column>
+                                                <!-- column header -->
+                                                <f:facet name="header">Title</f:facet>
+                                                <!-- row record -->
+                                                #{o.name}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Person Responsible</f:facet>
+                                                #{o.responsible}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Description</f:facet>
+                                                #{o.description}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Story Points</f:facet>
+                                                #{o.points}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header">Days Remaining</f:facet>
+                                                #{o.days}
+                                        </h:column>
+                            
+                                        <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <button class ="tblButton" >Options</button>
+                                        </h:column>
+
+
+                                </h:dataTable>   
+                        </div>
+                        <h3>Completed</h3>
+                        <div>
+                        <h:dataTable value="#{projectBean.sprintCompleted}" var="o"
                                         styleClass="order-table"
                                         headerClass="order-table-header"
                                         rowClasses="order-table-row">

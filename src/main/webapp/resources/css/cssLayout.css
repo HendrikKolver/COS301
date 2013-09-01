@@ -411,6 +411,13 @@ button:hover{
     
 }
 
+#accordionContainerSprint{
+    padding-top:50px;
+    width:1300px;
+    margin:0 auto;
+    
+}
+
 .backlogTable {
 	margin:0px;padding:0px;
 	width:100%;
