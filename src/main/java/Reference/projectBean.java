@@ -21,6 +21,50 @@ public class projectBean {
     Tasks sprintNotStarted[];
     Tasks sprintInProgress[];
     Tasks sprintCompleted[];
+    String taskName ="A dummy Task name";
+    String personResponsible = "Unnasigned";
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        System.out.println("Set description: "+ description);
+        this.description = description;
+    }
+
+    public String getPersonResponsible() {
+        return personResponsible;
+    }
+
+    public void setPersonResponsible(String personResponsible) {
+        System.out.println("Set personResponsible: "+ personResponsible);
+        this.personResponsible = personResponsible;
+    }
+    String description = "None";
+
+    public String getTaskName() {
+        
+        return taskName;
+    }
+    
+    public void setTaskName(String taskName) {
+        System.out.println("Set Task Name: "+ taskName);
+        this.taskName = taskName;
+    }
+    
+    public void updateDB()
+    {
+       System.out.println("Update DB Called"); 
+       //Tasks t = new Tasks();
+       ArrayList<Tasks> tmp = Reference.tasks;
+       tmp.get(tmp.size()-1).setName(taskName);
+       tmp.get(tmp.size()-1).setDescription(description);
+       tmp.get(tmp.size()-1).setResponsible(personResponsible);
+       //Reference.w.sendTasks();
+    }
+
+    
 
     public Tasks[] getSprintCompleted() {
         ArrayList<Tasks> t = Reference.w.getTasks();

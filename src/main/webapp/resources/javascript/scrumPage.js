@@ -35,7 +35,7 @@ function joinScrum()
             listernersCalled = true;
             $(document.body).on("click", "#addTask",function()
             {
-                //alert("Am i called twice?");
+                alert("Am i called twice?");
                 $("[id='form2:testButton']").click();
                 
             });
@@ -514,9 +514,18 @@ function joinScrum()
 
         $("#stickyFinished").click(function()
         {
-
-
             var id = $("#stickyHiddenID").val();
+                dbUpdate(id);
+                document.getElementById('light').style.display='none';
+                document.getElementById('fade').style.display='none';
+                ws.send("closeOptions,"+id);
+                $("#StickyComments").val("");
+                $('#StickyComments').unbind('input propertychange');
+        });
+
+        $("#closeLightBox").click(function()
+        {
+                var id = $("#stickyHiddenID").val();
                 dbUpdate(id);
                 document.getElementById('light').style.display='none';
                 document.getElementById('fade').style.display='none';

@@ -296,7 +296,33 @@ html.noscroll
     background: -ms-linear-gradient(top,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
     background: linear-gradient(to bottom,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f7ff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
 
+.white_content2 {
+    display: none;
+    position: absolute;
+    top: 15%;
+    left: 30%;
+    width: 40%;
+    max-width: 1000px;
+    min-height: 30px;
+    padding: 16px;
+    border: 5px solid grey;
+    background-color: white;
+    z-index:1002;
+    /*overflow: auto;*/
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 2px grey;
+    background: rgb(249,247,255); /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(249,247,255,1) 0%, rgba(255,255,255,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(249,247,255,1)), color-stop(100%,rgba(255,255,255,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* IE10+ */
+    background: linear-gradient(to bottom,  rgba(249,247,255,1) 0%,rgba(255,255,255,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9f7ff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }
 
 #closeLightBox{
@@ -962,6 +988,27 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', e
    .styled-select2 {
     margin: 0 auto;   
     width: 80px;
+    height: 34px;
+    overflow: hidden;
+    background: url(../images/new_arrow.jpg) no-repeat right #ddd;
+    border: 1px solid #ccc;
+   }
+   
+   .styled-select3 select {
+   background: transparent;
+   width: 188px;
+   padding: 5px;
+   font-size: 16px;
+   line-height: 1;
+   border: 0;
+   border-radius: 0;
+   height: 34px;
+   -webkit-appearance: none;
+   }
+   
+   .styled-select3 {
+    margin: 0 auto;   
+    width: 160px;
     height: 34px;
     overflow: hidden;
     background: url(../images/new_arrow.jpg) no-repeat right #ddd;

@@ -154,6 +154,22 @@
                       <f:ajax execute="@form"/>
                   </h:commandButton>
                 </h:form>
+                
+                <h:form id="addTaskProjectBacklog" style="display:none">
+                    <h:inputText id="taskNameAdd" value="#{projectBean.taskName}"/>
+                    <h:inputText id="personResponsibleAdd" value="#{projectBean.personResponsible}"/>
+                    <h:inputText id="descriptionAdd" value="#{projectBean.description}"/>
+                    <h:commandButton id='addTaskClick' action="#{projectBean.updateDB()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+            
+                <h:form id="updateLastTaskForm" style="display:none"> 
+                    <h:commandButton id='updateLastTask' action="#{index.updateLastTask()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+            
             
             
             
@@ -161,7 +177,6 @@
              <script type ="text/javascript" src="resources/javascript/scrumPage.js"></script>
              <script type = "text/javascript" src="resources/javascript/chat.js"></script>
             
-
         </div>
     </h:body>
 </html>

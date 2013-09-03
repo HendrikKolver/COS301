@@ -33,6 +33,7 @@ public class WebSockets extends BaseWebSocketHandler {
     {
         Tasks tmp = new Tasks(id,id);
         tasks.add(tmp);
+        Reference.tasks = this.tasks;
     }
     
     public void sendTasks()
@@ -111,6 +112,7 @@ public class WebSockets extends BaseWebSocketHandler {
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
+        this.tasks= Reference.tasks; 
         boolean check = false;
         if(pieces[0].equals("join"))
         {

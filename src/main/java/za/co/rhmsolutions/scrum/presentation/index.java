@@ -135,7 +135,6 @@ public class index
                 comments = w.getTasks().get(x).getComments();
                 subTasks = w.getTasks().get(x).getSubTasks();
                 
-                
                 long id;
                 id = Long.valueOf(updateID).longValue();
                 
@@ -146,6 +145,32 @@ public class index
                 break;
             }
         }
+    }
+    
+    public void updateLastTask()
+    {
+        
+        System.out.println(Reference.getTasks().size());
+        int x = Reference.getTasks().size()-1;
+        name = Reference.getTasks().get(x).getName();
+        topPos = Reference.getTasks().get(x).getTopPos();
+        leftPos = Reference.getTasks().get(x).getLeftPos();
+        status = Reference.getTasks().get(x).getStatus();
+        description = Reference.getTasks().get(x).getDescription();
+        responsible = Reference.getTasks().get(x).getResponsible();
+        points = Reference.getTasks().get(x).getPoints();
+        days = Reference.getTasks().get(x).getDays();
+        colour = Reference.getTasks().get(x).getColour();
+        comments = Reference.getTasks().get(x).getComments();
+        subTasks = Reference.getTasks().get(x).getSubTasks();
+
+        long id;
+        id = Long.valueOf(Reference.getTasks().get(x).getID());
+
+        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+        System.out.println("Updated task " + id);
+        Reference.getTasks().get(x).dbUpdate();
+
     }
     
     //Creates a template task using default values and returns id as String
@@ -159,6 +184,7 @@ public class index
             w.addTask(ID);
             w.sendTasks();
     }
+
     
     public void delete()
     {
