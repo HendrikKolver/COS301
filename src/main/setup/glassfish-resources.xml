@@ -57,4 +57,6 @@
     <jdbc-resource enabled="true" jndi-name="scrumboard11" object-type="user" pool-name="mysql_mysql_rootPool_2"/>
     <jdbc-resource enabled="true" jndi-name="scrumboard12" object-type="user" pool-name="mysql_mysql_rootPool_1"/>
     <jdbc-resource enabled="true" jndi-name="scrum12" object-type="user" pool-name="mysql_mysql_rootPool_2"/>
+    <jdbc-resource enabled="true" jndi-name="scrum13" object-type="user" pool-name="mysql_mysql_rootPool_1"/>
+    <jdbc-resource enabled="true" jndi-name="scrum111" object-type="user" pool-name="mysql_mysql_rootPool_1"/>
 </resources>

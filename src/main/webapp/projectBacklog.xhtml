@@ -7,9 +7,7 @@
     <body>
                 
                 <script>
-		    $(function() {
-			$("#accordion").accordion();
-		    });
+                    
 		</script>
                 
                 
@@ -47,9 +45,27 @@
                         }
                 </style>
                 
+               <button id="backlogAddTask" style ="margin-left:55px; height:35px; margin-top:20px;">Add New Task
+               </button>
+                
                
+                <table style ="float:right; margin-right:47px; margin-top:20px;">
+                            <tr>
+                                <th>
+                                    View:
+                                </th>
+                                <td>
+                                     <div class="styled-select3" style="float:right;">
+                                        <select id ="selectViewBacklog">
+                                            <option>Project Backlog</option>
+                                            <option>Sprint Backlog</option>     
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
 
-                <div id ="accordionContainer">
+                <h:panelGroup id ="accordionContainer">
                     <div id="accordion">
                         <h3>Not Started</h3>
                         <div>
@@ -179,8 +195,188 @@
                         </div>
 
                     </div>
-                </div>
+                </h:panelGroup>
+                
+                <h:panelGroup id ="accordionContainerSprint">
+                    <div id="accordionSprint">
+                        <h3>Not Started</h3>
+                        <div>
+                                <h:dataTable value="#{projectBean.sprintNotStarted}" var="o"
+                                        styleClass="order-table"
+                                        headerClass="order-table-header"
+                                        rowClasses="order-table-row">
 
+                                        <h:column>
+                                                <!-- column header -->
+                                                <f:facet name="header">Title</f:facet>
+                                                <!-- row record -->
+                                                #{o.name}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Person Responsible</f:facet>
+                                                #{o.responsible}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Description</f:facet>
+                                                #{o.description}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Story Points</f:facet>
+                                                #{o.points}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header">Days Remaining</f:facet>
+                                                #{o.days}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <button class ="tblButton" >Options</button>
+                                        </h:column>
+
+                                </h:dataTable>
+				
+                        </div>
+                        <h3> In Progress </h3>
+                        <div>
+                        <h:dataTable value="#{projectBean.sprintInProgress}" var="o"
+                                        styleClass="order-table"
+                                        headerClass="order-table-header"
+                                        rowClasses="order-table-row">
+
+                                        <h:column>
+                                                <!-- column header -->
+                                                <f:facet name="header">Title</f:facet>
+                                                <!-- row record -->
+                                                #{o.name}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Person Responsible</f:facet>
+                                                #{o.responsible}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Description</f:facet>
+                                                #{o.description}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Story Points</f:facet>
+                                                #{o.points}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header">Days Remaining</f:facet>
+                                                #{o.days}
+                                        </h:column>
+                            
+                                        <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <button class ="tblButton" >Options</button>
+                                        </h:column>
+
+
+                                </h:dataTable>   
+                        </div>
+                        <h3>Completed</h3>
+                        <div>
+                        <h:dataTable value="#{projectBean.sprintCompleted}" var="o"
+                                        styleClass="order-table"
+                                        headerClass="order-table-header"
+                                        rowClasses="order-table-row">
+
+                                        <h:column>
+                                                <!-- column header -->
+                                                <f:facet name="header">Title</f:facet>
+                                                <!-- row record -->
+                                                #{o.name}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Person Responsible</f:facet>
+                                                #{o.responsible}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Description</f:facet>
+                                                #{o.description}
+                                        </h:column>
+
+                                        <h:column>
+                                                <f:facet name="header">Story Points</f:facet>
+                                                #{o.points}
+                                        </h:column>
+                                    
+                                        <h:column>
+                                                <f:facet name="header">Days Remaining</f:facet>
+                                                #{o.days}
+                                        </h:column>
+                            
+                                        <h:column>
+                                                <f:facet name="header"></f:facet>
+                                                <button class ="tblButton" >Options</button>
+                                        </h:column>
+
+
+                                </h:dataTable>
+                        </div>
+
+                    </div>
+                </h:panelGroup>
+                
+                <div id="light" class="white_content2" style="">
+                    <span id ="closeLightBox">
+                        <b>X</b>
+                    </span>
+                    <h1 style ="text-align: center">Add Task to Project Backlog</h1>
+                    <div id ="editorTbl1" style ="float:left;">
+                        <table cellpadding ="8">
+                            <tr>
+                                <td>Task Name:</td>
+                                <td><input class="synchingInputs" type='text' id="StickyTaskName" maxlength="15"></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Person Responsible:</td>
+                                <td><input class="synchingInputs" type='text' id="StickyResponsible" value="Unassigned"></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Description:</td>
+                                <td>
+                                    <textarea rows ='6' cols ='22' id="StickyDescription"></textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:30%;">
+                                </td>
+
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <br/>
+                                            <td style ="width:50%"><button id ='stickyFinished'>Finished</button></td>
+                                            <td style ="width:50%"><button id="stickyCancel">Cancel</button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    
+                </div>
+               
+                <div id="fade" class="black_overlay">
+                </div>
+                
+                
 
     </body>
 </html>

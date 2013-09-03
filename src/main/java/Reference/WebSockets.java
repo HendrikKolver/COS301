@@ -33,6 +33,7 @@ public class WebSockets extends BaseWebSocketHandler {
     {
         Tasks tmp = new Tasks(id,id);
         tasks.add(tmp);
+        Reference.tasks = this.tasks;
     }
     
     public void sendTasks()
@@ -111,6 +112,7 @@ public class WebSockets extends BaseWebSocketHandler {
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
         String pieces[] = message.split(",");
+        this.tasks= Reference.tasks; 
         boolean check = false;
         if(pieces[0].equals("join"))
         {
@@ -140,7 +142,15 @@ public class WebSockets extends BaseWebSocketHandler {
                     connection.send(message);
                 }
             }
-        
+            int tmp = 0;
+           for (int i = 0; i < tasks.size(); i++) {
+                if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog())
+                {
+                    tmp += Integer.parseInt(tasks.get(i).getDays());
+                }
+            }
+           
+            burndownPoints.set((burndownPoints.size()-1),tmp);
             message = "burndown,";
             for(int x=0; x<burndownPoints.size();x++)
             {
@@ -228,7 +238,7 @@ public class WebSockets extends BaseWebSocketHandler {
                                 tasks.get(x).setPos(pieces[1], pieces[2]);
                                 int tmp = 0;
                                 for (int i = 0; i < tasks.size(); i++) {
-                                    if(!(tasks.get(i).getStatus().equals("completed")))
+                                    if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog())
                                     {
                                         tmp += Integer.parseInt(tasks.get(i).getDays());
                                     }
@@ -268,7 +278,7 @@ public class WebSockets extends BaseWebSocketHandler {
                                     if(pieces[1] != null && pieces[1].length()>0)
                                     {
                                         for (int i = 0; i < tasks.size(); i++) {
-                                            if(!(tasks.get(i).getStatus().equals("completed")))
+                                            if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog())
                                             {
                                                 tmp += Integer.parseInt(tasks.get(i).getDays());
                                             }
