@@ -21,7 +21,8 @@ public class AppUser
     
     String name;
     String surname;
-    String email;
+    String Username;
+    String Password;
 
     //needed for jpa
     public AppUser() 
@@ -29,10 +30,19 @@ public class AppUser
         
     }
 
-    public AppUser(String name, String surname, String email) {
+    public AppUser(String name, String surname, String Username, String Password) {
         this.name = name;
         this.surname = surname;
-        this.email = email;
+        this.Username = Username;
+        this.Password = Password;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
 
     public String getName() {
@@ -51,12 +61,12 @@ public class AppUser
         this.surname = surname;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return Username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String Username) {
+        this.Username = Username;
     }
 
     public Long getId() {

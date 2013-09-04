@@ -10,27 +10,24 @@ import javax.persistence.PersistenceContext;
 import za.co.rhmsolutions.scrum.business.entity.AppUser;
 import za.co.rhmsolutions.scrum.business.entity.AppUser_Project;
 import za.co.rhmsolutions.scrum.business.entity.Project;
+import za.co.rhmsolutions.scrum.business.entity.groups;
 
 /**
  *
  * @author Richard O'Brien
  */
 @Stateless
-public class AppUserService 
+public class GroupsService 
 {
     @PersistenceContext
     EntityManager em;
     
-    public void create(String name, String surname, String email,String password ,long projectID)
+    public void create(String GROUPID, String USERNAME)
     {
-        AppUser u = new AppUser(name, surname, email, password);
+        groups u = new groups(GROUPID, USERNAME);
         
         em.persist(u);
         
         System.out.println("User ID: " + u.getId());
-        
-        AppUser_Project mapper = new AppUser_Project(u.getId(), projectID);
-        
-        em.persist(mapper);
     }
 }
