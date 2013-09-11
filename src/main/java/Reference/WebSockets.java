@@ -334,6 +334,7 @@ public class WebSockets extends BaseWebSocketHandler {
             }
             System.out.println("Message sent to clients, Task size: " + tasks.size());
         }
+        Reference.tasks = this.tasks;
     }
 
     public static void main() {

@@ -1,10 +1,73 @@
 $(document).ready(function()
 {
-     
+    var IDtmp; 
+    //Editing of Tasks...
+    
+    var elementToUpdate;
     $(".tblButton").click(function()
     {
-        alert('Some pop-up of sorts will be displayed here');
+        elementToUpdate = $(this);
+        var values = $(this).parent().parent().children();
+        $("#StickyTaskNameEdit").val($(values[0]).html().trim());
+        $("#StickyResponsibleEdit").val($(values[1]).html().trim());
+        $("#StickyStoryPointsEdit").val($(values[3]).html().trim());
+        $("#StickyDaysRemainingEdit").val($(values[4]).html().trim());
+        $("#StickyDescriptionEdit").val($(values[2]).html().trim());
+        IDtmp = $(this).next().html().trim();
+
+        document.getElementById('light2').style.display='block';
+        document.getElementById('fade').style.display='block';
     });
+    
+    $("#stickyCancelEdit").click(function()
+    {
+               document.getElementById('light2').style.display='none';
+               document.getElementById('fade').style.display='none';
+               
+    });
+    
+    function editTasksFinish()
+    {
+        $("[id='updateSpecificTask:updateProjectID']").val(IDtmp);
+        $("[id='updateSpecificTask:updateProjectIDIndex']").val(IDtmp);
+        $("[id='updateSpecificTask:updateTaskName']").val($("#StickyTaskNameEdit").val());
+        $("[id='updateSpecificTask:updatePersonResponsible']").val($("#StickyResponsibleEdit").val());
+        $("[id='updateSpecificTask:updateDescription']").val($("#StickyDescriptionEdit").val()); 
+        $("[id='updateSpecificTask:updateStoryPoints']").val($("#StickyStoryPointsEdit").val());
+        $("[id='updateSpecificTask:updateDaysLeft']").val($("#StickyDaysRemainingEdit").val());
+        $("[id='updateSpecificTask:updateSpecificTaskButton']").click();
+        
+        $("."+IDtmp).each(function()
+        {
+            var values = $(this).parent().parent().children();
+            $(values[0]).html($("#StickyTaskNameEdit").val());
+            $(values[1]).html($("#StickyResponsibleEdit").val());
+            $(values[3]).html($("#StickyStoryPointsEdit").val());
+            $(values[4]).html($("#StickyDaysRemainingEdit").val());
+            $(values[2]).html($("#StickyDescriptionEdit").val()); 
+        });          
+    }
+    
+    $("#closeLightBoxEdit").click(function()
+        {
+                document.getElementById('light2').style.display='none';
+               document.getElementById('fade').style.display='none';
+        });
+        
+        $("#stickyFinishedEdit").click(function()
+        {
+            if($("#StickyTaskNameEdit").val().length != 0 && $("#StickyResponsibleEdit").val().length != 0 && $("#StickyDescriptionEdit").val()&& $("#StickyStoryPointsEdit").val()&& $("#StickyDaysRemainingEdit").val())
+            {
+            
+                editTasksFinish();
+                document.getElementById('light2').style.display='none';
+               document.getElementById('fade').style.display='none';
+            }
+            else
+            {
+                alert("Please fill in all the fields");
+            }
+        });
     
     
         $("#accordion").accordion();
@@ -18,12 +81,12 @@ $(document).ready(function()
             
             if($("#accordionContainer").is(":visible"))
                 {
-                    
+                    $("#stickySprint").html("Remove from sprint");
                     $("#accordionContainer").hide();
                     $("#accordionContainerSprint").show(); 
                 }else
                 {
-                    
+                    $("#stickySprint").html("Add to sprint");
                     $("#accordionContainer").show();
                     $("#accordionContainerSprint").hide(); 
                 }
@@ -44,7 +107,8 @@ $(document).ready(function()
         
         $("#closeLightBox").click(function()
         {
-                closeLightBoxProjectBacklog();
+                document.getElementById('light').style.display='none';
+               document.getElementById('fade').style.display='none';
         });
         
          $("#stickyFinished").click(function()
@@ -74,6 +138,7 @@ $(document).ready(function()
                document.getElementById('fade').style.display='none';
                
                $("[id='updateLastTaskForm:updateLastTask']").click();
+               $("[id='navForm:navBacklog']").click();
                
             }else
             {
@@ -81,6 +146,12 @@ $(document).ready(function()
                 alert("Please fill in all the fields");
             }
         }
+        
+        $("#stickySprint").click(function(){
+            $("[id='updateAddRemoveSprint:updateTaskID']").val(IDtmp);
+            $("[id='updateAddRemoveSprint:updateAddRemoveTaskButton']").click();
+            $("[id='navForm:navBacklog']").click();
+        });
 
     
 });

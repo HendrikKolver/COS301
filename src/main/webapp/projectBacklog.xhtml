@@ -15,7 +15,6 @@
                 <style>
                     .order-table{   
                                 width:100%;
-                                height:100%;
                                 margin:0px;padding:0px;
                         }
 
@@ -64,9 +63,9 @@
                                 </td>
                             </tr>
                         </table>
-
+                <br/><br/><br/>
                 <h:panelGroup id ="accordionContainer">
-                    <div id="accordion">
+                    <div id="accordion" style ="max-width:1300px; margin-top:50px; margin:0 auto;">
                         <h3>Not Started</h3>
                         <div>
                                 <h:dataTable value="#{projectBean.notStartedlist}" var="o"
@@ -104,6 +103,7 @@
                                         <h:column>
                                                 <f:facet name="header"></f:facet>
                                                 <button class ="tblButton" >Options</button>
+                                                <span style="display:none" class="#{o.ID}"> #{o.ID}</span>
                                         </h:column>
 
                                 </h:dataTable>
@@ -146,6 +146,7 @@
                                         <h:column>
                                                 <f:facet name="header"></f:facet>
                                                 <button class ="tblButton" >Options</button>
+                                                <span style="display:none" class="#{o.ID}"> #{o.ID}</span>
                                         </h:column>
 
 
@@ -188,6 +189,7 @@
                                         <h:column>
                                                 <f:facet name="header"></f:facet>
                                                 <button class ="tblButton" >Options</button>
+                                                <span style="display:none" class="#{o.ID}"> #{o.ID}</span>
                                         </h:column>
 
 
@@ -198,7 +200,7 @@
                 </h:panelGroup>
                 
                 <h:panelGroup id ="accordionContainerSprint">
-                    <div id="accordionSprint">
+                    <div id="accordionSprint" style ="max-width:1300px; margin-top:50px; margin:0 auto;">
                         <h3>Not Started</h3>
                         <div>
                                 <h:dataTable value="#{projectBean.sprintNotStarted}" var="o"
@@ -236,6 +238,7 @@
                                         <h:column>
                                                 <f:facet name="header"></f:facet>
                                                 <button class ="tblButton" >Options</button>
+                                                <span style="display:none" class="#{o.ID}"> #{o.ID}</span>
                                         </h:column>
 
                                 </h:dataTable>
@@ -247,13 +250,7 @@
                                         styleClass="order-table"
                                         headerClass="order-table-header"
                                         rowClasses="order-table-row">
-
-                                        <h:column>
-                                                <!-- column header -->
-                                                <f:facet name="header">Title</f:facet>
-                                                <!-- row record -->
-                                                #{o.name}
-                                        </h:column>
+                                        <h:column><f:facet name="header">Title</f:facet>#{o.name}</h:column>
 
                                         <h:column>
                                                 <f:facet name="header">Person Responsible</f:facet>
@@ -278,6 +275,7 @@
                                         <h:column>
                                                 <f:facet name="header"></f:facet>
                                                 <button class ="tblButton" >Options</button>
+                                                <span style="display:none" class="#{o.ID}"> #{o.ID}</span>
                                         </h:column>
 
 
@@ -320,6 +318,7 @@
                                         <h:column>
                                                 <f:facet name="header"></f:facet>
                                                 <button class ="tblButton" >Options</button>
+                                                <span style="display:none" class="#{o.ID}"> #{o.ID}</span>
                                         </h:column>
 
 
@@ -368,9 +367,60 @@
                                 </td>
                             </tr>
                         </table>
-                    </div>
-                    
-                    
+                    </div>  
+                </div>
+                
+                <div id="light2" class="white_content3" style="">
+                    <span id ="closeLightBoxEdit">
+                        <b>X</b>
+                    </span>
+                    <h1 style ="text-align: center">Edit Task</h1>
+                    <div id ="editorTbl1" style ="float:left;">
+                        <table cellpadding ="8">
+                            <tr>
+                                <td>Task Name:</td>
+                                <td><input class="synchingInputs" type='text' id="StickyTaskNameEdit" maxlength="15"></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Person Responsible:</td>
+                                <td><input class="synchingInputs" type='text' id="StickyResponsibleEdit" value="Unassigned"></input></td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Story Points:</td>
+                                <td><input class="synchingInputs" type='number' id="StickyStoryPointsEdit" value=""></input></td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Days Remaining:</td>
+                                <td><input class="synchingInputs" type='number' id="StickyDaysRemainingEdit" value=""></input></td>
+                            </tr>
+
+                            <tr>
+                                <td>Description:</td>
+                                <td>
+                                    <textarea rows ='6' cols ='22' id="StickyDescriptionEdit"></textarea>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td style="width:30%;">
+                                </td>
+
+                                <td>
+                                    <table>
+                                        <tr>
+                                            <br/>
+                                            <td style ="width:50%"><button id ='stickyFinishedEdit'>Finished</button></td>
+                                            <td style ="width:50%"><button id="stickyCancelEdit">Cancel</button></td>
+                                            <td style ="width:100%"><button id="stickySprint">Add to Sprint</button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>  
                 </div>
                
                 <div id="fade" class="black_overlay">

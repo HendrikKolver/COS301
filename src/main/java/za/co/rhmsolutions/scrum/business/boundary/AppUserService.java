@@ -21,9 +21,9 @@ public class AppUserService
     @PersistenceContext
     EntityManager em;
     
-    public void create(String name, String surname, String email, long projectID)
+    public void create(String name, String surname, String email,String password ,long projectID)
     {
-        AppUser u = new AppUser(name, surname, email);
+        AppUser u = new AppUser(name, surname, email, password);
         
         em.persist(u);
         
