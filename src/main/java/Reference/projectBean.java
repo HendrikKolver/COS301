@@ -6,6 +6,8 @@ package Reference;
 
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import session.sessionBean;
 
 /**
  *
@@ -13,7 +15,16 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name = "projectBean")
 public class projectBean {
-    
+    @ManagedProperty(value = "#{sessionBean}")
+    private sessionBean session;
+
+    public sessionBean getSession() {
+        return session;
+    }
+
+    public void setSession(sessionBean session) {
+        this.session = session;
+    }
     
     Tasks notStartedlist[];
     Tasks inProgressList[];
@@ -32,6 +43,10 @@ public class projectBean {
     String projectID = "";
     String taskID ="";
 
+    public Object[] getAllProjects()
+    {
+        return Reference.projects.toArray();
+    }
 
     public String getTaskID() {
         return taskID;
@@ -186,6 +201,8 @@ public class projectBean {
        tmp.get(tmp.size()-1).setName(taskName);
        tmp.get(tmp.size()-1).setDescription(description);
        tmp.get(tmp.size()-1).setResponsible(personResponsible);
+       tmp.get(tmp.size()-1).setProjectID(session.getProjectID());
+       System.out.println("Project id for task: "+tmp.get(tmp.size()-1).getProjectID());
        //Reference.w.sendTasks();
     }
 
@@ -195,7 +212,7 @@ public class projectBean {
         ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("completed") && t.get(i).getSprintBacklog())
+            if(t.get(i).getStatus().equals("completed") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -205,7 +222,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("completed") && t.get(i).getSprintBacklog())
+            if(t.get(i).getStatus().equals("completed") && t.get(i).getSprintBacklog()  && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 sprintCompleted[k]=t.get(i);
                 k++;
@@ -218,7 +235,7 @@ public class projectBean {
         ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("inProgress") && t.get(i).getSprintBacklog())
+            if(t.get(i).getStatus().equals("inProgress") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -228,7 +245,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("inProgress") && t.get(i).getSprintBacklog())
+            if(t.get(i).getStatus().equals("inProgress") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 sprintInProgress[k]=t.get(i);
                 k++;
@@ -241,7 +258,7 @@ public class projectBean {
          ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("notStarted") && t.get(i).getSprintBacklog())
+            if(t.get(i).getStatus().equals("notStarted") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -251,7 +268,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("notStarted") && t.get(i).getSprintBacklog())
+            if(t.get(i).getStatus().equals("notStarted") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 sprintNotStarted[k]=t.get(i);
                 k++;
@@ -265,7 +282,7 @@ public class projectBean {
         ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("completed"))
+            if(t.get(i).getStatus().equals("completed") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -275,7 +292,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("completed"))
+            if(t.get(i).getStatus().equals("completed") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 completedList[k]=t.get(i);
                 k++;
@@ -288,7 +305,7 @@ public class projectBean {
         ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("inProgress"))
+            if(t.get(i).getStatus().equals("inProgress") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -298,7 +315,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("inProgress"))
+            if(t.get(i).getStatus().equals("inProgress") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 inProgressList[k]=t.get(i);
                 k++;
@@ -311,7 +328,7 @@ public class projectBean {
         ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("notStarted"))
+            if(t.get(i).getStatus().equals("notStarted") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -321,7 +338,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("notStarted"))
+            if(t.get(i).getStatus().equals("notStarted") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 notStartedlist[k]=t.get(i);
                 k++;

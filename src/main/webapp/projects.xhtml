@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <body>
+              <h:dataTable value="#{projectBean.getAllProjects()}" var="o"
+                    styleClass="order-table"
+                    headerClass="order-table-header"
+                    rowClasses="order-table-row">
+
+                    <h:column>
+                            <!-- column header -->
+                            <f:facet name="header">Name</f:facet>
+                            <!-- row record -->
+                            <button id="#{o.id}" class="projectButton">#{o.projectName}</button>
+                    </h:column>
+            </h:dataTable>
+        
+        <script type = "text/javascript" src="resources/javascript/ProjectsPage.js"></script>
+    </body>
+</html>

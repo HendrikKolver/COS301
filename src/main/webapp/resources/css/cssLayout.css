@@ -1054,3 +1054,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', e
    .planningPokerBtn{
        width:80px;
    }
+   
+   .lightBoxEditTask{
+       margin-right:5px;
+       width:90px;
+       height:38px;
+   }

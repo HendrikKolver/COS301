@@ -16,6 +16,7 @@ public class Reference {
     public static PlanningPoker p;
     public static ArrayList<Tasks> tasks; 
     public static ChatSocket chatSocket;
+    public static ArrayList<Project> projects = new ArrayList<Project>();
     
    public static WebSockets getWebSockets()
    {
@@ -31,5 +32,6 @@ public class Reference {
    {
        return tasks;
    }
+   
            
 }

@@ -15,6 +15,8 @@ $(document).ready(function()
             loadLog(text);
             //ws.send("next,next");
         }
+        
+        $("#chatName").val($("[id='userLogin:userUsername']").val());
     
         $("#textChatSection").html( $("[id='textChatHolder:htmlValue']").val());
         $("#textChatSend").click(function()

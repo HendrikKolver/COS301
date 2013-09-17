@@ -44,6 +44,8 @@
                         }
                 </style>
                 
+                
+                
                <button id="backlogAddTask" style ="margin-left:55px; height:35px; margin-top:20px;">Add New Task
                </button>
                 
@@ -64,8 +66,8 @@
                             </tr>
                         </table>
                 <br/><br/><br/>
-                <h:panelGroup id ="accordionContainer">
-                    <div id="accordion" style ="max-width:1300px; margin-top:50px; margin:0 auto;">
+                <h:panelGroup id ="accordionContainer" style="display: block; min-width:1300px; position: relative; top:-50px; margin:0 auto;">
+                    <div id="accordion" style ="max-width:1300px; margin-top:0px; margin:0 auto;">
                         <h3>Not Started</h3>
                         <div>
                                 <h:dataTable value="#{projectBean.notStartedlist}" var="o"
@@ -412,9 +414,9 @@
                                     <table>
                                         <tr>
                                             <br/>
-                                            <td style ="width:50%"><button id ='stickyFinishedEdit'>Finished</button></td>
-                                            <td style ="width:50%"><button id="stickyCancelEdit">Cancel</button></td>
-                                            <td style ="width:100%"><button id="stickySprint">Add to Sprint</button></td>
+                                            <td style ="width:50%"><button class="lightBoxEditTask" id ='stickyFinishedEdit'>Finished</button></td>
+                                            <td style ="width:100%"><button class="lightBoxEditTask" id="stickySprint">Add to Sprint</button></td>
+                                            <td style ="width:50%"><button class="lightBoxEditTask" id="stickyCancelEdit">Cancel</button></td>
                                         </tr>
                                     </table>
                                 </td>

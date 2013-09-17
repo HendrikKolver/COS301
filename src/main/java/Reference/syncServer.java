@@ -27,4 +27,23 @@ public class syncServer {
        ChatSocket.main(); 
     }
     
+    public void getProjects()
+    {
+        if(Reference.projects.size()== 0)
+        {
+            Project tmp = new Project();
+            tmp.id="1";
+            tmp.usernames.add("Jannie");
+            tmp.setProjectName("Project 1");
+            Reference.projects.add(tmp);
+
+            tmp = new Project();
+            tmp.id="2";
+            tmp.usernames.add("Jannie");
+            tmp.setProjectName("Project 2");
+            Reference.projects.add(tmp);
+        }
+        
+    }
+    
 }

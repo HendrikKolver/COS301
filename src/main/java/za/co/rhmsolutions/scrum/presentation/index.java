@@ -5,7 +5,9 @@ import Reference.Reference;
 import Reference.Tasks;
 import Reference.WebSockets;
 import javax.enterprise.inject.Model;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
+import session.sessionBean;
 import za.co.rhmsolutions.scrum.business.boundary.TaskService;
 import za.co.rhmsolutions.scrum.business.entity.Task;
 
@@ -17,6 +19,17 @@ import za.co.rhmsolutions.scrum.business.entity.Task;
 @Model
 public class index 
 {
+    @ManagedProperty(value = "#{sessionBean}")
+    private sessionBean session;
+
+    public sessionBean getSession() {
+        return session;
+    }
+
+    public void setSession(sessionBean session) {
+        this.session = session;
+    }
+    
     @Inject
     TaskService ts;
     String name;
@@ -183,6 +196,7 @@ public class index
             WebSockets w = Reference.w;
             w.addTask(ID);
             w.sendTasks();
+            
     }
 
     

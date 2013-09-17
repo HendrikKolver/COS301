@@ -1,6 +1,14 @@
 $(document).ready(function()
 {
+    if($("#ProjectIDHolder").val() == "")
+    {
+        alert("please select a project first");
+    }
+    
+                
+            
     var IDtmp; 
+    var name;
     //Editing of Tasks...
     
     var elementToUpdate;
@@ -14,6 +22,7 @@ $(document).ready(function()
         $("#StickyDaysRemainingEdit").val($(values[4]).html().trim());
         $("#StickyDescriptionEdit").val($(values[2]).html().trim());
         IDtmp = $(this).next().html().trim();
+        name = $("#StickyTaskNameEdit").val();
 
         document.getElementById('light2').style.display='block';
         document.getElementById('fade').style.display='block';
@@ -78,13 +87,12 @@ $(document).ready(function()
         
         $("#selectViewBacklog").on("change",function()
         { 
-            
-            if($("#accordionContainer").is(":visible"))
+            if($("#accordionContainer").is(":visible") )
                 {
                     $("#stickySprint").html("Remove from sprint");
                     $("#accordionContainer").hide();
                     $("#accordionContainerSprint").show(); 
-                }else
+                }else 
                 {
                     $("#stickySprint").html("Add to sprint");
                     $("#accordionContainer").show();
@@ -151,6 +159,10 @@ $(document).ready(function()
             $("[id='updateAddRemoveSprint:updateTaskID']").val(IDtmp);
             $("[id='updateAddRemoveSprint:updateAddRemoveTaskButton']").click();
             $("[id='navForm:navBacklog']").click();
+            if($("#accordionContainer").is(":visible") )
+                alert(name+" has been added to Sprint");
+            else 
+                alert(name+" has been removed from Sprint");
         });
 
     
