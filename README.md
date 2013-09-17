@@ -1,4 +1,4 @@
-Planning Poker Tmp Branch
+Session Tracking
 ------------------------------------------
 
-This branch is used to add features related to the planning poker and project backlog features
+This branch is used to incorporate session tracking features into the application
