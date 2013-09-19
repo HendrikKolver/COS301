@@ -5,8 +5,11 @@
 package session;
 
 import Reference.Project;
+import java.io.Serializable;
 import javax.faces.bean.SessionScoped; 
 import javax.faces.bean.ManagedBean;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -14,7 +17,9 @@ import javax.faces.bean.ManagedBean;
  */
 @SessionScoped
 @ManagedBean(name = "sessionBean")
-public class sessionBean{
+public class sessionBean implements Serializable
+{
+    
     String username;
     boolean loggedIn;
     String projectID ;
@@ -31,9 +36,6 @@ public class sessionBean{
         projectID = this.project.getId();
         System.out.println("Project id : "+projectID);
     }
-    
-    
-    
 
     public boolean isLoggedIn() {
         return loggedIn;
@@ -52,7 +54,7 @@ public class sessionBean{
     }
 
     public String getUsername() {
-        username = "Jannie";
+        //username = "Jannie";
         return username;
     }
 
