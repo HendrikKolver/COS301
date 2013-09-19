@@ -6,6 +6,8 @@ package Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -13,6 +15,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import za.co.rhmsolutions.scrum.business.boundary.AppUserService;
+import za.co.rhmsolutions.scrum.business.entity.AppUser;
 
 /**
  *
@@ -21,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AdminResource", urlPatterns = {"/AdminResource"})
 @ServletSecurity(@HttpConstraint(rolesAllowed={"admin"}))
 public class AdminResource extends HttpServlet {
+    @EJB
+    private AppUserService appUserService;
 
     /**
      * Processes requests for both HTTP
@@ -34,23 +41,26 @@ public class AdminResource extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       /* response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        try {
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AdminResource</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AdminResource at " + request.getContextPath() + "</h1>");
-            out.println("<br />Welcome Admin, " + request.getUserPrincipal().getName());
-            out.println("<br /><a href='./LogoutServlet'>Logout</a>");
-            out.println("</body>");
-            out.println("</html>");
-        } finally {            
-            out.close();
-        }*/
+        
+        String remoteUser = request.getRemoteUser();
+        
+                
+        if (remoteUser != null)
+        {
+            System.out.println(remoteUser + " logged in successfully");
+            
+            HttpSession session = request.getSession();
+            
+            if(session.getAttribute("user") == null)
+            {
+                AppUser user = appUserService.getByName(remoteUser);
+                session.setAttribute("user", user);
+            }
+        }
+        
+        
+        
+      
       
         response.sendRedirect("/Testing1/faces/index.xhtml");
     }
