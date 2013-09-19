@@ -5,8 +5,6 @@
 package session;
 
 import Reference.Project;
-import java.io.Serializable;
-import javax.ejb.Stateful;
 import javax.faces.bean.SessionScoped; 
 import javax.faces.bean.ManagedBean;
 

@@ -13,7 +13,8 @@ function joinRoom()
         
         if(person == "")
         {
-            person=$("[id='userLogin:userUsername']").val(); 
+            person = window.prompt("name","");
+           // person=$("[id='userLogin:userUsername']").val(); 
         }
             
         wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message

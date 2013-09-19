@@ -15,12 +15,16 @@ public class Project {
     ArrayList<Tasks> tasks;
     String videoUrl;
     ArrayList<String> usernames;
+    public ArrayList<Integer> burndownPoints = new ArrayList<Integer>();
+    public int rowCount =0;
+
     String projectName;
 
     
 
     public Project()
     {
+        burndownPoints.add(0);
         id="";
         videoUrl="";
         projectName="";

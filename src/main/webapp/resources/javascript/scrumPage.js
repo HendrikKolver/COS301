@@ -23,7 +23,7 @@ function joinScrum()
     
     setTimeout(function () {
             listeners();
-            ws.send("join,join");
+            ws.send("join,join,"+$("#ProjectIDHolder").val());
     }, 500);
     
             
@@ -55,14 +55,14 @@ function joinScrum()
 
             //listeners for text area editing
             $('.synchingInputs').bind('input propertychange', function() { 
-                ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
+                ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value)+','+$("#ProjectIDHolder").val();
                 var jqueryID = "#"+ document.getElementById("stickyHiddenID").value+$(this).attr('id');
                 $(jqueryID).html($(this).val());
 
             });
 
             $('#StickyDescription').bind('input propertychange', function() {
-                ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
+                ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value+','+$("#ProjectIDHolder").val());
                 var jqueryID = "#"+ document.getElementById("stickyHiddenID").value+$(this).attr('id');
                 $(jqueryID).html($(this).val());
             });
@@ -75,7 +75,7 @@ function joinScrum()
                     var thisPos = $(this).position();
                     var y = thisPos.left;
                     var x = thisPos.top;
-                    ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                    ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id')+','+$("#ProjectIDHolder").val());
                     dbUpdate($(ui.draggable).attr('id'));
                 }
             };
@@ -260,7 +260,7 @@ function joinScrum()
             {
                 var id = $("#stickyHiddenID").val();
                 dbDelete(id);
-                ws.send('remove,'+document.getElementById("stickyHiddenID").value);
+                ws.send('remove,'+document.getElementById("stickyHiddenID").value+','+$("#ProjectIDHolder").val());
                 var tmp ="#"+document.getElementById("stickyHiddenID").value;
                 $(tmp).remove();
                 document.getElementById('light').style.display='none';
@@ -314,7 +314,7 @@ function joinScrum()
                 $("#StickyComments").val($("#"+id+"HiddenComments").html());
                 $("#lightboxNewSubTask").val("");
                 addDelete();
-                ws.send("openOptions,"+id);
+                ws.send("openOptions,"+id+','+$("#ProjectIDHolder").val());
 
 
             });  
@@ -424,7 +424,7 @@ function joinScrum()
                                 var y = thisPos.left;
                                 var x = thisPos.top;
 
-                                ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                                ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id')+','+$("#ProjectIDHolder").val());
                                 dbUpdate($(ui.draggable).attr('id'));
                             }
                         };
@@ -451,13 +451,13 @@ function joinScrum()
                         var y = thisPos.left;
                         var x = thisPos.top;
 
-                        ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id'));
+                        ws.send('position,'+x + "," + y + "," +$(ui.draggable).attr('id')+','+$("#ProjectIDHolder").val());
                         dbUpdate($(ui.draggable).attr('id'));
                     }
                 };
                 $(this).find('tr:last').find('.snapHere').droppable(drop);
             });
-            ws.send("addRow,"+"1");
+            ws.send("addRow,"+"1"+','+$("#ProjectIDHolder").val());
         });
 
 
@@ -466,7 +466,7 @@ function joinScrum()
             $(".colorActive").removeClass("colorActive");
             $(this).addClass("colorActive");
             var str = ('colour,'+ "yellow" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
-            ws.send(str);
+            ws.send(str+','+$("#ProjectIDHolder").val());
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/yellowstickynote.png')");
 
@@ -477,7 +477,7 @@ function joinScrum()
             $(".colorActive").removeClass("colorActive");
             $(this).addClass("colorActive");
             var str = ('colour,'+ "purple" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
-            ws.send(str);
+            ws.send(str+','+$("#ProjectIDHolder").val());
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/purplestickynote.png')");
         });
@@ -487,7 +487,7 @@ function joinScrum()
             $(".colorActive").removeClass("colorActive");
             $(this).addClass("colorActive");
             var str = ('colour,'+ "green" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
-            ws.send(str);
+            ws.send(str+','+$("#ProjectIDHolder").val());
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/greenstickynote.png')");
         });
@@ -497,7 +497,7 @@ function joinScrum()
             $(".colorActive").removeClass("colorActive");
             $(this).addClass("colorActive");
             var str = ('colour,'+ "red" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
-            ws.send(str);
+            ws.send(str+','+$("#ProjectIDHolder").val());
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/redstickynote.png')");
         });
@@ -507,7 +507,7 @@ function joinScrum()
             $(".colorActive").removeClass("colorActive");
             $(this).addClass("colorActive");
             var str = ('colour,'+ "blue" + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value);
-            ws.send(str);
+            ws.send(str+','+$("#ProjectIDHolder").val());
             var jqueryID = "#"+ document.getElementById("stickyHiddenID").value;
             $(jqueryID).css('background-image',"url('resources/images/bluestickynote.png')");
         });
@@ -518,7 +518,7 @@ function joinScrum()
                 dbUpdate(id);
                 document.getElementById('light').style.display='none';
                 document.getElementById('fade').style.display='none';
-                ws.send("closeOptions,"+id);
+                ws.send("closeOptions,"+id+','+$("#ProjectIDHolder").val());
                 $("#StickyComments").val("");
                 $('#StickyComments').unbind('input propertychange');
         });
@@ -529,14 +529,14 @@ function joinScrum()
                 dbUpdate(id);
                 document.getElementById('light').style.display='none';
                 document.getElementById('fade').style.display='none';
-                ws.send("closeOptions,"+id);
+                ws.send("closeOptions,"+id+','+$("#ProjectIDHolder").val());
                 $("#StickyComments").val("");
                 $('#StickyComments').unbind('input propertychange');
         });
 
         $("#addDay").on("click",function()
         {
-            ws.send('addDay,1');
+            ws.send('addDay,1'+','+$("#ProjectIDHolder").val());
         });
 
         $("#finishSprint").on("click",function()
@@ -565,7 +565,7 @@ function joinScrum()
             $("#lightboxNewSubTask").val("");
             var id = $("#stickyHiddenID").val();
             $("#"+id+"Hidden").html($("#subTasks").html());
-            ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
+            ws.send("tasksUpdate,"+$("#subTasks").html()+","+id+','+$("#ProjectIDHolder").val());
         });
 
         function addDelete()
@@ -576,7 +576,7 @@ function joinScrum()
                 var id = $("#stickyHiddenID").val();
                 $("#"+id+"HiddenComments").html($(this).val());
                 //alert("Sending");
-                ws.send("commentsUpdate,"+$(this).val()+","+id);
+                ws.send("commentsUpdate,"+$(this).val()+","+id+','+$("#ProjectIDHolder").val());
 
             });
 
@@ -585,7 +585,7 @@ function joinScrum()
                 var id = $("#stickyHiddenID").val();
                 $(this).parent().parent().remove();
                 $("#"+id+"Hidden").html($("#subTasks").html());
-                ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
+                ws.send("tasksUpdate,"+$("#subTasks").html()+","+id+','+$("#ProjectIDHolder").val());
             }); 
 
             $(":checkbox").off('click');
@@ -611,7 +611,7 @@ function joinScrum()
                 var id = $("#stickyHiddenID").val();
                 $(this).parent().parent().remove();
                 $("#"+id+"Hidden").html($("#subTasks").html());
-                ws.send("tasksUpdate,"+$("#subTasks").html()+","+id);
+                ws.send("tasksUpdate,"+$("#subTasks").html()+","+id+','+$("#ProjectIDHolder").val());
             });
         }
 

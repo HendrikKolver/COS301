@@ -15,6 +15,7 @@ import session.sessionBean;
 
 @ManagedBean(name = "projectManagementBean")
 public class ProjectManagement {
+    
     @ManagedProperty(value = "#{sessionBean}")
     private sessionBean session;
 
@@ -22,13 +23,13 @@ public class ProjectManagement {
         return session;
     }
     
+    public void setSession(sessionBean session) {
+        this.session = session;
+    }
+    
     public void doNothing()
     {
         System.out.println("doNothing");
-    }
-
-    public void setSession(sessionBean session) {
-        this.session = session;
     }
     
     String id;

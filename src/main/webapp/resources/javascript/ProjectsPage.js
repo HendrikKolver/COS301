@@ -6,5 +6,7 @@ $(document).ready(function()
        $("[id='selectSessionProject:sessionProjectID']").val(id);
        $("[id='selectSessionProject:selectSessionProjectUpdate']").click();
        $("[id='projectNameForm:projectNameFormButton']").click();
+       $("#ProjectIDHolder").val(id);
+       joinChatRoom();
     });
 });
