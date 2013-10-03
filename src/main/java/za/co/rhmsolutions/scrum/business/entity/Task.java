@@ -23,8 +23,6 @@ public class Task //persistent
     private long id;
 
     String name;
-
-    
     String topPos;
     String leftPos;
     String status;
@@ -35,8 +33,73 @@ public class Task //persistent
     String colour;
     String comments;
     String subTasks;
+    boolean sprintBacklog;
+    String projectID;
+    boolean deleted;
 
-    
+    public long getId() {
+        return id;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTopPos(String topPos) {
+        this.topPos = topPos;
+    }
+
+    public void setLeftPos(String leftPos) {
+        this.leftPos = leftPos;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setResponsible(String responsible) {
+        this.responsible = responsible;
+    }
+
+    public void setPoints(String points) {
+        this.points = points;
+    }
+
+    public void setDays(String days) {
+        this.days = days;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
+    }
+
+    public void setSprintBacklog(boolean sprintBacklog) {
+        this.sprintBacklog = sprintBacklog;
+    }
+
+    public void setProjectID(String projectID) {
+        this.projectID = projectID;
+    }
+
+    public boolean isSprintBacklog() {
+        return sprintBacklog;
+    }
+
+    public String getProjectID() {
+        return projectID;
+    }
 
     public void setComments(String comments) {
         this.comments = comments;
@@ -70,7 +133,7 @@ public class Task //persistent
     }
     
     public Task(String name, String topPos, String leftPos, 
-            String status, String description, String responsible, String points, String days, String colour, String comments, String subTasks) {
+            String status, String description, String responsible, String points, String days, String colour, String comments, String subTasks, String projectID, boolean sprintBacklog) {
         System.out.println("name: "+name);
         this.name = name;
         this.topPos = topPos;
@@ -83,6 +146,9 @@ public class Task //persistent
         this.colour = colour;
         this.comments = comments;
         this.subTasks = subTasks;
+        this.sprintBacklog = sprintBacklog;
+        this.projectID = projectID;
+        this.deleted = false;
     }
     
     public String getSubTasks() {

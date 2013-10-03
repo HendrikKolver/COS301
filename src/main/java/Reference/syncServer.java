@@ -42,8 +42,7 @@ public class syncServer {
             tmp.usernames.add("Jannie");
             tmp.setProjectName("Project 2");
             Reference.projects.add(tmp);
-        }
-        
+        }  
     }
     
 }

@@ -18,11 +18,14 @@ public class Tasks {
     private boolean sprintBacklog;
     private String projectID;
 
-    public String getProjectID() {
+    public String getProjectID() 
+    {
         return projectID;
     }
 
-    public void setProjectID(String projectID) {
+    public void setProjectID(String projectID) 
+    {
+        update = true;
         this.projectID = projectID;
     }
 
@@ -105,12 +108,12 @@ public class Tasks {
     
     public boolean getSprintBacklog()
     {
-     return sprintBacklog;   
-    
+        return sprintBacklog;   
     }
     
     public void setSprintBacklog(boolean s)
     {
+        update = true;
         sprintBacklog = s;   
     }
 

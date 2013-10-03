@@ -31,7 +31,5 @@ public class Reference {
    public static ArrayList<Tasks> getTasks()
    {
        return tasks;
-   }
-   
-           
+   }      
 }

@@ -48,6 +48,8 @@ public class index
     String flag = "false";
     String comments;
     String subTasks;
+    boolean sprintBacklog;
+    String projectID;
 
     public String getFlag() {
         System.out.println("andBack");
@@ -119,8 +121,10 @@ public class index
                 colour = w.getTasks().get(x).getColour();
                 comments = w.getTasks().get(x).getComments();
                 subTasks = w.getTasks().get(x).getSubTasks();
+                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                projectID = w.getTasks().get(x).getProjectID();
 
-                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
                 
                 w.getTasks().get(x).dbUpdate();
             }
@@ -147,11 +151,13 @@ public class index
                 colour = w.getTasks().get(x).getColour();
                 comments = w.getTasks().get(x).getComments();
                 subTasks = w.getTasks().get(x).getSubTasks();
+                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                projectID = w.getTasks().get(x).getProjectID();
                 
                 long id;
                 id = Long.valueOf(updateID).longValue();
                 
-                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
                 System.out.println("Updated task " + id);
                 w.getTasks().get(x).dbUpdate();
                 
@@ -176,11 +182,13 @@ public class index
         colour = Reference.getTasks().get(x).getColour();
         comments = Reference.getTasks().get(x).getComments();
         subTasks = Reference.getTasks().get(x).getSubTasks();
+        sprintBacklog = Reference.getTasks().get(x).getSprintBacklog();
+        projectID = Reference.getTasks().get(x).getProjectID();
 
         long id;
         id = Long.valueOf(Reference.getTasks().get(x).getID());
 
-        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
         System.out.println("Updated task " + id);
         Reference.getTasks().get(x).dbUpdate();
 
@@ -196,7 +204,6 @@ public class index
             WebSockets w = Reference.w;
             w.addTask(ID);
             w.sendTasks();
-            
     }
 
     
