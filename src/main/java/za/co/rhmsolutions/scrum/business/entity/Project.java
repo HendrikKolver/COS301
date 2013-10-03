@@ -4,10 +4,12 @@
  */
 package za.co.rhmsolutions.scrum.business.entity;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 
 /**
@@ -24,6 +26,8 @@ public class Project
     String name;
     String company;
     String description;
+    @ManyToMany(mappedBy = "<error>")
+    private List<AppUser> appUsers;
 
     //Needed for jpa
     public Project() 
