@@ -13,7 +13,8 @@ function joinRoom()
         
         if(person == "")
         {
-            person=prompt("Please enter your name","name"); 
+            //person = window.prompt("name","");
+            person=$("[id='userLogin:userUsername']").val(); 
         }
             
         wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
@@ -21,8 +22,13 @@ function joinRoom()
         setTimeout(function () {
             //alert("here");
             
-             wsPoker.send('join,join');
+             wsPoker.send('join,join,'+$("#ProjectIDHolder").val());
              
+             setTimeout(function () {
+                $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
+            }, 100);
+        
         }, 500);
 
         function planningPokerlisteners()
@@ -51,8 +57,9 @@ function joinRoom()
                                                                             '</tr>'+
                                                                         '</table>'+
                                                                 ' </div>');
-                            wsPoker.send("finishTask,"+currentTask+","+finalPoints);
-                            wsPoker.send("removeAllCards,removeAllCards");
+                            wsPoker.send("finishTask,"+currentTask+","+finalPoints+","+$("#ProjectIDHolder").val());
+                            wsPoker.send("removeAllCards,removeAllCards,"+$("#ProjectIDHolder").val());
+                            
                             
                             $("#planningPokerCardSelector").children().each(function()
                             {
@@ -65,6 +72,9 @@ function joinRoom()
                                 }   
                             });
                             removeAllCards();
+                            
+                           $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                            wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
                     });
                     
                     $(document.body).on("click", ".planningPokerCard",function()
@@ -74,7 +84,7 @@ function joinRoom()
                             $("#chosenCard"+person).children(":first").html($(this).children(":first").html());
 
                             //send to other clients
-                            wsPoker.send("choice,"+$(this).children(":first").html()+","+person);
+                            wsPoker.send("choice,"+$(this).children(":first").html()+","+person+","+$("#ProjectIDHolder").val());
 
                             $("#cardHolder").find(".myChosenCard").children(":first").removeClass("myChosenCardInner").addClass("planningPokerCardInner");
                             $("#cardHolder").find(".myChosenCard").removeClass("myChosenCard").addClass("planningPokerCard");
@@ -89,18 +99,16 @@ function joinRoom()
                             $(".side-2").attr("class",'flip side-2 flip-side-1');
                             $(".side-1").attr("class",'flip side-1 flip-side-2');
                             calculateAllScores();
-                            wsPoker.send("flip,flip");
+                            wsPoker.send("flip,flip,"+$("#ProjectIDHolder").val());
                     });
 
                     $(document.body).on("click", "#flipBack",function()
                     {
                             $(".side-2").attr("class",'flip side-2');
                             $(".side-1").attr("class",'flip side-1');
-                            wsPoker.send("flip,flipBack");
+                            wsPoker.send("flip,flipBack,"+$("#ProjectIDHolder").val());
                     });
                     
-                    
-
         }
         //Populates drop-down list dynamically based on the cards on screen
         $(".planningPokerCard").each(function()
@@ -111,19 +119,14 @@ function joinRoom()
         
         $("#planningPokerCardSelector").change(function () {
                 var txt = $(this).val();
-                if(!isChanged)
-                {
-                    isChanged = true;
-                }
-                else
-                {
-                    wsPoker.send("changeTask,"+txt);
-                }
+                    
+                    wsPoker.send("changeTask,"+txt+","+$("#ProjectIDHolder").val());
+
                 
             }).trigger('change');
 
         $('body').on('click', '#nextTask', function() { 
-            wsPoker.send("next,next");
+            wsPoker.send("next,next,"+$("#ProjectIDHolder").val());
         });
 
             function addToSprint(points,task)
@@ -151,6 +154,9 @@ function joinRoom()
                             return;
                         }   
                     });
+                    
+                    $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                    wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
             }
 
             function removeAllCards()

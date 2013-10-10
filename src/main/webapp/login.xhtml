@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Log In</title>
+        <link rel="stylesheet" type="text/css" href="login.css"></link>
+    </head>
+    <body>
+        <form id="login" action="j_security_check" method="POST">
+            <h1>Log In</h1>
+            <fieldset id="inputs">
+                <input id="username" type="text" name="j_username" placeholder="Username"/><br />
+                <input id="password" type="password" name="j_password" placeholder="Password"/>
+            </fieldset>
+            <fieldset id="actions">
+                <input type="submit" id="submit" value="Log in" />
+            </fieldset>
+        </form>
+    </body>
+</html>

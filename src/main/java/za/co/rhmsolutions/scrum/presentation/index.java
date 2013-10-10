@@ -5,7 +5,9 @@ import Reference.Reference;
 import Reference.Tasks;
 import Reference.WebSockets;
 import javax.enterprise.inject.Model;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
+import session.sessionBean;
 import za.co.rhmsolutions.scrum.business.boundary.TaskService;
 import za.co.rhmsolutions.scrum.business.entity.Task;
 
@@ -17,6 +19,17 @@ import za.co.rhmsolutions.scrum.business.entity.Task;
 @Model
 public class index 
 {
+    @ManagedProperty(value = "#{sessionBean}")
+    private sessionBean session;
+
+    public sessionBean getSession() {
+        return session;
+    }
+
+    public void setSession(sessionBean session) {
+        this.session = session;
+    }
+    
     @Inject
     TaskService ts;
     String name;
@@ -35,6 +48,8 @@ public class index
     String flag = "false";
     String comments;
     String subTasks;
+    boolean sprintBacklog;
+    String projectID;
 
     public String getFlag() {
         System.out.println("andBack");
@@ -106,8 +121,10 @@ public class index
                 colour = w.getTasks().get(x).getColour();
                 comments = w.getTasks().get(x).getComments();
                 subTasks = w.getTasks().get(x).getSubTasks();
+                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                projectID = w.getTasks().get(x).getProjectID();
 
-                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
                 
                 w.getTasks().get(x).dbUpdate();
             }
@@ -134,11 +151,13 @@ public class index
                 colour = w.getTasks().get(x).getColour();
                 comments = w.getTasks().get(x).getComments();
                 subTasks = w.getTasks().get(x).getSubTasks();
+                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                projectID = w.getTasks().get(x).getProjectID();
                 
                 long id;
                 id = Long.valueOf(updateID).longValue();
                 
-                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
                 System.out.println("Updated task " + id);
                 w.getTasks().get(x).dbUpdate();
                 
@@ -163,11 +182,13 @@ public class index
         colour = Reference.getTasks().get(x).getColour();
         comments = Reference.getTasks().get(x).getComments();
         subTasks = Reference.getTasks().get(x).getSubTasks();
+        sprintBacklog = Reference.getTasks().get(x).getSprintBacklog();
+        projectID = Reference.getTasks().get(x).getProjectID();
 
         long id;
         id = Long.valueOf(Reference.getTasks().get(x).getID());
 
-        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
         System.out.println("Updated task " + id);
         Reference.getTasks().get(x).dbUpdate();
 
@@ -220,7 +241,7 @@ public class index
                {
                    tmp.setDays("0");
                }else
-                tmp.setDays(t[x].getDays());
+               tmp.setDays(t[x].getDays());
                tmp.setDescription(t[x].getDescription());
                tmp.setName(t[x].getName());
                if(t[x].getPoints()==null || !isInteger(t[x].getPoints()))
@@ -232,6 +253,7 @@ public class index
                
                if(t[x].getTopPos()==null ||t[x].getLeftPos()==null || !isInteger(t[x].getTopPos()) || !isInteger(t[x].getLeftPos()))
                {
+                   System.out.println("Failed");
                    tmp.setPos("0","0");
                }else
                    tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
@@ -240,6 +262,8 @@ public class index
                tmp.setStatus(t[x].getStatus());
                tmp.setComments(t[x].getComments());
                tmp.setSubTasks(t[x].getSubTasks());
+               tmp.setSprintBacklog(t[x].isSprintBacklog());
+               tmp.setProjectID(t[x].getProjectID());
                tmp.dbUpdate();
                 System.out.println("Task: "+ x);
                w.getTasks().add(tmp);
@@ -254,7 +278,7 @@ public class index
     public boolean isInteger(String s) 
     {
         try { 
-            Integer.parseInt(s); 
+            Double.parseDouble(s); 
         } catch(NumberFormatException e) { 
             return false; 
         }

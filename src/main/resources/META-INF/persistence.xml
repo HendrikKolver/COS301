@@ -13,7 +13,7 @@
       <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/mysql"/>
       <property name="eclipselink.logging.level" value="INFO"/>
-      <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
     </properties>
   </persistence-unit>
 </persistence>
