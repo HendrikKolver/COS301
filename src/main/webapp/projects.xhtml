@@ -3,20 +3,174 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
     <body>
-              <h:dataTable value="#{projectBean.getAllProjects()}" var="o"
+              <!--<h:dataTable value="#{projectBean.getAllProjects()}" var="o"
                     styleClass="order-table"
                     headerClass="order-table-header"
                     rowClasses="order-table-row">
 
                     <h:column>
-                            <!-- column header -->
                             <f:facet name="header">Name</f:facet>
-                            <!-- row record -->
                             <button id="#{o.id}" class="projectButton">#{o.projectName}</button>
                     </h:column>
-            </h:dataTable>
+            </h:dataTable>-->
+        
+            
+       
+        
+			<div style = "width:1100px; min-height:600px; margin:0 auto">
+				<table style = "width:100%">
+					<tr >
+						<td style = "width:88%"><h3>Project Folder</h3></td>
+						<td><!--<button id = "createNewProject">New Project</button>--></td>
+					</tr>
+				</table>
+				
+				<ul id="tabs">     
+                                    <c:forEach var="project" items="#{projectBean.getAllProjects()}" varStatus="status">
+                                        <li>
+                                            <a href="#" name="tab#{status.count}">#{project.projectName}</a>
+                                        </li>
+                                    </c:forEach>
+				</ul>
+
+				<div id="tabContent">
+                                    <c:forEach var="project" items="#{projectBean.getAllProjects()}" varStatus="status">
+
+                                        <div id="tab#{status.count}">
+                                                <table style="width:100%; text-align:center; vertical-align:top;">
+                                                    <tr>
+                                                            <td style = "width:33%">
+                                                                    <a href = "#" id="#{project.id}" class="projectButton" title ="Work on this Project">Select this Project</a>
+                                                            </td>
+                                                            <td style = "width:33%">
+                                                                    <a href = "#" class = "deleteProject" title ="Delete Project">Delete Project</a>
+                                                            </td>
+                                                    </tr>
+                                            </table>
+                                            <br/>
+                                            <table style = "width:100%;  vertical-align:top; text-align:left; " >
+                                                    <tr>
+                                                            <td style ="width:50%; ">
+                                                                        <table cellpadding="5; " style="vertical-align:top;">
+                                                                            <tr>
+                                                                                    <th>Project Title:</th>
+                                                                                    <td>
+                                                                                            <input style ="height:20px" class ="projectNameEdit" type = "text" value ="#{project.projectName}"/>
+                                                                                    </td>
+                                                                            </tr>
+
+                                                                            <tr>
+                                                                                    <th style = " vertical-align:top; ">Current Team:</th>
+                                                                                    <td style ="width:70%">
+                                                                                        
+                                                                                    <div class = "tableOfCurrentMembers" style ="width:100%;  height:120px; border:1px solid #ccc; background-color:#ddd;overflow:auto;">
+                                                                                          <c:forEach var="user" items="#{project.getUsers()}" varStatus="status">
+                                                                                            <table style = "border-bottom:1px solid #ccc">
+                                                                                                    <tr>
+                                                                                                            <td>#{user}</td>
+                                                                                                            <td style ="width:15%"><a class = "removeUserFromProj" style ="font-size:9pt" href = "#">Remove</a></td>
+                                                                                                    </tr>
+                                                                                            </table>
+                                                                                        </c:forEach>  
+                                                                                    </div>
+
+                                                                                    </td>
+                                                                            </tr>
+                                                                    </table>
+                                                            </td>
+
+                                                            <td style ="padding-left:20px; width:50%; vertical-align:top; text-align:left">
+                                                                    <table style = " vertical-align:top;" cellpadding="5">
+                                                                            <tr>
+                                                                                    <th>Status:</th>
+                                                                                    <td>
+                                                                                            <select style = "min-width:100px; height: 20px">
+                                                                                                    <option>Not Started</option>
+                                                                                                    <option>In Progress</option>
+                                                                                                    <option>Completed</option>
+                                                                                            </select>
+                                                                                    </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                    <th>Add to Team:</th>
+                                                                                    <td>
+                                                                                            <select class = "memberSelect" style = "min-width:100px;">
+                                                                                                    <option>Member 1</option>
+                                                                                                    <option>Member 2</option>
+                                                                                                    <option>Member 3</option>
+                                                                                            </select>
+                                                                                            <button class = "addMemberToProj" >Add Member</button>
+                                                                                    </td>
+                                                                            </tr> 
+                                                                    </table>
+
+                                                            </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>
+                                                            <div id ="burndownContainer" style ="margin-top:-50px; width:500px; height:200px">
+                                                            </div>
+                                                            <select class ="burndownChartSelect">
+                    
+                                                                <h:panelGroup rendered="#{project.isCurrentBurndownChart()}" layout="block">
+                                                                    <option name ="sprint0">Current Sprint</option>
+                                                                </h:panelGroup>
+                                                                <c:forEach var="charts" items="#{project.getBurndowncharts()}" varStatus="status">
+                                                                    <option name="sprint#{(project.getSprintSize()-status.count)+1}">Sprint #{(project.getSprintSize()-status.count)+1}</option>
+                                                                </c:forEach>
+                                                            </select>
+                                                            
+                                                            <div class ="allValueHolder" >
+                                                                <span style="display:none" class ="hiddenInfo">sprint0</span>
+                                                                <span class ="burndownPoints" style="display:none" id ="sprint0" >
+                                                                    <c:forEach var="singleChartPoint" items="#{project.getRecentBurndowncharts()}" varStatus="status">#{singleChartPoint};</c:forEach>
+                                                                </span>
+                                                                <c:forEach var="charts" items="#{project.getBurndowncharts()}" varStatus="status">
+                                                                    <span style="display:none" class ="hiddenInfo">sprint#{(project.getSprintSize()-status.count)+1}</span>
+                                                                    <span style="display:none" class ="burndownPoints" >
+                                                                        <c:forEach var="singleChartPoint" items="#{charts}" varStatus="status">
+                                                                            #{singleChartPoint};
+                                                                        </c:forEach>
+                                                                    </span>
+                                                                </c:forEach>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                            </table>
+                                            
+                                            
+                                            
+                                            <!--
+                                            Current
+                                            <c:forEach var="singleChartPoint" items="#{project.getRecentBurndowncharts()}" varStatus="status">
+                                                    #{singleChartPoint}
+                                            </c:forEach>
+                                            
+                                            Old ones
+                                            <c:forEach var="charts" items="#{project.getBurndowncharts()}" varStatus="status">
+                                                <c:forEach var="singleChartPoint" items="#{charts}" varStatus="status">
+                                                    #{singleChartPoint}
+                                                </c:forEach>
+                                                ;
+                                            </c:forEach>-->
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                        </div>
+                                    </c:forEach>
+                                    
+				</div>
+			</div>
         
         <script type = "text/javascript" src="resources/javascript/ProjectsPage.js"></script>
     </body>

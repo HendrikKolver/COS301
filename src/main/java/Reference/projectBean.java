@@ -45,7 +45,32 @@ public class projectBean {
 
     public Object[] getAllProjects()
     {
-        return Reference.projects.toArray();
+        Object[] tmp;
+        int tmpCounter= 0;
+        for (int i = 0; i < Reference.projects.size(); i++) {
+            for(int x=0; x<Reference.projects.get(i).usernames.size();x++)
+            {
+                if(Reference.projects.get(i).usernames.get(x).equals(session.getUsername()))
+                {
+                    tmpCounter++;
+                }
+            }   
+        }
+        tmp = new Object[tmpCounter];
+        tmpCounter = 0;
+            for (int i = 0; i < Reference.projects.size(); i++) {
+                for(int x=0; x<Reference.projects.get(i).usernames.size();x++)
+                {
+                    if(Reference.projects.get(i).usernames.get(x).equals(session.getUsername()))
+                    {
+                        tmp[tmpCounter] = Reference.projects.get(i);
+                        tmpCounter++;
+                    }
+                }   
+            }
+        
+        
+        return tmp;
     }
 
     public String getTaskID() {

@@ -18,10 +18,10 @@
         
         <script src="https://webrtc-experiment.appspot.com/firebase.js"> </script>
         <script src="resources/javascript/meeting.js"> </script>
-        <script>
+<!--        <script>
             var hash = window.location.hash.replace('#', '');
             if (!hash.length) location.href = location.href + '#meeting-roomid-' + ((Math.random() * new Date().getTime()).toString(36).toLowerCase().replace( /\./g , '-'));
-        </script>
+        </script>-->
         
 
         <title>Distributed Scrum Teamboard</title>
@@ -56,10 +56,10 @@
                                 <td><h:commandButton class="navLink" value="Planning Poker"  action="#{navBean.changeScrum('planningPoker.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton></td>
-                                <td><h:commandButton class="navLink" value="Projects"  action="#{navBean.changeScrum('projects.xhtml')}">
+                                <td><h:commandButton id="projectNavLink" class="navLink" value="Projects"  action="#{navBean.changeScrum('projects.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton></td>
-                                <td><div id="StartChat" class = 'navLink'>LinkChat</div></td>
+                                <td><div  class = 'navLink'>Admin</div></td>
 
                             </h:form>
                         </tr>
@@ -72,7 +72,7 @@
             
             <h:panelGroup id="ProjectNameDisplayReload" layout="block">
                 <div style="margin-left:30px; max-width: 270px; color:white; margin-top: -30px;">
-                    Current Project:<br/> <b><h:outputText id="ProjectNameDisplay" value="#{sessionBean.project.projectName}" /></b><br/>
+                    Current Project:<br/> <span id="projectDisplayButton"><b><h:outputText id="ProjectNameDisplay" value="#{sessionBean.project.projectName}" /></b></span><br/>
                 </div>
                 <input value="#{sessionBean.projectID}" id="ProjectIDHolder" style="display:none"/>
             </h:panelGroup>
@@ -83,17 +83,26 @@
                 <a style="display:none" id ="logOutHref" href="./LogoutServlet">Log out</a>
             </div>
         </div>
-            
-            
+
             <script>
                 $(document).ready(function()
                 {
                     $("#logOut").click(function()
                     {
-                        
                         window.location = $('#logOutHref').attr('href');
                     });
                     
+                    $("#projectDisplayButton").click(function(){
+                        $("[id='navForm:projectNavLink']").click();
+                    });
+                    
+                    
+                    if($("#ProjectNameDisplay").html() == "")
+                    {
+                        $("#ProjectNameDisplay").html("None");  
+                    }
+                    
+                    $("#projectDisplayButton").click();
                     
                 });
             </script>
@@ -120,6 +129,7 @@
                         <tr>
                             <td>
                                 <div id="videoLoad" style ="width: 100%; margin: 0 auto"> 
+                                    
                                 </div>
                             </td>
                             <td style="width:242px; height:100%; border-left: 2px solid rgb(107,107,107);">
@@ -129,7 +139,7 @@
                                     </div>
                                     
                                     <div id ="textChatHeader" style="height:30px; line-height: 30px; width:220px;">
-                                        Name: <input style="max-width:130px;" type ="text" id ="chatName"/>
+                                        Project Chat<p style="max-width:130px;" id ="chatName"></p>
                                     </div>
                                     <div id ="textChatSection" style="height:210px; width:220px;">
                                     </div> 
@@ -242,6 +252,12 @@
             <h:form id="selectSessionProject" style="display:none">
                 <h:inputText id="sessionProjectID" value="#{projectManagementBean.id}"/>
                 <h:commandButton id='selectSessionProjectUpdate' action="#{projectManagementBean.changeSessionProject()}"> 
+                    <f:ajax execute="@form"/>
+                </h:commandButton>
+            </h:form>
+            
+            <h:form id="finishSprintForm" style="display:none">
+                <h:commandButton id='finishSprintButton' action="#{finishSprintBean.finishSprint()}"> 
                     <f:ajax execute="@form"/>
                 </h:commandButton>
             </h:form>

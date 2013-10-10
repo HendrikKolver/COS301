@@ -1,5 +1,7 @@
 $(document).ready(function()
 {
+    
+    
     if($("#ProjectIDHolder").val() == "")
     {
         alert("please select a project first");
@@ -37,6 +39,8 @@ $(document).ready(function()
     
     function editTasksFinish()
     {
+        
+        
         $("[id='updateSpecificTask:updateProjectID']").val(IDtmp);
         $("[id='updateSpecificTask:updateProjectIDIndex']").val(IDtmp);
         $("[id='updateSpecificTask:updateTaskName']").val($("#StickyTaskNameEdit").val());
@@ -48,12 +52,15 @@ $(document).ready(function()
         
         $("."+IDtmp).each(function()
         {
+            
             var values = $(this).parent().parent().children();
+
             $(values[0]).html($("#StickyTaskNameEdit").val());
             $(values[1]).html($("#StickyResponsibleEdit").val());
             $(values[3]).html($("#StickyStoryPointsEdit").val());
             $(values[4]).html($("#StickyDaysRemainingEdit").val());
             $(values[2]).html($("#StickyDescriptionEdit").val()); 
+            
         });          
     }
     

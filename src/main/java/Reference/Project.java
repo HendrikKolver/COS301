@@ -15,15 +15,25 @@ public class Project {
     ArrayList<Tasks> tasks;
     String videoUrl;
     ArrayList<String> usernames;
+    public ArrayList<ArrayList<Integer>> PreviousBurndownCharts = new ArrayList<ArrayList<Integer>> ();
     public ArrayList<Integer> burndownPoints = new ArrayList<Integer>();
+    
     public int rowCount =0;
+    public boolean serverStarted;
 
     String projectName;
-
+    String projectNameDisplay;
     
+
+    public Object[] getUsers()
+    {
+        return usernames.toArray();
+    }
 
     public Project()
     {
+        projectNameDisplay  = "none";
+        serverStarted = false;
         burndownPoints.add(0);
         id="";
         videoUrl="";
@@ -42,7 +52,16 @@ public class Project {
     }
 
     public void setProjectName(String projectName) {
+        projectNameDisplay = projectName;
         this.projectName = projectName;
+    }
+
+    public String getProjectNameDisplay() {
+        return projectNameDisplay;
+    }
+
+    public void setProjectNameDisplay(String projectNameDisplay) {
+        this.projectNameDisplay = projectNameDisplay;
     }
     
     public String getId() {
@@ -75,6 +94,37 @@ public class Project {
 
     public void setVideoUrl(String videoUrl) {
         this.videoUrl = videoUrl;
+    }
+    
+    public Object[] getBurndowncharts()
+    {
+        ArrayList<ArrayList<Integer>> temp = new ArrayList<ArrayList<Integer>>();
+        
+        for (int i = PreviousBurndownCharts.size()-1; i >= 0; i--)
+        {
+            temp.add(PreviousBurndownCharts.get(i));
+        }
+        return temp.toArray();
+    }
+    
+    public Object[] getRecentBurndowncharts()
+    {
+        return burndownPoints.toArray();
+    }
+    
+    public boolean isCurrentBurndownChart()
+    {
+        if (burndownPoints.toArray().length == 1)
+        {
+                return (burndownPoints.get(0)!=0);
+        }
+        else 
+            return true;
+    }
+    
+    public int getSprintSize()
+    {
+        return PreviousBurndownCharts.size();
     }
     
     

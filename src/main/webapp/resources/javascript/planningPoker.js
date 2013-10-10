@@ -13,8 +13,8 @@ function joinRoom()
         
         if(person == "")
         {
-            person = window.prompt("name","");
-           // person=$("[id='userLogin:userUsername']").val(); 
+            //person = window.prompt("name","");
+            person=$("[id='userLogin:userUsername']").val(); 
         }
             
         wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
@@ -24,6 +24,11 @@ function joinRoom()
             
              wsPoker.send('join,join,'+$("#ProjectIDHolder").val());
              
+             setTimeout(function () {
+                $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
+            }, 100);
+        
         }, 500);
 
         function planningPokerlisteners()
@@ -55,6 +60,7 @@ function joinRoom()
                             wsPoker.send("finishTask,"+currentTask+","+finalPoints+","+$("#ProjectIDHolder").val());
                             wsPoker.send("removeAllCards,removeAllCards,"+$("#ProjectIDHolder").val());
                             
+                            
                             $("#planningPokerCardSelector").children().each(function()
                             {
                                 if ($(this).val() == currentTask)
@@ -66,6 +72,9 @@ function joinRoom()
                                 }   
                             });
                             removeAllCards();
+                            
+                           $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                            wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
                     });
                     
                     $(document.body).on("click", ".planningPokerCard",function()
@@ -110,14 +119,9 @@ function joinRoom()
         
         $("#planningPokerCardSelector").change(function () {
                 var txt = $(this).val();
-//                if(!isChanged)
-//                {
-//                    isChanged = true;
-//                }
-//                else
-//                {
+                    
                     wsPoker.send("changeTask,"+txt+","+$("#ProjectIDHolder").val());
-                //}
+
                 
             }).trigger('change');
 
@@ -150,6 +154,9 @@ function joinRoom()
                             return;
                         }   
                     });
+                    
+                    $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                    wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
             }
 
             function removeAllCards()

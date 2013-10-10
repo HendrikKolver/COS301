@@ -241,7 +241,7 @@ public class index
                {
                    tmp.setDays("0");
                }else
-                tmp.setDays(t[x].getDays());
+               tmp.setDays(t[x].getDays());
                tmp.setDescription(t[x].getDescription());
                tmp.setName(t[x].getName());
                if(t[x].getPoints()==null || !isInteger(t[x].getPoints()))
@@ -253,6 +253,7 @@ public class index
                
                if(t[x].getTopPos()==null ||t[x].getLeftPos()==null || !isInteger(t[x].getTopPos()) || !isInteger(t[x].getLeftPos()))
                {
+                   System.out.println("Failed");
                    tmp.setPos("0","0");
                }else
                    tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
@@ -261,6 +262,8 @@ public class index
                tmp.setStatus(t[x].getStatus());
                tmp.setComments(t[x].getComments());
                tmp.setSubTasks(t[x].getSubTasks());
+               tmp.setSprintBacklog(t[x].isSprintBacklog());
+               tmp.setProjectID(t[x].getProjectID());
                tmp.dbUpdate();
                 System.out.println("Task: "+ x);
                w.getTasks().add(tmp);
@@ -275,7 +278,7 @@ public class index
     public boolean isInteger(String s) 
     {
         try { 
-            Integer.parseInt(s); 
+            Double.parseDouble(s); 
         } catch(NumberFormatException e) { 
             return false; 
         }

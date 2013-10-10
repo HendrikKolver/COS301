@@ -70,7 +70,8 @@ public class PlanningPoker  extends BaseWebSocketHandler {
         tasks = Reference.getTasks();
         System.out.println("recievedMessage");
         String pieces[] = message.split(",");
-        String tmpProjectId = pieces[pieces.length-1];
+        String tmpProjectId="";
+        tmpProjectId = pieces[pieces.length-1];
         
         
             
@@ -138,7 +139,7 @@ public class PlanningPoker  extends BaseWebSocketHandler {
             for(int i=0; i<tasks.size();i++)
             {
                 //This will eventually only be the project backlog that will be looped excluding tasks already in the sprintBacklog/Completed
-                if(tasks.get(i).getProjectID().equals(tmpProjectId))
+                if(tasks.get(i)!=null && tasks.get(i).getProjectID().equals(tmpProjectId))
                 {
                     if(!tasks.get(i).getSprintBacklog())
                         connection.send("unplannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID());

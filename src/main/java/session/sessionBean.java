@@ -24,7 +24,7 @@ public class sessionBean implements Serializable
     boolean loggedIn;
     String projectID ;
     Project project;
-    String videoChatUrl ;
+    String videoChatUrl;
 
     public Project getProject() {
         return project;

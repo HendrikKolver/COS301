@@ -1,4 +1,9 @@
-Planning Poker Tmp Branch
-------------------------------------------
+Integration Branch
+----------------------------
 
-This branch is used to add features related to the planning poker and project backlog features
+This branch is for all mojor test that need to be run before the application is considered working.
+
+Use this branch to integrate and test components before merging to master.
+
+Important: master must always be working as bug free as possible
+

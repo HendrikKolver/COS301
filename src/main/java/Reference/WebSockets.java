@@ -120,11 +120,23 @@ public class WebSockets extends BaseWebSocketHandler {
         
         connectionCount--;
     }
+    
+    public String[] removeUnwantedTags(String list[])
+    {
+        for (int i = 0; i < list.length; i++) {
+            list[i]= list[i].replace("(?i)script", "");
+            list[i]= list[i].replace("(?i)script", "");
+        }
+        return list;
+        
+    }
 
     //client sends a message
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
+        
         String pieces[] = message.split(",");
+        pieces = removeUnwantedTags(pieces);
         this.tasks= Reference.tasks; 
         boolean check = false;
         String tmpProjectID =pieces[pieces.length-1];
@@ -299,6 +311,7 @@ public class WebSockets extends BaseWebSocketHandler {
                         }
                         else if(pieces[0].equals("text"))
                         {
+                            
                         int length = pieces[2].length();
                         String checkString = pieces[2].substring(length-2,length);
                         // System.out.println("Check!!!!!!!!!!!!!!!!!!: "+ checkString);
@@ -319,13 +332,16 @@ public class WebSockets extends BaseWebSocketHandler {
 
                                 }else if(checkString.equals("ys"))
                                 {
+                                    
                                     tasks.get(x).setDays(pieces[1]);
                                     int tmp = 0;
                                     if(pieces[1] != null && pieces[1].length()>0)
                                     {
+                                        
                                         for (int i = 0; i < tasks.size(); i++) {
-                                            if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog())
+                                            if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog() && tasks.get(i).getProjectID().equals(tmpProjectID))
                                             {
+                                                
                                                 tmp += Integer.parseInt(tasks.get(i).getDays());
                                             }
                                         }
@@ -372,28 +388,33 @@ public class WebSockets extends BaseWebSocketHandler {
 
             for(int x=0; x<clients.size();x++)
             {
+                System.out.println("Allclients: " + message+ " ; the id's: " +projectIDList.get(x) + ","+tmpProjectID);
                 if(!clients.get(x).equals(connection) && projectIDList.get(x).equals(tmpProjectID))
                 {
+                    System.out.println("SpecificClients: " + message);
                     clients.get(x).send(message);
                 }
             }
+            
             message = "burndown,";
             
-                for (int i = 0; i < Reference.projects.size(); i++) 
+            for (int i = 0; i < Reference.projects.size(); i++) 
+            {
+                if(Reference.projects.get(i).getId().equals(tmpProjectID))
                 {
                     for(int x=0; x<Reference.projects.get(i).burndownPoints.size();x++)
                     {
-                        if(Reference.projects.get(i).getId().equals(tmpProjectID))
+                    
+                        if(x==Reference.projects.get(i).burndownPoints.size()-1)
                         {
-                            if(x==Reference.projects.get(i).burndownPoints.size()-1)
-                            {
-                                message+= Reference.projects.get(i).burndownPoints.get(x);
-                            }else
-                                message+= Reference.projects.get(i).burndownPoints.get(x)+";";
-                        }
+                            message+= Reference.projects.get(i).burndownPoints.get(x);
+                        }else
+                            message+= Reference.projects.get(i).burndownPoints.get(x)+";";
+                    }
                 }
                 
             }
+            
             for(int x=0; x<clients.size();x++)
             {
                 if(projectIDList.get(x).equals(tmpProjectID))
@@ -401,6 +422,7 @@ public class WebSockets extends BaseWebSocketHandler {
                     clients.get(x).send(message);
                 }
             }
+            
             System.out.println("Message sent to clients, Task size: " + tasks.size());
         }
         Reference.tasks = this.tasks;

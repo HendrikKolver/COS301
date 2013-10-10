@@ -55,7 +55,7 @@ function joinScrum()
 
             //listeners for text area editing
             $('.synchingInputs').bind('input propertychange', function() { 
-                ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value)+','+$("#ProjectIDHolder").val();
+                ws.send('text,'+ $(this).val() + "," +document.getElementById("stickyHiddenID").value+$(this).attr('id')+','+document.getElementById("stickyHiddenID").value+','+$("#ProjectIDHolder").val());
                 var jqueryID = "#"+ document.getElementById("stickyHiddenID").value+$(this).attr('id');
                 $(jqueryID).html($(this).val());
 
@@ -87,7 +87,7 @@ function joinScrum()
         //return function that recieves server reply
         function showMessage(text) 
         {
-
+            
             var chars = text.split(',');
             var text = (chars[0] +',' + chars[1]);
 
@@ -111,7 +111,7 @@ function joinScrum()
             }
             else if(chars[0] == 'text')
             {
-
+                
                 var line = ""+chars[1]+"";
                 var id= "#"+chars[2];
                 if($(id).length == 0)
@@ -157,14 +157,16 @@ function joinScrum()
                 updateLightBox(chars[3]);
             }else if (chars[0] == 'burndown')
             {
-            drawChart(chars[1]);
+                drawChart(chars[1]);
             }else if(chars[0] == 'openOptions')
             {
-
-                openLightBox(chars[1]);
-                var htmlValue = $("#"+chars[1]+"Hidden").html();
-                $("#subTasks").html(htmlValue);
-                $("#StickyComments").val($("#"+chars[1]+"HiddenComments").html());
+                if($("#syncOptionsButton").html().trim()=="Unsync")
+                {
+                    openLightBox(chars[1]);
+                    var htmlValue = $("#"+chars[1]+"Hidden").html();
+                    $("#subTasks").html(htmlValue);
+                    $("#StickyComments").val($("#"+chars[1]+"HiddenComments").html());
+                }
 
             }else if(chars[0] == 'closeOptions')
             {
@@ -314,12 +316,28 @@ function joinScrum()
                 $("#StickyComments").val($("#"+id+"HiddenComments").html());
                 $("#lightboxNewSubTask").val("");
                 addDelete();
-                ws.send("openOptions,"+id+','+$("#ProjectIDHolder").val());
+                
+                //insert if statement here
+                
+                    ws.send("openOptions,"+id+','+$("#ProjectIDHolder").val());
 
 
             });  
 
         }
+        
+        $("#syncOptionsButton").click(function(){
+        
+            
+            if($("#syncOptionsButton").html().trim()=="Sync")
+                {
+                    $("#syncOptionsButton").html("Unsync");
+                }
+                else
+                {
+                    $("#syncOptionsButton").html("Sync");
+                }
+        });
 
         function openLightBox(id)
             {
@@ -541,6 +559,8 @@ function joinScrum()
 
         $("#finishSprint").on("click",function()
         {
+            
+            $("[id='finishSprintForm:finishSprintButton']").click();
             alert('sprint done!');
         });
 

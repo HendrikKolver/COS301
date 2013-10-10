@@ -7,6 +7,8 @@ package za.co.rhmsolutions.scrum.business.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 /**
  *
@@ -36,6 +38,8 @@ public class Task //persistent
     boolean sprintBacklog;
     String projectID;
     boolean deleted;
+    
+
 
    
 
