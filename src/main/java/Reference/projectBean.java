@@ -6,6 +6,8 @@ package Reference;
 
 import java.util.ArrayList;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import session.sessionBean;
 
 /**
  *
@@ -13,17 +15,299 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name = "projectBean")
 public class projectBean {
-    
+    @ManagedProperty(value = "#{sessionBean}")
+    private sessionBean session;
+
+    public sessionBean getSession() {
+        return session;
+    }
+
+    public void setSession(sessionBean session) {
+        this.session = session;
+    }
     
     Tasks notStartedlist[];
     Tasks inProgressList[];
     Tasks completedList[];
+    Tasks sprintNotStarted[];
+    Tasks sprintInProgress[];
+    Tasks sprintCompleted[];
+    String taskName ="A dummy Task name";
+    String personResponsible = "Unnasigned";
+    String description ="None";
+    String editTaskName ="A dummy Task name";
+    String editPersonResponsible = "Unnasigned";
+    String editDescription ="None";
+    String storyPoints ="0";
+    String daysLeft ="0";
+    String projectID = "";
+    String taskID ="";
 
-    public Tasks[] getCompletedList() {
-        ArrayList<Tasks> t = Reference.w.getTasks();
+    public Object[] getAllProjects()
+    {
+        Object[] tmp;
+        int tmpCounter= 0;
+        for (int i = 0; i < Reference.projects.size(); i++) {
+            for(int x=0; x<Reference.projects.get(i).usernames.size();x++)
+            {
+                if(Reference.projects.get(i).usernames.get(x).equals(session.getUsername()))
+                {
+                    tmpCounter++;
+                }
+            }   
+        }
+        tmp = new Object[tmpCounter];
+        tmpCounter = 0;
+            for (int i = 0; i < Reference.projects.size(); i++) {
+                for(int x=0; x<Reference.projects.get(i).usernames.size();x++)
+                {
+                    if(Reference.projects.get(i).usernames.get(x).equals(session.getUsername()))
+                    {
+                        tmp[tmpCounter] = Reference.projects.get(i);
+                        tmpCounter++;
+                    }
+                }   
+            }
+        
+        
+        return tmp;
+    }
+
+    public String getTaskID() {
+        return taskID;
+    }
+
+    public void setTaskID(String taskID) {
+        this.taskID = taskID;
+        for (int i = 0; i < Reference.getTasks().size(); i++) {
+            if(Reference.getTasks().get(i).getID().equals(taskID))
+            {
+                if(Reference.getTasks().get(i).getSprintBacklog())
+                {
+                    Reference.getTasks().get(i).setSprintBacklog(false);
+                }else
+                {
+                    Reference.getTasks().get(i).setSprintBacklog(true);
+                }
+            }  
+        }
+    }
+
+    public String getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(String projectID) {
+        System.out.println("Setting project ID: " + projectID);
+        this.projectID = projectID;
+    }
+
+    public String getEditDescription() {
+        return editDescription;
+    }
+
+    public void setEditDescription(String editDescription) {
+        this.editDescription = editDescription;
+        
+        ArrayList<Tasks> tmpTasks = Reference.tasks;
+        for (int i = 0; i < tmpTasks.size(); i++) {
+            if(tmpTasks.get(i).getID().equals(projectID))
+            {
+                System.out.println("Setting Description: " + editDescription);
+                 tmpTasks.get(i).setDescription(this.editDescription);
+                 break;
+            }
+        }
+    }
+
+    public String getEditPersonResponsible() {
+        return editPersonResponsible;
+    }
+
+    public void setEditPersonResponsible(String editPersonResponsible) {
+        this.editPersonResponsible = editPersonResponsible;
+        ArrayList<Tasks> tmpTasks = Reference.tasks;
+        for (int i = 0; i < tmpTasks.size(); i++) {
+            if(tmpTasks.get(i).getID().equals(projectID))
+            {
+                 tmpTasks.get(i).setResponsible(this.editPersonResponsible);
+                 break;
+            }
+        }
+    }
+
+    public String getEditTaskName() {
+        return editTaskName;
+    }
+
+    public void setEditTaskName(String editTaskName) {
+        this.editTaskName = editTaskName;
+        ArrayList<Tasks> tmpTasks = Reference.tasks;
+        for (int i = 0; i < tmpTasks.size(); i++) {
+            if(tmpTasks.get(i).getID().equals(projectID))
+            {
+                 tmpTasks.get(i).setName(this.editTaskName);
+                 break;
+            }
+        }
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getDaysLeft() {
+        return daysLeft;
+    }
+
+    public void setDaysLeft(String daysLeft) {
+        this.daysLeft = daysLeft;
+        ArrayList<Tasks> tmpTasks = Reference.tasks;
+        for (int i = 0; i < tmpTasks.size(); i++) {
+            if(tmpTasks.get(i).getID().equals(projectID))
+            {
+                 tmpTasks.get(i).setDays(this.daysLeft);
+                 break;
+            }
+        }
+    }
+
+    public String getStoryPoints() {
+        return storyPoints;
+    }
+
+    public void setStoryPoints(String storyPoints) {
+        this.storyPoints = storyPoints;
+        ArrayList<Tasks> tmpTasks = Reference.tasks;
+        for (int i = 0; i < tmpTasks.size(); i++) {
+            if(tmpTasks.get(i).getID().equals(projectID))
+            {
+                 tmpTasks.get(i).setPoints(this.storyPoints);
+                 break;
+            }
+        }
+    }
+
+    public void setDescription(String description) {
+        System.out.println("Set description: "+ description);
+        this.description = description;
+    }
+
+    public String getPersonResponsible() {
+        return personResponsible;
+    }
+
+    public void setPersonResponsible(String personResponsible) {
+        System.out.println("Set personResponsible: "+ personResponsible);
+        this.personResponsible = personResponsible;
+    }
+    
+
+    public String getTaskName() {
+        
+        return taskName;
+    }
+    
+    public void setTaskName(String taskName) {
+        System.out.println("Set Task Name: "+ taskName);
+        this.taskName = taskName;
+    }
+    
+    public void updateSpecificTask()
+    {
+        System.out.println("Updating the task");
+    }
+    
+    public void updateDB()
+    {
+       System.out.println("Update DB Called"); 
+       //Tasks t = new Tasks();
+       ArrayList<Tasks> tmp = Reference.tasks;
+       tmp.get(tmp.size()-1).setName(taskName);
+       tmp.get(tmp.size()-1).setDescription(description);
+       tmp.get(tmp.size()-1).setResponsible(personResponsible);
+       tmp.get(tmp.size()-1).setProjectID(session.getProjectID());
+       System.out.println("Project id for task: "+tmp.get(tmp.size()-1).getProjectID());
+       //Reference.w.sendTasks();
+    }
+
+    
+
+    public Tasks[] getSprintCompleted() {
+        ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("completed"))
+            if(t.get(i).getStatus().equals("completed") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
+            {
+                k++;
+            }
+            
+        }
+        sprintCompleted = new Tasks[k];
+        k=0;
+        for (int i = 0; i < t.size(); i++) {
+            
+            if(t.get(i).getStatus().equals("completed") && t.get(i).getSprintBacklog()  && session.getProject().getId().equals(t.get(i).getProjectID()))
+            {
+                sprintCompleted[k]=t.get(i);
+                k++;
+            }
+        }
+        return sprintCompleted;
+    }
+
+    public Tasks[] getSprintInProgress() {
+        ArrayList<Tasks> t = Reference.getTasks();
+        int k=0;
+        for (int i = 0; i < t.size(); i++) {
+            if(t.get(i).getStatus().equals("inProgress") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
+            {
+                k++;
+            }
+            
+        }
+        sprintInProgress = new Tasks[k];
+        k=0;
+        for (int i = 0; i < t.size(); i++) {
+            
+            if(t.get(i).getStatus().equals("inProgress") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
+            {
+                sprintInProgress[k]=t.get(i);
+                k++;
+            }
+        }
+        return sprintInProgress;
+    }
+
+    public Tasks[] getSprintNotStarted() {
+         ArrayList<Tasks> t = Reference.getTasks();
+        int k=0;
+        for (int i = 0; i < t.size(); i++) {
+            if(t.get(i).getStatus().equals("notStarted") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
+            {
+                k++;
+            }
+            
+        }
+        sprintNotStarted = new Tasks[k];
+        k=0;
+        for (int i = 0; i < t.size(); i++) {
+            
+            if(t.get(i).getStatus().equals("notStarted") && t.get(i).getSprintBacklog() && session.getProject().getId().equals(t.get(i).getProjectID()))
+            {
+                sprintNotStarted[k]=t.get(i);
+                k++;
+            }
+        }
+        return sprintNotStarted;
+    }
+    
+
+    public Tasks[] getCompletedList() {
+        ArrayList<Tasks> t = Reference.getTasks();
+        int k=0;
+        for (int i = 0; i < t.size(); i++) {
+            if(t.get(i).getStatus().equals("completed") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -33,7 +317,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("completed"))
+            if(t.get(i).getStatus().equals("completed") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 completedList[k]=t.get(i);
                 k++;
@@ -43,10 +327,10 @@ public class projectBean {
     }
 
     public Tasks[] getInProgressList() {
-        ArrayList<Tasks> t = Reference.w.getTasks();
+        ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("inProgress"))
+            if(t.get(i).getStatus().equals("inProgress") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -56,7 +340,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("inProgress"))
+            if(t.get(i).getStatus().equals("inProgress") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 inProgressList[k]=t.get(i);
                 k++;
@@ -66,10 +350,10 @@ public class projectBean {
     }
 
     public Tasks[] getNotStartedlist() {
-        ArrayList<Tasks> t = Reference.w.getTasks();
+        ArrayList<Tasks> t = Reference.getTasks();
         int k=0;
         for (int i = 0; i < t.size(); i++) {
-            if(t.get(i).getStatus().equals("notStarted"))
+            if(t.get(i).getStatus().equals("notStarted") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 k++;
             }
@@ -79,7 +363,7 @@ public class projectBean {
         k=0;
         for (int i = 0; i < t.size(); i++) {
             
-            if(t.get(i).getStatus().equals("notStarted"))
+            if(t.get(i).getStatus().equals("notStarted") && session.getProject().getId().equals(t.get(i).getProjectID()))
             {
                 notStartedlist[k]=t.get(i);
                 k++;

@@ -1,6 +1,7 @@
+
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * The AppUser entity class. A class for users that creates a user object 
+ * with the necessary user details. Will be persisted to the database
  */
 package za.co.rhmsolutions.scrum.business.entity;
 
@@ -10,7 +11,7 @@ import javax.persistence.Id;
 
 /**
  *
- * @author Richard
+ * @author Richard O'Brien
  */
 @Entity
 public class AppUser
@@ -21,24 +22,56 @@ public class AppUser
     
     String name;
     String surname;
-    String email;
+    String Username;
+    String Password;
 
-    //needed for jpa
+    /*
+     * Default Constructer needed for jpa
+     */
     public AppUser() 
     {
         
     }
 
-    public AppUser(String name, String surname, String email) {
+    /*
+     * AppUser Constructer 
+     * @params 
+     * name: String
+     * surname: String
+     * Username: String
+     * Password: String (MD5 Hashed)
+     */
+    public AppUser(String name, String surname, String Username, String Password) {
         this.name = name;
         this.surname = surname;
-        this.email = email;
+        this.Username = Username;
+        this.Password = Password;
     }
 
+    /*
+     * Returns Password as String
+     */
+    public String getPassword() {
+        return Password;
+    }
+
+    /*
+     *Sets Password
+     */
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
+
+    /*
+     * Returns user's name as String
+     */
     public String getName() {
         return name;
     }
 
+    /*
+     * Sets name as String
+     */
     public void setName(String name) {
         this.name = name;
     }
@@ -51,12 +84,12 @@ public class AppUser
         this.surname = surname;
     }
 
-    public String getEmail() {
-        return email;
+    public String getUsername() {
+        return Username;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setUsername(String Username) {
+        this.Username = Username;
     }
 
     public Long getId() {

@@ -21,14 +21,16 @@ public class ChatSocket  extends BaseWebSocketHandler {
 	private static ChatSocket w ;
     
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
-    String chatHistory;
+    ArrayList<String> projectIdReference = new ArrayList<String>();
+    
+    
     
     
     
     public ChatSocket()
     {
         System.out.println("constructor");
-        chatHistory = "";
+        
         
     }
 	
@@ -37,14 +39,15 @@ public class ChatSocket  extends BaseWebSocketHandler {
      public void onOpen(WebSocketConnection connection) {
         System.out.println("ClientConnected!");
         clients.add(connection);
-        connection.send(chatHistory);
+        projectIdReference.add("");
         connectionCount++;
-        //System.out.println("clientCOunt: "+ connectionCount);
     }
 
     //client disconnects
     @Override
     public void onClose(WebSocketConnection connection) {
+        
+        projectIdReference.remove(clients.indexOf(connection));
         clients.remove(connection);  
         connectionCount--;
     }
@@ -52,15 +55,29 @@ public class ChatSocket  extends BaseWebSocketHandler {
     //client sends a message
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
-       chatHistory+= message;
+        String pieces[] = message.split(",");
         System.out.println("recievedMessage Chat");
 
-        //send message to all clients
-        for(int x=0; x<clients.size();x++)
+        //send message to all client
+        if(pieces[0].equals("message"))
         {
-            if(!clients.get(x).equals(connection))
+            System.out.println("master id: "+ pieces[pieces.length-1]);
+            for(int x=0; x<clients.size();x++)
             {
-                clients.get(x).send(message);
+                System.out.println("message id: "+ projectIdReference.get(x));
+                if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(pieces[pieces.length-1]))
+                {
+                    clients.get(x).send(pieces[1]);
+                }
+            }
+        }else if(pieces[0].equals("join"))
+        {
+            for (int i = 0; i < clients.size(); i++) {
+                if(connection.equals(clients.get(i)))
+                {
+                    projectIdReference.set(i, pieces[pieces.length-1]);
+                    System.out.println("set value: "+ projectIdReference.get(i));        
+                }
             }
         }
         

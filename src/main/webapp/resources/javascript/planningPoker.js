@@ -1,11 +1,9 @@
-var wsPoker 
-
+var wsPoker; 
 var person = "";
 var isPlanningPokerListeners = false;
+var isChanged = false;
 function joinRoom()
-{
-	
-	    
+{       isChanged = false;
         if(!isPlanningPokerListeners)
         {
             planningPokerlisteners();
@@ -15,30 +13,36 @@ function joinRoom()
         
         if(person == "")
         {
-            person=prompt("Please enter your name","name"); 
+            //person = window.prompt("name","");
+            person=$("[id='userLogin:userUsername']").val(); 
         }
             
-
         wsPoker.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
         
         setTimeout(function () {
             //alert("here");
-             wsPoker.send('join,join');
+            
+             wsPoker.send('join,join,'+$("#ProjectIDHolder").val());
+             
+             setTimeout(function () {
+                $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
+            }, 100);
+        
         }, 500);
 
         function planningPokerlisteners()
         {
-            
             isPlanningPokerListeners = true;
-            
-            
-            
             //Scores have been resolved, add points to task and move on
                 $('body').on('click', '#sumbitPlanningAmount', function() 
                 {
-
-
                         var currentTask = $("#planningPokerCardSelector").val();
+                        if(currentTask == null)
+                        {
+                            alert("There are no tasks left to plan");
+                            return;  
+                        }
                         var r=confirm("Add '"+currentTask+"' to Sprint?")
                         if (r==false)
                             return;
@@ -53,7 +57,10 @@ function joinRoom()
                                                                             '</tr>'+
                                                                         '</table>'+
                                                                 ' </div>');
-                            wsPoker.send("finishTask,"+currentTask+","+finalPoints);
+                            wsPoker.send("finishTask,"+currentTask+","+finalPoints+","+$("#ProjectIDHolder").val());
+                            wsPoker.send("removeAllCards,removeAllCards,"+$("#ProjectIDHolder").val());
+                            
+                            
                             $("#planningPokerCardSelector").children().each(function()
                             {
                                 if ($(this).val() == currentTask)
@@ -64,7 +71,10 @@ function joinRoom()
                                     return;
                                 }   
                             });
-
+                            removeAllCards();
+                            
+                           $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                            wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
                     });
                     
                     $(document.body).on("click", ".planningPokerCard",function()
@@ -74,7 +84,7 @@ function joinRoom()
                             $("#chosenCard"+person).children(":first").html($(this).children(":first").html());
 
                             //send to other clients
-                            wsPoker.send("choice,"+$(this).children(":first").html()+","+person);
+                            wsPoker.send("choice,"+$(this).children(":first").html()+","+person+","+$("#ProjectIDHolder").val());
 
                             $("#cardHolder").find(".myChosenCard").children(":first").removeClass("myChosenCardInner").addClass("planningPokerCardInner");
                             $("#cardHolder").find(".myChosenCard").removeClass("myChosenCard").addClass("planningPokerCard");
@@ -89,41 +99,35 @@ function joinRoom()
                             $(".side-2").attr("class",'flip side-2 flip-side-1');
                             $(".side-1").attr("class",'flip side-1 flip-side-2');
                             calculateAllScores();
-                            wsPoker.send("flip,flip");
+                            wsPoker.send("flip,flip,"+$("#ProjectIDHolder").val());
                     });
 
                     $(document.body).on("click", "#flipBack",function()
                     {
                             $(".side-2").attr("class",'flip side-2');
                             $(".side-1").attr("class",'flip side-1');
-                            wsPoker.send("flip,flipBack");
+                            wsPoker.send("flip,flipBack,"+$("#ProjectIDHolder").val());
                     });
                     
-                    
-
         }
         //Populates drop-down list dynamically based on the cards on screen
         $(".planningPokerCard").each(function()
         {
-            $("#selectFinalPlanningPoker").append("<option>"+$(this).children(":first").html()+"</option>");
+            if ($(this).children(":first").html() != '?') //Question mark would break DB
+                $("#selectFinalPlanningPoker").append("<option>"+$(this).children(":first").html()+"</option>");
         });
         
         $("#planningPokerCardSelector").change(function () {
                 var txt = $(this).val();
-            //alert(txt);
-                wsPoker.send("changeTask,"+txt);
+                    
+                    wsPoker.send("changeTask,"+txt+","+$("#ProjectIDHolder").val());
 
+                
             }).trigger('change');
 
-
-        
-       
-
-
         $('body').on('click', '#nextTask', function() { 
-            wsPoker.send("next,next");
+            wsPoker.send("next,next,"+$("#ProjectIDHolder").val());
         });
-
 
             function addToSprint(points,task)
             {
@@ -150,8 +154,18 @@ function joinRoom()
                             return;
                         }   
                     });
+                    
+                    $("#planningPokerCardSelector").val($("#planningPokerCardSelector").children(":last-child").val()).change();
+                    wsPoker.send("changeTask,"+$("#planningPokerCardSelector").val+","+$("#ProjectIDHolder").val());
             }
 
+            function removeAllCards()
+            {
+                $("#cardTableR1").html("");
+                var x = $(".myChosenCard");
+                $(x).removeClass("myChosenCard").addClass("planningPokerCard");
+                $(x).children(":first").removeClass("myChosenCardInner").addClass("planningPokerCardInner");
+            }
 
         function showMessage(text) 
         {
@@ -219,6 +233,14 @@ function joinRoom()
             {
                 addToSprint(chars[2],chars[1]);
             }
+            else if(chars[0] == "removeAllCards")
+            {
+                removeAllCards();
+            }
+            else if(chars[0] == "plannedTask")
+            {
+                addToSprint(chars[3],chars[1]);
+            }
 
 
         }
@@ -265,6 +287,4 @@ function joinRoom()
                 });
                 $("#outputAAverages").html(Math.round((compute/counter)*100)/100);
         }
-	    
-	
 }

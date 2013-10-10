@@ -16,6 +16,17 @@ public class Tasks {
     private String comments;
     private String subTasks;
     private boolean sprintBacklog;
+    private String projectID;
+
+    public String getProjectID() {
+        
+        return projectID;
+    }
+
+    public void setProjectID(String projectID) {
+        update = true;
+        this.projectID = projectID;
+    }
 
     public String getComments() {
         return comments;
@@ -102,6 +113,7 @@ public class Tasks {
     
     public void setSprintBacklog(boolean s)
     {
+        update = true;
         sprintBacklog = s;   
     }
 

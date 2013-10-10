@@ -12,8 +12,8 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name = "navBean")
 public class navigationBean {
-    boolean scrumPage = false;
-    String pageToLoad = "scrum.xhtml";
+    boolean scrumPage = true;
+    String pageToLoad = "projects.xhtml";
 
     public String getPageToLoad() {
         return pageToLoad;

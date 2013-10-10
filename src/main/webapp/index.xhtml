@@ -15,12 +15,13 @@
         <script type = "text/javascript" src="resources/javascript/highcharts.js"></script>
         <script type = "text/javascript" src="resources/javascript/exporting.js"></script>
         <script type = "text/javascript" src="resources/javascript/video.js"></script>
+        
         <script src="https://webrtc-experiment.appspot.com/firebase.js"> </script>
         <script src="resources/javascript/meeting.js"> </script>
-        <script>
+<!--        <script>
             var hash = window.location.hash.replace('#', '');
             if (!hash.length) location.href = location.href + '#meeting-roomid-' + ((Math.random() * new Date().getTime()).toString(36).toLowerCase().replace( /\./g , '-'));
-        </script>
+        </script>-->
         
 
         <title>Distributed Scrum Teamboard</title>
@@ -29,43 +30,89 @@
             <h:outputText value="#{syncServer.startChat()}" />
              <h:outputText value="#{syncServer.startPlanningPoker()}" />
              <h:outputText value="#{syncServer.startServer()}" />
+             <h:outputText value="#{syncServer.getProjects()}" />
         <div id = 'container1' >
             <div id = 'header'>
                     <span id = 'logo'><img src = 'resources/images/logo.png' title = 'Distributed Scrum Board' height = '70px'/></span>
                     <span id = 'logo2'><img src = 'resources/images/epiuse.png' title = 'Epi-Use' height = '40px'/></span>
+                    <!--<a href="./AdminResource">Login</a><br />
+                    <a href="./LogoutServlet">Log out</a><br />-->
             </div>
-
+        
         <div id = 'navContainer'>
                 <table id = 'nav'>
                         <tr>
-                            <h:form>
+                            <h:form id="navForm">
                                 <td>
                                     <h:commandButton class="navLink" value="Scrum Page"  action="#{navBean.changeScrum('scrum.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton>
                                 </td>
                                 <td>
-                                    <h:commandButton class="navLink" value="Project Backlog"  action="#{navBean.changeScrum('projectBacklog.xhtml')}">
+                                    <h:commandButton class="navLink" id="navBacklog" value="Project Backlog"  action="#{navBean.changeScrum('projectBacklog.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton>
                                 </td>
                                 <td><h:commandButton class="navLink" value="Planning Poker"  action="#{navBean.changeScrum('planningPoker.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton></td>
-                                <td><h:commandButton class="navLink" value="Video Chat" action="video"/></td>
-                                <td><div id="StartChat" class = 'navLink'>LinkChat</div></td>
+                                <td><h:commandButton id="projectNavLink" class="navLink" value="Projects"  action="#{navBean.changeScrum('projects.xhtml')}">
+                                        <f:ajax  render=":editdivParent"></f:ajax>
+                                    </h:commandButton></td>
+                                <td><div  class = 'navLink'>Admin</div></td>
 
                             </h:form>
                         </tr>
                 </table>
+            <h:form id="projectNameForm">
+                <h:commandButton id="projectNameFormButton" action="#{projectManagementBean.doNothing()}" style="display: none;">
+                        <f:ajax  render=":ProjectNameDisplayReload"></f:ajax>
+                </h:commandButton>
+            </h:form>
+            
+            <h:panelGroup id="ProjectNameDisplayReload" layout="block">
+                <div style="margin-left:30px; max-width: 270px; color:white; margin-top: -30px;">
+                    Current Project:<br/> <span id="projectDisplayButton"><b><h:outputText id="ProjectNameDisplay" value="#{sessionBean.project.projectName}" /></b></span><br/>
+                </div>
+                <input value="#{sessionBean.projectID}" id="ProjectIDHolder" style="display:none"/>
+            </h:panelGroup>
+            
+            <div style="margin-right:30px; max-width: 270px; float: right; color:white; margin-top: -40px;">
+                Logged in as: <b><h:outputText value="#{sessionBean.username}" /></b><br/>
+                <button id ="logOut" style ="float:right; margin-top: 5px;">Log Out</button>
+                <a style="display:none" id ="logOutHref" href="./LogoutServlet">Log out</a>
             </div>
+        </div>
+
+            <script>
+                $(document).ready(function()
+                {
+                    $("#logOut").click(function()
+                    {
+                        window.location = $('#logOutHref').attr('href');
+                    });
+                    
+                    $("#projectDisplayButton").click(function(){
+                        $("[id='navForm:projectNavLink']").click();
+                    });
+                    
+                    
+                    if($("#ProjectNameDisplay").html() == "")
+                    {
+                        $("#ProjectNameDisplay").html("None");  
+                    }
+                    
+                    $("#projectDisplayButton").click();
+                    
+                });
+            </script>
 
 
             <div id="body">
                 <h:panelGroup id="editdivParent" layout="block">
                     <h:panelGroup id="scrumDiv" rendered="#{navBean.scrumPage}" layout="block">
                         <ui:include src="#{navBean.pageToLoad}">
-
+                            
                         </ui:include>
                     </h:panelGroup>
                 </h:panelGroup>
@@ -82,6 +129,7 @@
                         <tr>
                             <td>
                                 <div id="videoLoad" style ="width: 100%; margin: 0 auto"> 
+                                    
                                 </div>
                             </td>
                             <td style="width:242px; height:100%; border-left: 2px solid rgb(107,107,107);">
@@ -91,7 +139,7 @@
                                     </div>
                                     
                                     <div id ="textChatHeader" style="height:30px; line-height: 30px; width:220px;">
-                                        Name: <input style="max-width:130px;" type ="text" id ="chatName"/>
+                                        Project Chat<p style="max-width:130px;" id ="chatName"></p>
                                     </div>
                                     <div id ="textChatSection" style="height:210px; width:220px;">
                                     </div> 
@@ -154,6 +202,65 @@
                       <f:ajax execute="@form"/>
                   </h:commandButton>
                 </h:form>
+                
+                <h:form id="addTaskProjectBacklog" style="display:none">
+                    <h:inputText id="taskNameAdd" value="#{projectBean.taskName}"/>
+                    <h:inputText id="personResponsibleAdd" value="#{projectBean.personResponsible}"/>
+                    <h:inputText id="descriptionAdd" value="#{projectBean.description}"/>
+                    <h:commandButton id='addTaskClick' action="#{projectBean.updateDB()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+                </h:form>
+            
+                <h:form id="updateLastTaskForm" style="display:none"> 
+                    <h:commandButton id='updateLastTask' action="#{index.updateLastTask()}"> 
+                      <f:ajax execute="@form"/>
+                      
+                  </h:commandButton>
+                </h:form>
+            
+                <h:form id="updateSpecificTask" style="display:none">
+                    <h:inputText id="updateProjectID" value="#{projectBean.projectID}"/>
+                    <h:inputText id="updateProjectIDIndex" value="#{index.updateID}"/>
+                    <h:inputText id="updateTaskName" value="#{projectBean.editTaskName}"/>
+                    <h:inputText id="updatePersonResponsible" value="#{projectBean.editPersonResponsible}"/>
+                    <h:inputText id="updateDescription" value="#{projectBean.editDescription}"/>
+                    <h:inputText id="updateStoryPoints" value="#{projectBean.storyPoints}"/>
+                    <h:inputText id="updateDaysLeft" value="#{projectBean.daysLeft}"/>
+                    <h:commandButton id='updateSpecificTaskButton' action="#{index.update()}"> 
+                      <f:ajax execute="@form"/>
+                      
+                  </h:commandButton>
+                </h:form>
+            
+            <h:form id="updateAddRemoveSprint" style="display:none">
+                <h:inputText id="updateTaskID" value="#{projectBean.taskID}"/>
+                <h:commandButton id='updateAddRemoveTaskButton' action="#{index.update()}"> 
+                    <f:ajax execute="@form"/>
+                </h:commandButton>
+            </h:form>
+            
+            <h:form id="userLogin" style="display:none">
+                <h:inputText id="userUsername" value="#{sessionBean.username}"/>
+                <h:inputText id="userProjectID" value="#{sessionBean.projectID}"/>
+                <h:inputText id="userLoggedIn" value="#{sessionBean.loggedIn}"/>
+                <h:inputText id="userVideoUrl" value="#{sessionBean.videoChatUrl}"/>
+            </h:form>
+            
+            <h:outputText value="#{index.getAllTasks()}" />
+            
+            <h:form id="selectSessionProject" style="display:none">
+                <h:inputText id="sessionProjectID" value="#{projectManagementBean.id}"/>
+                <h:commandButton id='selectSessionProjectUpdate' action="#{projectManagementBean.changeSessionProject()}"> 
+                    <f:ajax execute="@form"/>
+                </h:commandButton>
+            </h:form>
+            
+            <h:form id="finishSprintForm" style="display:none">
+                <h:commandButton id='finishSprintButton' action="#{finishSprintBean.finishSprint()}"> 
+                    <f:ajax execute="@form"/>
+                </h:commandButton>
+            </h:form>
             
             
             
@@ -161,7 +268,6 @@
              <script type ="text/javascript" src="resources/javascript/scrumPage.js"></script>
              <script type = "text/javascript" src="resources/javascript/chat.js"></script>
             
-
         </div>
     </h:body>
 </html>

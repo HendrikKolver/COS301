@@ -252,10 +252,5 @@
             });
     });
     
-    //Extra Stuff for various other things
-    $("#closeLightBox").click(function()
-    {
-       document.getElementById('light').style.display='none';document.getElementById('fade').style.display='none';
-    });
-   
+
 //});
