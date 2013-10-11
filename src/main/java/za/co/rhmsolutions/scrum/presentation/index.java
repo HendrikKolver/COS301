@@ -50,6 +50,16 @@ public class index
     String subTasks;
     boolean sprintBacklog;
     String projectID;
+    
+    String projectName;
+
+    public String getProjectname() {
+        return projectName;
+    }
+
+    public void setProjectname(String projectname) {
+        this.projectName = projectname;
+    }
 
     public String getFlag() {
         System.out.println("andBack");
@@ -283,5 +293,34 @@ public class index
             return false; 
         }
         return true;
+    }
+    
+    public void createProject()
+    {
+//        System.out.println("Create Project Clicked!");
+//        WebSockets w = Reference.w;
+//        for(int x=0; x< w.getTasks().size();x++)
+//        {
+//            if(w.getTasks().get(x).getUpdate())
+//            {
+//                name = w.getTasks().get(x).getName();
+//                topPos = w.getTasks().get(x).getTopPos();
+//                leftPos = w.getTasks().get(x).getLeftPos();
+//                status = w.getTasks().get(x).getStatus();
+//                description = w.getTasks().get(x).getDescription();
+//                responsible = w.getTasks().get(x).getResponsible();
+//                points = w.getTasks().get(x).getPoints();
+//                days = w.getTasks().get(x).getDays();
+//                colour = w.getTasks().get(x).getColour();
+//                comments = w.getTasks().get(x).getComments();
+//                subTasks = w.getTasks().get(x).getSubTasks();
+//                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+//                projectID = w.getTasks().get(x).getProjectID();
+//
+//                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
+//                
+//                w.getTasks().get(x).dbUpdate();
+//            }
+//        }
     }
 }

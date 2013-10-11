@@ -4,6 +4,7 @@
  */
 package za.co.rhmsolutions.scrum.business.entity;
 
+import java.util.ArrayList;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,13 @@ public class Project
     
     String name;
     String company;
-    String description;
+    
+    ArrayList<String> usernames;
+    
+    ArrayList<ArrayList<Integer>> PreviousBurndownCharts;
+    ArrayList<Integer> burndownPoints;
+    
+    boolean deleted;
 
     //Needed for jpa
     public Project() 
@@ -31,18 +38,23 @@ public class Project
         
     }
 
-    public Project(String name, String company, String description) {
+    public Project(String name, String company) {
         this.name = name;
         this.company = company;
-        this.description = description;
+        
+        usernames = new ArrayList<String>();
+        PreviousBurndownCharts = new ArrayList<ArrayList<Integer>> ();
+        burndownPoints = new ArrayList<Integer>();
+        
+        deleted = false;
     }
     
-    public String getDescription() {
-        return description;
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public String getName() {
@@ -68,5 +80,29 @@ public class Project
     public void setId(Long id) {
         this.id = id;
     }
-    
+
+    public ArrayList<String> getUsernames() {
+        return usernames;
+    }
+
+    public ArrayList<ArrayList<Integer>> getPreviousBurndownCharts() {
+        return PreviousBurndownCharts;
+    }
+
+    public ArrayList<Integer> getBurndownPoints() {
+        return burndownPoints;
+    }
+
+    public void setUsernames(ArrayList<String> usernames) {
+        this.usernames = usernames;
+    }
+
+    public void setPreviousBurndownCharts(ArrayList<ArrayList<Integer>> PreviousBurndownCharts) {
+        this.PreviousBurndownCharts = PreviousBurndownCharts;
+    }
+
+    public void setBurndownPoints(ArrayList<Integer> burndownPoints) {
+        this.burndownPoints = burndownPoints;
+    }
+
 }

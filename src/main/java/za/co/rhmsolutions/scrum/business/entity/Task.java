@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 
 /**
  *
- * @author Richard
+ * @author Richard O'Brien
  * Boundaries are able to access entities directly
  * Anything that is persistent is placed in entity package
  * Entity: Persistent
@@ -261,7 +261,7 @@ public class Task //persistent
  * Sets the id of the task. 
  * The Setter for the id attribute 
  *
- * @param  id the String id of the task    
+ * @param  id the long id of the task    
  */      
     public void setId(long id) {
         this.id = id;

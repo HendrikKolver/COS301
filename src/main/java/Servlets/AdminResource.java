@@ -62,7 +62,7 @@ public class AdminResource extends HttpServlet {
             
             HttpSession session = request.getSession();
             
-            AppUser user = appUserService.getByName(remoteUser);
+            AppUser user = appUserService.getByUsername(remoteUser);
             
             bean.setUsername(user.getUsername());
             bean.setLoggedIn(true);
