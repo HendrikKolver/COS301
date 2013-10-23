@@ -24,6 +24,7 @@ public class AppUser
     String surname;
     String Username;
     String Password;
+    boolean deleted;
 
     /*
      * Default Constructer needed for jpa
@@ -46,6 +47,8 @@ public class AppUser
         this.surname = surname;
         this.Username = Username;
         this.Password = Password;
+        
+        deleted = false;
     }
 
     /*
@@ -98,6 +101,14 @@ public class AppUser
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
 }

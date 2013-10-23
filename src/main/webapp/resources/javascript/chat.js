@@ -1,5 +1,7 @@
 var wsChat;
 
+//-----------------------------------------------------------------------------------------------
+//Send a request via websockets to join the chat room
 function joinChatRoom()
 {
     wsChat.send("join,"+$("#ProjectIDHolder").val());
@@ -7,8 +9,14 @@ function joinChatRoom()
 
 $(document).ready(function()
 {
+        //-----------------------------------------------------------------------------------------------
+        //Initial setup of components and variables
+        $("#chatName").val($("[id='userLogin:userUsername']").val());
+        $("#textChatSection").html( $("[id='textChatHolder:htmlValue']").val());
     
-    setTimeout(function () {
+        //-----------------------------------------------------------------------------------------------
+        //initiate a connetion with the websocket server, The timeout is used to ensure the server is up
+        setTimeout(function () {
             wsChat = new WebSocket('ws://' +window.location.hostname+':1237'+ '/chatSocket');
             wsChat.onmessage = function(msg) {showMessage(msg.data);};//recieves a message
             
@@ -16,20 +24,16 @@ $(document).ready(function()
                 joinChatRoom();  
             }, 500);
         }, 500);
-      
-      
-     //ws.send('remove,'+document.getElementById("stickyHiddenID").value); 
-     
+
+        //-----------------------------------------------------------------------------------------------
+        //Function used to recieve websocket messages sent by the server
         function showMessage(text) 
         {
-           // alert(text);
             loadLog(text);
-            //ws.send("next,next");
         }
         
-        $("#chatName").val($("[id='userLogin:userUsername']").val());
-    
-        $("#textChatSection").html( $("[id='textChatHolder:htmlValue']").val());
+        //-----------------------------------------------------------------------------------------------
+        //Function used to send a message to the chat server
         $("#textChatSend").click(function()
         {
                 
@@ -55,6 +59,8 @@ $(document).ready(function()
                 
 	});
         
+        //-----------------------------------------------------------------------------------------------
+        //Function used to interperit the message recieved from the chat server
         function loadLog(str){
            // alert(str);
                

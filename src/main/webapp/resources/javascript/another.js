@@ -67,40 +67,6 @@ else{
     $(element).css({'position':'relative'});
 }
 }
-     /*document.body.style.height = "1400px";*/
-  /*  var myelement = $('#intoView'); // the element to act on if viewable
-    $(window).scroll(function(event)
-    {
-            if(isScrolledIntoView(myelement)) 
-            {
-                    disable_scroll();
 
-            } else 
-            {
-                enable_scroll();
-            }
-    });
-    
-    $('body').bind('DOMMouseScroll', function(e){
-     if(e.originalEvent.detail > 0) { //Down
-         $("#chatNowBtn").html("down");
-         //disable_scroll();
-     }else {
-         
-         $("#chatNowBtn").html("up");
-        enable_scroll();
-     }
-     //return false;
- });
-
- //IE, Opera, Safari
- $('body').bind('mousewheel', function(e){
-     if(e.originalEvent.wheelDelta < 0) { //Down
-         $("#chatNowBtn").html("down");
-     }else {
-         $("#chatNowBtn").html("up");
-         enable_scroll();
-     }
- });*/
 
 });

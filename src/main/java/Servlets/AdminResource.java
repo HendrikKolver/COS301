@@ -30,7 +30,7 @@ import za.co.rhmsolutions.scrum.business.entity.AppUser;
 
 
 @WebServlet(name = "AdminResource", urlPatterns = {"/AdminResource"})
-@ServletSecurity(@HttpConstraint(rolesAllowed={"admin"}))
+@ServletSecurity(@HttpConstraint(rolesAllowed={"admin", "guest"}))
 public class AdminResource extends HttpServlet {
 
     @EJB
@@ -62,17 +62,16 @@ public class AdminResource extends HttpServlet {
             
             HttpSession session = request.getSession();
             
-            AppUser user = appUserService.getByName(remoteUser);
+            AppUser user = appUserService.getByUsername(remoteUser);
             
             bean.setUsername(user.getUsername());
             bean.setLoggedIn(true);
+            bean.setAdmin(true);
             
             if(session.getAttribute("sessionBean") == null)
             {
                 session.setAttribute("sessionBean", bean);
             }
-            
-
         }
         response.sendRedirect("/Testing1/faces/index.xhtml");
     }

@@ -1,3 +1,4 @@
+//open-source code used for the web-rtc video conferencing
 (function() {
 
     // a middle-agent between public API and the Signaler object

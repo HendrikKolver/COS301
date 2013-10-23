@@ -91,7 +91,7 @@ public class TaskService
     
     public Task[] getAll()
     {
-        List l = em.createQuery("select c from Task c").setMaxResults(10).getResultList();
+        List l = em.createQuery("select c from Task c").getResultList();
 
         for (int i = 0; i < l.size(); i++) 
         {

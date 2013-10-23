@@ -25,6 +25,25 @@ public class sessionBean implements Serializable
     String projectID ;
     Project project;
     String videoChatUrl;
+    boolean admin = false;
+    boolean fakeAdmin = false;
+
+    public boolean isFakeAdmin() {
+        return fakeAdmin;
+    }
+
+    public void setFakeAdmin(boolean fakeAdmin) {
+        this.fakeAdmin = fakeAdmin;
+    }
+
+    public boolean isAdmin() {
+        System.out.println("Yay");
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
 
     public Project getProject() {
         return project;

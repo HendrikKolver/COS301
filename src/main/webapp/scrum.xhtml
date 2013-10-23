@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
     
     <body> 
     <script type = "text/javascript" src="resources/javascript/another.js"></script>
@@ -13,11 +14,11 @@
 					<div id = 'toggleTable' style="width:44px">
 						<table>
 							<tr>
-								<td style = 'height:130px; width:40px; cursor:pointer;'>
-									<img id = 'tblTog1' src = 'resources/images/tab1.png'/>
+								<td style = 'cursor:pointer;'>
+									<img id = 'tblTog1' style="width:100%; width:35px" src = 'resources/images/optionsTab.png'/>
 								</td>
 							</tr>
-							<tr>
+							<!--<tr>
 								<td style = 'height:130px; width:40px; cursor:pointer;'>
 									<img id = 'tblTog2' src = 'resources/images/tabOther.png'/>
 								</td>
@@ -26,7 +27,7 @@
 								<td style = 'height:130px; width:40px; cursor:pointer;'>
 									<img id = 'tblTog3' src = 'resources/images/tabOther.png'/>
 								</td>
-							</tr>
+							</tr>-->
 						</table>
 					</div>
 					
@@ -36,22 +37,49 @@
 						<div id = 'toggle1' >
 							<table style = 'padding:0'>
 								<tr style = 'width:100%'>
-									<td style='width:660px; height:600px; border: 1px solid black;  border-left: 0; background-color:lightgray;'>                                      
-                                                                            <button id="addTask"> Add Task </button>
-                                                                            <button id="addRow"> Add Row </button>
-                                                                            <button id="addDay"> Add Day</button>
-                                                                            <button id="finishSprint"> Finish Sprint </button>
-                                                                            <button id="syncOptionsButton" style="position:relative; left:200px;">Sync</button>
+									
+                                                                    <td style='width:660px; height:600px; border: 1px solid grey;  border-left: 0; background-color:lightgray;'>                                      
+                                                                           
+                                                                        <table style ='width:100%;  text-align:center; margin-top:-100px'>
+                                                                            
+                                                                            
+                                                                            <tr>
+                                                                                <td colspan="3">
+                                                                                    <div id="container" style="width: 500px; height: 350px; margin: 0 auto"></div>
+                                                                                </td>
+                                                                            </tr>
+                                                                            
+                                                                            <tr>
+                                                                                <td colspan="3"><h3>Scrumboard Options:</h3></td>
+                                                                            </tr>
+                                                                            
+                                                                            <tr>
+                                                                                <td></td>
+                                                                                <td><button id="addRow" title ='Add Row to Table'> Add Row </button>
+                                                                                    <button id="addDay" title ='Simulate the passing of a day'> Add Day</button>
+                                                                                    <button id="finishSprint" title ='Finalise Sprint'> Finish Sprint</button>
+                                                                                    <button id="syncOptionsButton" title ='Sync/Unsync yourself from chat'>Sync</button>
+                                                                                </td>
+                                                                                <td></td>
+                                                                            </tr>
+                                                                            
+                                                                        </table>
+                                                                                
+                                                                                    
+                                                                                
+                                                                                
+                                                                                
+                                                                                
 									</td>
 									
-									<td style = 'width:40px; padding:0;'>
-										<img id = 'tog1' src = 'resources/images/tab1.png' style='float:right; position:relative; top: -242px; left:-2px;'/>
-									</td>
+                                                                        <td style = 'min-height:130px; width:60px; cursor:pointer;'>
+                                                                            <img id = 'tog1' style="float:right; position:relative; top: -197px; left: -25px; width:35px" src = 'resources/images/optionsTab.png'/>
+                                                                        </td>
 								</tr>
 							</table>	
 						</div>
 						
-						<div id = 'toggle2'>
+						<!--<div id = 'toggle2'>
 							<table style = 'padding:0'>
 								<tr style = 'width:100%'>
 									<td style='width:660px; height:600px; border: 1px solid black;  border-left: 0; background-color:lightgray;'>
@@ -76,15 +104,15 @@
 									</td>
 								</tr>
 							</table>	
-						</div>
+						</div>-->
 					</div>
 				</div>
                     
-                              <div id = 'toggleTable2' style='width:90px;'>
+                              <!--<div id = 'toggleTable2' style='width:90px;'>
 						<table>
 							<tr>
-								<td style = 'height:130px; width:40px; cursor:pointer;'>
-									<img id = 'replacement1' src = 'resources/images/tab1.png'/>
+								<td style = 'min-height:130px; width:60px; cursor:pointer;'>
+									<img id = 'replacement1' src = 'resources/images/otherTab.png'/>
 								</td>
 							</tr>
 							<tr>
@@ -98,7 +126,7 @@
 								</td>
 							</tr>
 						</table>
-					</div>
+					</div>-->
 
                     <div id ="extraContainer" style ="position: absolute; top:160px;">
                     <div id="DragContainer" style ="position:relative; left:40px; min-height: 0px;">

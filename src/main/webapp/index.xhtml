@@ -15,6 +15,7 @@
         <script type = "text/javascript" src="resources/javascript/highcharts.js"></script>
         <script type = "text/javascript" src="resources/javascript/exporting.js"></script>
         <script type = "text/javascript" src="resources/javascript/video.js"></script>
+        <script type = "text/javascript" src="resources/javascript/md5.js"></script>
         
         <script src="https://webrtc-experiment.appspot.com/firebase.js"> </script>
         <script src="resources/javascript/meeting.js"> </script>
@@ -30,7 +31,8 @@
             <h:outputText value="#{syncServer.startChat()}" />
              <h:outputText value="#{syncServer.startPlanningPoker()}" />
              <h:outputText value="#{syncServer.startServer()}" />
-             <h:outputText value="#{syncServer.getProjects()}" />
+             <h:outputText value="#{index.addProjects()}" />
+             <h:outputText value="#{index.getUsers()}" />
         <div id = 'container1' >
             <div id = 'header'>
                     <span id = 'logo'><img src = 'resources/images/logo.png' title = 'Distributed Scrum Board' height = '70px'/></span>
@@ -43,8 +45,11 @@
                 <table id = 'nav'>
                         <tr>
                             <h:form id="navForm">
+                                <td><h:commandButton id="projectNavLink" class="navLink" value="Projects"  action="#{navBean.changeScrum('projects.xhtml')}">
+                                        <f:ajax  render=":editdivParent"></f:ajax>
+                                    </h:commandButton></td>
                                 <td>
-                                    <h:commandButton class="navLink" value="Scrum Page"  action="#{navBean.changeScrum('scrum.xhtml')}">
+                                    <h:commandButton class="navLink" value="Scrum Page" id="navScrumPage"  action="#{navBean.changeScrum('scrum.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton>
                                 </td>
@@ -56,10 +61,10 @@
                                 <td><h:commandButton class="navLink" value="Planning Poker"  action="#{navBean.changeScrum('planningPoker.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton></td>
-                                <td><h:commandButton id="projectNavLink" class="navLink" value="Projects"  action="#{navBean.changeScrum('projects.xhtml')}">
+                                
+                                <td><h:commandButton id="adminNavLink" class="navLink" value="Admin"  action="#{navBean.changeScrum('admin.xhtml')}">
                                         <f:ajax  render=":editdivParent"></f:ajax>
                                     </h:commandButton></td>
-                                <td><div  class = 'navLink'>Admin</div></td>
 
                             </h:form>
                         </tr>
@@ -161,14 +166,8 @@
                     </div>
                 
             </div>
-            
-            
-            <!--<div id = 'footer1'>
-            </div>
-            <div id = 'footer2'>
-                    <br/>RHM Software Solutions 2013
-            </div>-->
-            
+
+            <!--Forms used for back end calls -->
                 <h:form id="form2" style="display:none"> 
                     <h:commandButton id='testButton' action="#{index.updateID()}"> 
                       <f:ajax execute="@form"/>
@@ -262,8 +261,95 @@
                 </h:commandButton>
             </h:form>
             
+            <h:form id="ProjectCreateForm" style="display:none">
+                   <h:inputText id="ProjectCreateFormName" value="#{index.projectName}"/>
+                    <h:commandButton id='ProjectCreateFormAction' action="#{index.createProject()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
             
+            <h:form id="userdetails" style="display:none">
+                   <h:inputText id="userdetailsAdmin" value="#{sessionBean.admin}"/>       
+            </h:form>
             
+            <h:form id="setUpdateProjects" style="display:none">
+                    <h:commandButton id='projectsUpdateButton' action="#{projectManagementBean.setProjectUpdate()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="updateProjectsDB" style="display:none">
+
+                <h:commandButton id='updateProjectsDBButton' action="#{index.projectUpdate()}">   
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="userToAddForm" style="display:none">
+                   <h:inputText id="userToAddName" value="#{projectManagementBean.userToAdd}"/>
+                   <h:inputText id="userToAddID" value="#{projectManagementBean.projectID}"/>
+                    <h:commandButton id='userToAddButton' action="#{projectManagementBean.addUser()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="userToRemoveForm" style="display:none">
+                   <h:inputText id="userToRemoveName" value="#{projectManagementBean.userToRemove}"/>
+                   <h:inputText id="userToRemoveID" value="#{projectManagementBean.projectID}"/>
+                    <h:commandButton id='userToRemoveButton' action="#{projectManagementBean.removeUser()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="userToCreateForm" style="display:none">
+                <h:inputText id="userToCreateName" value="#{adminBean.userToAddName}"/>
+                <h:inputText id="userToCreateSurname" value="#{adminBean.userToAddSurname}"/>
+                <h:inputText id="userToCreateUsername" value="#{adminBean.userToAddUsername}"/>
+                <h:inputText id="userToCreatePassword" value="#{adminBean.userToAddPassword}"/>
+                <h:commandButton id='userToCreateButton' action="#{adminBean.addUser()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="projectEditForm" style="display:none">
+                <h:inputText id="projectEditName" value="#{adminBean.projectToEditName}"/>
+                <h:inputText id="projectEditID" value="#{adminBean.projectToEditID}"/>
+                <h:commandButton id='projectEditButton' action="#{adminBean.editProject()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="userToUpdateForm" style="display:none">
+                <h:inputText id="userToUpdateOldUsername" value="#{adminBean.oldUsername}"/>
+                <h:inputText id="userToUpdateName" value="#{adminBean.userToAddName}"/>
+                <h:inputText id="userToUpdateSurname" value="#{adminBean.userToAddSurname}"/>
+                <h:inputText id="userToUpdatePassword" value="#{adminBean.userToAddPassword}"/>
+                <h:commandButton id='userToUpdateButton' action="#{adminBean.updateUser()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="userDBUpdate" style="display:none">
+                <h:commandButton id='userDBUpdateButton' action="#{index.updateUsers()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="userDBAdd" style="display:none">
+                <h:commandButton id='userDBAddButton' action="#{index.addUser()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:form id="projectDeleteForm" style="display:none">
+                <h:inputText id="projectDeleteIdBean" value="#{adminBean.projectToDeleteID}"/>
+                <h:inputText id="projectDeleteIdDB" value="#{index.projectID}"/>
+                <h:commandButton id='projectDeleteFormButton' action="#{index.deleteProjects()}"> 
+                      <f:ajax execute="@form"/>
+                  </h:commandButton>
+            </h:form>
+            
+            <h:outputText value="#{videoLink.address}" style="display:none;"/>
              <script type ="text/javascript" src="resources/javascript/planningPoker.js"></script>
              <script type ="text/javascript" src="resources/javascript/scrumPage.js"></script>
              <script type = "text/javascript" src="resources/javascript/chat.js"></script>
