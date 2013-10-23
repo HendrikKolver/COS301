@@ -24,66 +24,99 @@ public class SprintService
     
     public void create(Long projectID, ArrayList<Integer> bChart)
     {
-       boolean t = true;
-       List l = em.createQuery("select c from Sprint c WHERE c.projectID='" + projectID + "' AND c.active='" + t + "'").setMaxResults(10).getResultList();
-       
-       Sprint[] sp = new Sprint[l.size()];
-        
-        for (int i = 0; i < l.size(); i++) 
+        try
         {
-            sp[i] = (Sprint)(l.get(i));
+            boolean t = true;
+            List l = em.createQuery("select c from Sprint c WHERE c.projectID='" + projectID + "' AND c.active='" + t + "'").getResultList();
+
+            Sprint[] sp = new Sprint[l.size()];
+
+            for (int i = 0; i < l.size(); i++) 
+            {
+                sp[i] = (Sprint)(l.get(i));
+            }
+
+            for (int i = 0; i < sp.length; i++) {
+                sp[i].setActive(false);
+                em.persist(sp[i]);
+                System.out.println("Active Sprint Changed!");
+            }
+
+            Sprint s = new Sprint(projectID, bChart);
+            em.persist(s);
         }
-        
-        for (int i = 0; i < sp.length; i++) {
-            sp[i].setActive(false);
-            em.persist(sp[i]);
-            System.out.println("Active Sprint Changed!");
-        }
-        
-       Sprint s = new Sprint(projectID, bChart);
-       em.persist(s);     
+        catch (Exception e)
+        {
+            System.out.println("Warning: SprintService, create");
+        }    
     }
     
-     public void create(Long projectID)
+    public void create(Long projectID)
     {
-       boolean t = true;
-       List l = em.createQuery("select c from Sprint c WHERE c.projectID='" + projectID + "' AND c.active='" + t + "'").setMaxResults(10).getResultList();
-       
-       Sprint[] sp = new Sprint[l.size()];
-        
-        for (int i = 0; i < l.size(); i++) 
+        try
         {
-            sp[i] = (Sprint)(l.get(i));
-        }
-        
-        for (int i = 0; i < sp.length; i++) {
-            sp[i].setActive(false);
-            em.persist(sp[i]);
-            System.out.println("Active Sprint Changed!");
-        }
-        
-       Sprint s = new Sprint(projectID);
-       em.persist(s); 
+            boolean t = true;
+            List l = em.createQuery("select c from Sprint c WHERE c.projectID='" + projectID + "' AND c.active='" + t + "'").getResultList();
 
+            Sprint[] sp = new Sprint[l.size()];
+
+            for (int i = 0; i < l.size(); i++) 
+            {
+                sp[i] = (Sprint)(l.get(i));
+            }
+
+            for (int i = 0; i < sp.length; i++) {
+                sp[i].setActive(false);
+                em.persist(sp[i]);
+                System.out.println("Active Sprint Changed!");
+            }
+
+            Sprint s = new Sprint(projectID);
+            em.persist(s);     
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: SprintService, create");
+        }
     }
     
     public Sprint[] getAll(Long projectId)
     {
-        List l = em.createQuery("select c from Sprint c WHERE c.projectID='" + projectId + "'").setMaxResults(10).getResultList();
-
-        Sprint[] s = new Sprint[l.size()];
-        
-        for (int i = 0; i < l.size(); i++) 
+        try
         {
-            s[i] = (Sprint)(l.get(i));
-        }
+            List l = em.createQuery("select c from Sprint c WHERE c.projectID='" + projectId + "'").getResultList();
 
-        return s;
+            Sprint[] s = new Sprint[l.size()];
+
+            for (int i = 0; i < l.size(); i++) 
+            {
+                s[i] = (Sprint)(l.get(i));
+            }
+
+            return s;    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: SprintService, getAll");
+        }
+        
+        Sprint temp = new Sprint();
+        Sprint[] t = new Sprint[1];
+        t[0] = temp;
+        
+        return t;
     }
     
     public void updateCurrentSprint(Long projectID, ArrayList<Integer> bChart)
     {
-        boolean active = true;
-        em.createQuery("UPDATE Sprint t SET t.burndownChart='" + bChart + "' WHERE t.projectID='" + projectID + "' AND t.active='" + active+ "'").executeUpdate();
+        try
+        {
+            boolean active = true;
+            em.createQuery("UPDATE Sprint t SET t.burndownChart='" + bChart + "' WHERE t.projectID='" + projectID + "' AND t.active='" + active+ "'").executeUpdate();    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: SprintService, updateCurrentSprint");
+        } 
     }
 }

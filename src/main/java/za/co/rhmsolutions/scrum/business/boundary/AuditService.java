@@ -12,7 +12,7 @@ import za.co.rhmsolutions.scrum.business.entity.Audit;
 
 /**
  *
- * @author Richard
+ * @author Richard O'Brien
  */
 @Stateless
 public class AuditService 
@@ -22,17 +22,33 @@ public class AuditService
     
     public void create(String log)
     {
-        Audit a = new Audit(log);
-        em.persist(a);
+        try
+        {
+            Audit a = new Audit(log);
+            em.persist(a);    
+        }
+        catch(Exception e)
+        {
+            System.out.println("Warning: AuditService, create");
+        } 
     }
     
     public int countLogs()
     {
-        List l = em.createQuery("select a from Audit a").getResultList();
+        try
+        {
+            List l = em.createQuery("select a from Audit a").getResultList();
+
+            int count = l.size();
+
+            return count;    
+        }
+        catch(Exception e)
+        {
+            System.out.println("Warning: AuditService, countLogs");
+        }
         
-        int count = l.size();
-        
-        return count;
+        return -1;
     }
     
 }

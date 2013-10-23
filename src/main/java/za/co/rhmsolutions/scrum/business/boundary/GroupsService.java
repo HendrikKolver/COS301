@@ -25,29 +25,45 @@ public class GroupsService
     
     public void create(String groupID, String username)
     {
-        groups u = new groups(groupID, username);
-        
-        em.persist(u);
-        
-        System.out.println("User ID: " + u.getId());
+        try
+        {
+            groups u = new groups(groupID, username);
+
+            em.persist(u);
+
+            System.out.println("User ID: " + u.getId());
+        }
+        catch(Exception e)
+        {
+            System.out.println("Warning: GroupsService, create");
+        }
     }
     
     public String getPrivilege(String username)
     {
-        List l = em.createQuery("select c.GroupId from groups c WHERE c.Username='" + username + "'").setMaxResults(1).getResultList();
-        
-        String privilegeLevel;
-                
-        if (l.size() == 1)
+        try
         {
-            privilegeLevel = (String) l.get(0);
+            List l = em.createQuery("select c.GroupId from groups c WHERE c.Username='" + username + "'").setMaxResults(1).getResultList();
+
+            String privilegeLevel;
+
+            if (l.size() == 1)
+            {
+                privilegeLevel = (String) l.get(0);
+            }
+            else
+            {
+                privilegeLevel = "NOT FOUND";
+                System.out.println("WARNING: USER HAS NO PRIVILEGE LEVEL!");
+            }
+
+            return privilegeLevel;    
         }
-        else
+        catch(Exception e)
         {
-            privilegeLevel = "NOT FOUND";
-            System.out.println("WARNING: USER HAS NO PRIVILEGE LEVEL!");
+            System.out.println("Warning: GroupsService, getPrivilege");
         }
         
-        return privilegeLevel;
+        return "guest";
     }
 }

@@ -463,8 +463,6 @@ public class index
                  
                  System.out.println("Updated Project " + projectID);
                  Reference.getProjects().get(x).dbUpdate();
-                 
-                 break;//?
             }
         }
         

@@ -29,97 +29,120 @@ public class ProjectService
     
     public long create(String name)
     {
-        Project p = new Project(name);
-        em.persist(p);
+        try
+        {
+            Project p = new Project(name);
+            em.persist(p);
+
+            Sprint s = new Sprint(p.getId());
+            em.persist(s);
+
+            System.out.println("Project persisted!");
+
+            long id = p.getId();
+            System.out.println("Project ID: " + p.getId());
+
+            return id;    
+        }
+        catch(Exception e)
+        {
+            System.out.println("Warning: ProjectService, create");
+        }
         
-        Sprint s = new Sprint(p.getId());
-        em.persist(s);
-        
-        System.out.println("Project persisted!");
-        
-       long id = p.getId();
-       System.out.println("Project ID: " + p.getId());
-       
-       return id;
+        return -1;
     }
     
     public void setRoomID(long id, String roomID)
     {
-        List l = em.createQuery("select p from Project p WHERE p.id='" + id + "'").getResultList();
+        try
+        {
+            List l = em.createQuery("select p from Project p WHERE p.id='" + id + "'").getResultList();
+
+            if (l.size() == 1)
+            {
+                //i.e. unique result
+                Project p = (Project) l.get(0);
+                p.setRoom_ID(roomID);
+                em.merge(p);
+                System.out.println("Room ID added to project!!");
+            }
+            else
+            {
+                System.out.println("WARNING! Failed to add Room ID!");
+            }    
+        }
+        catch(Exception e)
+        {
+            System.out.println("Warning: ProjectService, setRoomID");
+        }
         
-        if (l.size() == 1)
-        {
-            //i.e. unique result
-            Project p = (Project) l.get(0);
-            p.setRoom_ID(roomID);
-            em.merge(p);
-            System.out.println("Room ID added to project!!");
-        }
-        else
-        {
-            System.out.println("WARNING! Failed to add Room ID!");
-        }
+        
     }
     
     public void update(long id, String name, ArrayList<String> usernames, ArrayList<ArrayList<Integer>> PreviousBurndownCharts, ArrayList<Integer> burndownPoints)
     {
-       //List l = em.createQuery("select p from Project p WHERE p.id='" + id + "'").setMaxResults(10).getResultList();
-        List l = em.createQuery("select s from Sprint s WHERE s.projectID='" + id + "'").getResultList();
-        int size = l.size();
-        
-        System.out.println("PreviousBurndownCharts size: " + PreviousBurndownCharts.size());
-        System.out.println("l size: " + l.size());
-        
-        if (PreviousBurndownCharts.size() == l.size())
+        try
         {
-            //i.e. new sprint!
-            for (int i = 0; i < l.size(); i++) 
-            {
-                Sprint temp = (Sprint) l.get(i);
-                temp.setActive(false);
-                em.merge(temp);
-            }
+            List l = em.createQuery("select s from Sprint s WHERE s.projectID='" + id + "'").getResultList();
+            int size = l.size();
 
-            Sprint temp = (Sprint) l.get(size - 1);
-            temp.setBurndownChart(PreviousBurndownCharts.get(PreviousBurndownCharts.size() - 1));
-            em.merge(temp);
-            
-            Sprint s = new Sprint(id);
-            em.persist(s);
-        }
-        else
-        {
-            Sprint temp = (Sprint) l.get(size-1);
-            
-            if (temp.isActive())
+            System.out.println("PreviousBurndownCharts size: " + PreviousBurndownCharts.size());
+            System.out.println("l size: " + l.size());
+
+            if (PreviousBurndownCharts.size() == l.size())
             {
-                temp.setBurndownChart(burndownPoints);
+                //i.e. new sprint!
+                for (int i = 0; i < l.size(); i++) 
+                {
+                    Sprint temp = (Sprint) l.get(i);
+                    temp.setActive(false);
+                    em.merge(temp);
+                }
+
+                Sprint temp = (Sprint) l.get(size - 1);
+                temp.setBurndownChart(PreviousBurndownCharts.get(PreviousBurndownCharts.size() - 1));
                 em.merge(temp);
+
+                Sprint s = new Sprint(id);
+                em.persist(s);
             }
             else
             {
-                System.out.println("WARNING! Last sprint set to false!!!");
-            }   
-        }
-        
-        List j = em.createQuery("select p from Project p WHERE p.id='" + id + "'").getResultList();
-        
-        System.out.println("Project Count returned: " + j.size());
-        
-        if (j.size() == 1)
-        {
-            //i.e. unique result
-            Project p = (Project) j.get(0);
-            p.setName(name);
-            p.setUsernames(usernames);
-            em.merge(p);
-            System.out.println("Project Updated!");
-        }
-        else
-        {
-            System.out.println("WARNING! Project Update Failed!");
-        }
+                Sprint temp = (Sprint) l.get(size-1);
 
+                if (temp.isActive())
+                {
+                    temp.setBurndownChart(burndownPoints);
+                    em.merge(temp);
+                }
+                else
+                {
+                    System.out.println("WARNING! Last sprint set to false!!!");
+                }   
+            }
+
+            List j = em.createQuery("select p from Project p WHERE p.id='" + id + "'").getResultList();
+
+            System.out.println("Project Count returned: " + j.size());
+
+            if (j.size() == 1)
+            {
+                //i.e. unique result
+                Project p = (Project) j.get(0);
+                p.setName(name);
+                p.setUsernames(usernames);
+                em.merge(p);
+                System.out.println("Project Updated!");
+            }
+            else
+            {
+                System.out.println("WARNING! Project Update Failed!");
+            }
+        }
+        catch(Exception e)
+        {
+            System.out.println("Warning: ProjectService, update");
+        }
     }
     
     public Project[] getAllProjects ()
@@ -153,8 +176,10 @@ public class ProjectService
         }
         catch (Exception e)
         {
-            System.out.println("Broke Here!!!!!!!!!!!!!");
+            System.out.println("Warning: ProjectService, getAllProjects");
         }
+        
+        
 
         P = new Project[0];
         return P;
@@ -162,14 +187,15 @@ public class ProjectService
     
     public void delete (long id)
     {
-        boolean d = true;
-        //em.createQuery("DELETE FROM Task t WHERE t.id='" + id+ "'").executeUpdate();
-        em.createQuery("UPDATE Project p SET p.deleted='" + d + "' WHERE p.id='" + id + "'").executeUpdate();
-    }
-    
-    public void addUserToProject()
-    {
-        
+        try
+        {
+            boolean d = true;
+            em.createQuery("UPDATE Project p SET p.deleted='" + d + "' WHERE p.id='" + id + "'").executeUpdate();   
+        }
+        catch(Exception e)
+        {
+            System.out.println("Warning: ProjectService, delete");
+        }
     }
     
     public ArrayList<ArrayList<Integer>> getBurndownCharts(long id)
@@ -206,7 +232,7 @@ public class ProjectService
         }
         catch (Exception e)
         {
-            System.out.println("Exception Found: ProjectService: getBurndownCharts");
+            System.out.println("Warning: ProjectService, getBurndownCharts");
         }
         
         return result;
