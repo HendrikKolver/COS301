@@ -4,7 +4,10 @@
  */
 package Reference;
 
+import Injection.ScriptCheck;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebServer;
 import org.webbitserver.WebServers;
@@ -55,33 +58,49 @@ public class ChatSocket  extends BaseWebSocketHandler {
     //client sends a message
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
-        String pieces[] = message.split(",");
-        System.out.println("recievedMessage Chat");
+        try{
+            
+            ScriptCheck s= new ScriptCheck();
+            message = s.removeScript(message);
+            
+            Calendar cal = Calendar.getInstance();
+            cal.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss");
+            Reference.audit.add(sdf.format(cal.getTime())+", "+ message);
+            
+            
+            String pieces[] = message.split(",");
+            System.out.println("recievedMessage Chat");
+            
+            
 
-        //send message to all client
-        if(pieces[0].equals("message"))
-        {
-            System.out.println("master id: "+ pieces[pieces.length-1]);
-            for(int x=0; x<clients.size();x++)
+            //send message to all client
+            if(pieces[0].equals("message"))
             {
-                System.out.println("message id: "+ projectIdReference.get(x));
-                if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(pieces[pieces.length-1]))
+                System.out.println("master id: "+ pieces[pieces.length-1]);
+                for(int x=0; x<clients.size();x++)
                 {
-                    clients.get(x).send(pieces[1]);
+                    System.out.println("message id: "+ projectIdReference.get(x));
+                    if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(pieces[pieces.length-1]))
+                    {
+                        clients.get(x).send(pieces[1]);
+                    }
+                }
+            }else if(pieces[0].equals("join"))
+            {
+                for (int i = 0; i < clients.size(); i++) {
+                    if(connection.equals(clients.get(i)))
+                    {
+                        projectIdReference.set(i, pieces[pieces.length-1]);
+                        System.out.println("set value: "+ projectIdReference.get(i));        
+                    }
                 }
             }
-        }else if(pieces[0].equals("join"))
+        
+        }catch(Exception e)
         {
-            for (int i = 0; i < clients.size(); i++) {
-                if(connection.equals(clients.get(i)))
-                {
-                    projectIdReference.set(i, pieces[pieces.length-1]);
-                    System.out.println("set value: "+ projectIdReference.get(i));        
-                }
-            }
-        }
-        
-        
+            System.out.println("ChatSocket.java, on message");
+        }   
     }
 
     public static void main() {

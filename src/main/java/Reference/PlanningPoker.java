@@ -4,7 +4,10 @@
  */
 package Reference;
 
+import Injection.ScriptCheck;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebServer;
 import org.webbitserver.WebServers;
@@ -67,157 +70,165 @@ public class PlanningPoker  extends BaseWebSocketHandler {
     //client sends a message
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
-        tasks = Reference.getTasks();
-        System.out.println("recievedMessage");
-        String pieces[] = message.split(",");
-        String tmpProjectId="";
-        tmpProjectId = pieces[pieces.length-1];
-        
-        
+        try{
+            ScriptCheck s= new ScriptCheck();
+            message = s.removeScript(message);
             
-        
-        
-        
-        if(pieces[0].equals("next"))
-        {
-           if(tasks == null || count >= tasks.size())
-            {
-                message ="done,done";
-            }
-            else
-            {
-                
-                message = "taskInfo,"+tasks.get(count).getName()+","+tasks.get(count).getDescription();
-                count++;
-            }
-           //send task to all clients
-           for(int x=0; x<clients.size();x++)
-            {
-                if(projectIdReference.get(x).equals(tmpProjectId)) 
-                    clients.get(x).send(message);
-            }
-        }else if(pieces[0].equals("choice"))
-        {
-            //do nothing with message
-            choices.add(message);
-            for(int x=0; x<clients.size();x++)
-            {
-                if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
-                {
-                    clients.get(x).send(message);
-                }
-            }
-        }
-        else if(pieces[0].equals("flip"))
-        {
-            //do nothing with message
-            //currentState.add(message);
-            for(int x=0; x<clients.size();x++)
-            {
-                if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
-                {
-                    clients.get(x).send(message);
-                }
-            }
-        }
-        else if(pieces[0].equals("join"))
-        {
-            for (int i = 0; i < choices.size(); i++) {
-                String piecesTmp[] =choices.get(i).split(",");
-                if(piecesTmp[piecesTmp.length-1].equals(tmpProjectId))
-                    connection.send(choices.get(i));   
-            }
+            Calendar cal = Calendar.getInstance();
+            cal.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss");
+            Reference.audit.add(sdf.format(cal.getTime())+", "+ message);
             
-            //setting each client project id
-            for (int i = 0; i < clients.size(); i++) {
-                if(connection.equals(clients.get(i)))
-                {
-                    projectIdReference.set(i, tmpProjectId);
-                }
-            }
-            
-            for(int i=0; i<tasks.size();i++)
+            tasks = Reference.getTasks();
+            System.out.println("recievedMessage");
+            String pieces[] = message.split(",");
+            String tmpProjectId="";
+            tmpProjectId = pieces[pieces.length-1];
+
+            if(pieces[0].equals("next"))
             {
-                //This will eventually only be the project backlog that will be looped excluding tasks already in the sprintBacklog/Completed
-                if(tasks.get(i)!=null && tasks.get(i).getProjectID().equals(tmpProjectId))
+            if(tasks == null || count >= tasks.size())
                 {
-                    if(!tasks.get(i).getSprintBacklog())
-                        connection.send("unplannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID());
-                    else
-                        connection.send("plannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID()+","+tasks.get(i).getPoints());
+                    message ="done,done";
                 }
-            }
-            
-            if(!currentTask.equals(""))
-            {
-                connection.send(currentTask);
-                connection.send(currentDescription);
-            }
-                    
-        }
-        else if(pieces[0].equals("changeTask"))
-        {
-            currentTask = message;
+                else
+                {
+
+                    message = "taskInfo,"+tasks.get(count).getName()+","+tasks.get(count).getDescription();
+                    count++;
+                }
+            //send task to all clients
             for(int x=0; x<clients.size();x++)
-            {
-                if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
                 {
-                    clients.get(x).send(message);
+                    if(projectIdReference.get(x).equals(tmpProjectId)) 
+                        clients.get(x).send(message);
+                }
+            }else if(pieces[0].equals("choice"))
+            {
+                //do nothing with message
+                choices.add(message);
+                for(int x=0; x<clients.size();x++)
+                {
+                    if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
+                    {
+                        clients.get(x).send(message);
+                    }
                 }
             }
-            for(int x=0; x<clients.size();x++)
+            else if(pieces[0].equals("flip"))
             {
+                //do nothing with message
+                //currentState.add(message);
+                for(int x=0; x<clients.size();x++)
+                {
+                    if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
+                    {
+                        clients.get(x).send(message);
+                    }
+                }
+            }
+            else if(pieces[0].equals("join"))
+            {
+                for (int i = 0; i < choices.size(); i++) {
+                    String piecesTmp[] =choices.get(i).split(",");
+                    if(piecesTmp[piecesTmp.length-1].equals(tmpProjectId))
+                        connection.send(choices.get(i));   
+                }
+
+                //setting each client project id
+                for (int i = 0; i < clients.size(); i++) {
+                    if(connection.equals(clients.get(i)))
+                    {
+                        projectIdReference.set(i, tmpProjectId);
+                    }
+                }
+
                 for(int i=0; i<tasks.size();i++)
                 {
-                    if(pieces[1].equals(tasks.get(i).getName()) && projectIdReference.get(x).equals(tmpProjectId))
+                    //This will eventually only be the project backlog that will be looped excluding tasks already in the sprintBacklog/Completed
+                    if(tasks.get(i)!=null && tasks.get(i).getProjectID().equals(tmpProjectId))
                     {
-                        clients.get(x).send("description,"+tasks.get(i).getDescription());
-                        currentDescription = "description,"+tasks.get(i).getDescription();
+                        if(!tasks.get(i).getSprintBacklog())
+                            connection.send("unplannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID());
+                        else
+                            connection.send("plannedTask,"+tasks.get(i).getName()+","+tasks.get(i).getID()+","+tasks.get(i).getPoints());
                     }
-                    
                 }
-            }
-        }
-        else if(pieces[0].equals("finishTask"))
-        {
-            for (int i = 0; i < tasks.size(); i++) {
-                if(tasks.get(i).getName().equals(pieces[1]))
-                {
-                    tasks.get(i).setPoints(pieces[2]);
-                    tasks.get(i).setSprintBacklog(true);
-                    for (int x = 0; x < choices.size(); x++) 
-                    {
-                        String piecesTmp[] =choices.get(i).split(",");
-                        if(piecesTmp[piecesTmp.length-1].equals(tmpProjectId))
-                            
-                            choices.set(x, "");
-                    }
-                    
-                    choices.remove("");
 
-                    //choices = new ArrayList<String>();
-                    break;
-                    
-                }
-            }
-            
-           for(int x=0; x<clients.size();x++)
-            {
-                if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
+                if(!currentTask.equals(""))
                 {
-                    clients.get(x).send(message);
+                    connection.send(currentTask);
+                    connection.send(currentDescription);
+                }
+
+            }
+            else if(pieces[0].equals("changeTask"))
+            {
+                currentTask = message;
+                for(int x=0; x<clients.size();x++)
+                {
+                    if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
+                    {
+                        clients.get(x).send(message);
+                    }
+                }
+                for(int x=0; x<clients.size();x++)
+                {
+                    for(int i=0; i<tasks.size();i++)
+                    {
+                        if(pieces[1].equals(tasks.get(i).getName()) && projectIdReference.get(x).equals(tmpProjectId))
+                        {
+                            clients.get(x).send("description,"+tasks.get(i).getDescription());
+                            currentDescription = "description,"+tasks.get(i).getDescription();
+                        }
+
+                    }
                 }
             }
-        }
-        else if(pieces[0].equals("removeAllCards"))
-        {
+            else if(pieces[0].equals("finishTask"))
+            {
+                for (int i = 0; i < tasks.size(); i++) {
+                    if(tasks.get(i).getName().equals(pieces[1]))
+                    {
+                        tasks.get(i).setPoints(pieces[2]);
+                        tasks.get(i).setSprintBacklog(true);
+                        for (int x = 0; x < choices.size(); x++) 
+                        {
+                            String piecesTmp[] =choices.get(i).split(",");
+                            if(piecesTmp[piecesTmp.length-1].equals(tmpProjectId))
+
+                                choices.set(x, "");
+                        }
+
+                        choices.remove("");
+
+                        //choices = new ArrayList<String>();
+                        break;
+
+                    }
+                }
+
             for(int x=0; x<clients.size();x++)
-            {
-                if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
                 {
-                    clients.get(x).send(message);
+                    if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
+                    {
+                        clients.get(x).send(message);
+                    }
                 }
             }
+            else if(pieces[0].equals("removeAllCards"))
+            {
+                for(int x=0; x<clients.size();x++)
+                {
+                    if(!clients.get(x).equals(connection) && projectIdReference.get(x).equals(tmpProjectId))
+                    {
+                        clients.get(x).send(message);
+                    }
+                }
+            }
+        }catch(Exception e)
+        {
+            System.out.println("PlanningPoker.java, onMessage()");
         }
     }
 

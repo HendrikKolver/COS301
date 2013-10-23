@@ -120,7 +120,7 @@ html.noscroll
 
 #toggleContainer{
 				position:relative;
-				top:-400px;
+				/*top:-400px;*/
                                 margin-bottom: -400px;
 				float:left;
 				height:600px;
@@ -136,7 +136,7 @@ html.noscroll
 				z-index:2;
 			}
 			
-			#toggle2{
+			/*#toggle2{
 				cursor:pointer;
 				position:relative;
 				width:700px;
@@ -154,7 +154,7 @@ html.noscroll
 				top:-1200px;
 				left:-660px;
 				z-index:4;
-			}
+			}*/
 			
 			#tog1{
 				pointer:cursor;
@@ -169,8 +169,8 @@ html.noscroll
 			#toggleTable2{
 				position:relative;
 				right:0px;
-				top:-406px;
-				left:612px;
+				/*top:-406px;
+				left:612px;*/
 				z-index:1000;
 			}
 *{
@@ -227,30 +227,28 @@ html.noscroll
 
 #addTask
 {
-    position:absolute;
+    /*position:absolute;
     left:200px;
-    top: 20px;
+    top: 20px;*/
 }
 
 #addRow
 {
-    position:absolute;
+    /*position:absolute;
     left:200px;
-    top: 80px;
+    top: 80px;*/
 }
 
 #addDay
 {
-    position:absolute;
+   /* position:absolute;
     left:200px;
-    top: 140px;
+    top: 140px;*/
 }
 
 #finishSprint
 {
-    position:absolute;
-    left:200px;
-    top: 200px;
+
 }
 
 .black_overlay{

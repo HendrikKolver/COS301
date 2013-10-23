@@ -1,6 +1,18 @@
+var contextVarID;
 $(document).ready(function()
 {
     
+    //-----------------------------------------------------------------------------------------------
+    //Initial setup and variable declarations
+    $("#tabContent div").hide(); // Initially hide all content
+    $("#tabs li:first").attr("id","current"); // Activate first tab
+    
+    $("#tabContent div:first").fadeIn(); // Show first tab content
+    $("#tabContent div:first").find("div").show();
+    
+    contextVarID= $("#tabContent div:first").attr("id");
+    
+    //Function to select the burndown charts from different sprints
     $(".burndownChartSelect").each(function()
     {
         drawSomeChart($(this));
@@ -31,12 +43,15 @@ $(document).ready(function()
         });
     }
     
+    //-----------------------------------------------------------------------------------------------
+    //Listener to redraw the burndownchart if the selection changes
     $(".burndownChartSelect").on("change",function()
     {
         drawSomeChart($(this));
     });
 
-    
+    //-----------------------------------------------------------------------------------------------
+    //Function to draw the burndown chart (highchart)
     
     function drawChartNew(values, elemToPass)
         {
@@ -52,52 +67,52 @@ $(document).ready(function()
             }
                                     
             $(function () {
-                                    $(elemToPass).highcharts({
-                                        chart: {
-                                            type: 'line',
-                                            marginRight: 25,
-                                            marginBottom: 25
-                                        },
-                                        title: {
-                                            text: 'Burndown Chart',
-                                            x: -20 //center
-                                        },
-                                        xAxis: {
+                $(elemToPass).highcharts({
+                    chart: {
+                        type: 'line',
+                        marginRight: 25,
+                        marginBottom: 25
+                    },
+                    title: {
+                        text: 'Burndown Chart',
+                        x: -20 //center
+                    },
+                    xAxis: {
 
-                                        },
-                                        yAxis: {
-                                            title: {
-                                                text: ' Points'
-                                            },
-                                            plotLines: [{
-                                                value: 0,
-                                                width: 1,
-                                                color: '#808080'
-                                            }]
-                                        },
-                                        tooltip: {
-                                            headerFormat : '<span style="font-size: 12px color:#808080">Day {point.key}</span><br/>',
-                                            valueSuffix: ' Points'
-                                        },
-                                        legend: {
-                                            layout: 'vertical',
-                                            align: 'right',
-                                            verticalAlign: 'top',
-                                            x: -10,
-                                            y: 100,
-                                            borderWidth: 0
-                                        },
-                                        series: [{
-                                            name: 'Tasks',
-                                            data: array
-                                        }]
-                                    });
+                    },
+                    yAxis: {
+                        title: {
+                            text: ' Points'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        headerFormat : '<span style="font-size: 12px color:#808080">Day {point.key}</span><br/>',
+                        valueSuffix: ' Points'
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'top',
+                        x: -10,
+                        y: 100,
+                        borderWidth: 0
+                    },
+                    series: [{
+                        name: 'Tasks',
+                        data: array
+                    }]
+                });
 
-                                });
-                                
-                                
+            });                
         }
     
+    //-----------------------------------------------------------------------------------------------
+    //Function to select the project to work on
     $(".projectButton").on("click",function(e){
        e.preventDefault(); 
        //$("#hiddenValue").hide();
@@ -113,6 +128,8 @@ $(document).ready(function()
             }, 300);
     });
     
+    //-----------------------------------------------------------------------------------------------
+    //Function to start the video chat, chatroom
     $(".startVideoChat").click(function(e){
         e.preventDefault();
        
@@ -123,19 +140,8 @@ $(document).ready(function()
         
     });
     
-    $("#tabContent div").hide(); // Initially hide all content
-    $("#tabs li:first").attr("id","current"); // Activate first tab
-    
-    $("#tabContent div:first").fadeIn(); // Show first tab content
-    $("#tabContent div:first").find("div").show();
-    var contextVarID = $("#tabContent div:first").attr("id");   
-    
-    
-
-    
-
-    
-
+    //-----------------------------------------------------------------------------------------------
+    //Function to change the project tab you are viewing
     $(document).on('click', '#tabs a', function(e){
             e.preventDefault();
             if ($(this).closest("li").attr("id") == "current")//detection for current tab
@@ -145,13 +151,15 @@ $(document).ready(function()
                     $("#tabContent div").hide(); //Hide all content
                     $("#tabs li").attr("id",""); //Reset id's
                     $(this).parent().attr("id","current"); // Activate this
-                    contextVarID = $(this).attr('name');					
+                    contextVarID = $(this).attr('name');
+                    
                     $('#' + $(this).attr('name')).fadeIn(); // Show content for current tab
                     $('#' + $(this).attr('name')).find("div").show();
             }
     });
 
-    //Content Stuff
+    //-----------------------------------------------------------------------------------------------
+    //Functions used to handle the project content
     $("#createNewProject").click(function()
     {
             var projectName = "New Project";	
@@ -186,46 +194,92 @@ $(document).ready(function()
     });	
 
    
-
+   //-----------------------------------------------------------------------------------------------
+    //Adding a member to a project listener
     $(".addMemberToProj").click(function(e)
     {
+        
             e.preventDefault();
-            addMemberToProject($(this).prev().val());
+            addMemberToProject($(this).prev().val(), this);
+            
             $("#"+contextVarID).find(".memberSelect option:selected").remove();
+            
+             
     });
 
-    function addMemberToProject(memberName)
+    //-----------------------------------------------------------------------------------------------
+    //Function to add a member to a specific project    
+    function addMemberToProject(memberName, here)
     {
+        
+        
             if (memberName == null)
             {
                     alert("No More People to Add");
                     return;
             }
-            $("#"+contextVarID).find(".tableOfCurrentMembers").append("<table style = 'border-bottom:1px solid #ccc'><tr><td>"+memberName+"</td><td style ='width:15%'><a class = 'removeUserFromProj' style ='font-size:9pt' href = '#'>Remove</a></td></tr></table>");	//Add user to the project
+            $("[id='userToAddForm:userToAddName']").val($(here).prev().val());
+            $("[id='userToAddForm:userToAddID']").val($(here).next().html().trim());
+            $("[id='userToAddForm:userToAddButton']").click();
+            $("[id='updateProjectsDB:updateProjectsDBButton']").click();
+            
+            
+            if($("[id='userdetails:userdetailsAdmin']").val()== "true")
+            {
+                $("#"+contextVarID).find(".tableOfCurrentMembers").append("<table style = 'border-bottom:1px solid #ccc'><tr><td>"+memberName+"</td><td style ='width:15%'><a class = 'removeUserFromProj' style ='font-size:9pt' href = '#'>Remove</a><span style='display:none;'>"+$(here).next().html().trim()+"</span></td></tr></table>");	//Add user to the project
+                
+            }
+            else
+            {
+              $("#"+contextVarID).find(".tableOfCurrentMembers").append("<table style = 'border-bottom:1px solid #ccc'><tr><td>"+memberName+"</td><td style ='width:15%'></td></tr></table>");
+                
+            }
             $("#"+contextVarID).find(".tableOfCurrentMembers").scrollTop($(".tableOfCurrentMembers")[0].scrollHeight);	//Scroll to the bottom of chat
+            
 
     }
+    
+    //-----------------------------------------------------------------------------------------------
+    //Prevent multiple listeners
+    $(document).off('click', ".removeUserFromProj");
 
+    //-----------------------------------------------------------------------------------------------
+    //Function to remove a user from a specific project
     $(document).on('click', ".removeUserFromProj", function(e)
     {
             e.preventDefault();
             addMemberToSelectList($(this).parent().prev().text());
+
+            $("[id='userToRemoveForm:userToRemoveName']").val($(this).parent().prev().html().trim());
+            $("[id='userToRemoveForm:userToRemoveID']").val($(this).next().html().trim());
+            $("[id='userToRemoveForm:userToRemoveButton']").click();
+            $("[id='updateProjectsDB:updateProjectsDBButton']").click();
             $(this).parent().parent().parent().remove();
+            
     });
 
+    //-----------------------------------------------------------------------------------------------
+    //Helper function used when you remove users from projects
     function addMemberToSelectList(memberName)
     {
             if (memberName == null)
                     return;
-            $("#"+contextVarID).find(".memberSelect ").append("<option>"+memberName+"</option>");	//Add user to the project
+            $("#"+contextVarID).find(".memberSelect ").append("<option>"+memberName+"</option>");	//Add user to the project      
     }
     
+    //-----------------------------------------------------------------------------------------------
+    //Function to autoselect your current working project
     $("#tabs li").each(function()
     {
         if ($(this).text().trim() == $("#ProjectNameDisplay").html().trim()){
             $(this).find('a').click();
         }   
     });
+    
+    //-----------------------------------------------------------------------------------------------
+    //Hides the remove user functionality if user not an admin
+    if($("[id='userdetails:userdetailsAdmin']").val()!= "true")
+        $(".removeUserFromProj").hide();
 
     
 });
