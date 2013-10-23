@@ -70,6 +70,7 @@ public class index
     
     /*Project Variables*/
     String projectID;
+    String projectIDtemp;
     String projectName;
     String videoUrl;
     ArrayList<String> usernames;
@@ -459,9 +460,8 @@ public class index
                  id = Long.valueOf(projectID).longValue();
 
                  ps.update(id, projectName, usernames, PreviousBurndownCharts, burndownPoints);
-               // ps.tempUpdate(id, projectName, "companyName", usernames, PreviousBurndownCharts, burndownPoints);
                  
-                 System.out.println("Updated Project " + projectID);
+                 System.out.println("Updated Project " + projectID + " name: " + projectName);
                  Reference.getProjects().get(x).dbUpdate();
             }
         }
