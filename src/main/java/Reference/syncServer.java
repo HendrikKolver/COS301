@@ -14,7 +14,9 @@ import javax.faces.bean.ManagedBean;
 public class syncServer {
     //Function to start the sync server if it is not running
     public void startServer() {
+        
             WebSockets.main();
+            
     }
     
     public void startPlanningPoker()
@@ -26,5 +28,8 @@ public class syncServer {
     {
        ChatSocket.main(); 
     }
+    
+    
+
     
 }

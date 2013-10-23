@@ -1,7 +1,4 @@
-// 2013, @muazkh - github.com/muaz-khan
-// MIT License - https://webrtc-experiment.appspot.com/licence/
-// Documentation - https://github.com/muaz-khan/WebRTC-Experiment/tree/master/video-conferencing
-
+//open-source code used for the web-rtc video conferencing
 (function() {
 
     // a middle-agent between public API and the Signaler object

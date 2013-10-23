@@ -7,17 +7,23 @@
         
         
         <div id ="appendHere" style=" text-align: center; width:500px; height: 480px; margin: 0 auto;">
+            <a style ="color:white" id="videoChatButton" title ="Start Video Chat" href = "#" class = "startVideoChat" ><img style ="margin-bottom:-80px" title ="Start Video Chat" src ="resources/images/video_camera.png"/></br> Start video chat</a>
         </div>
 
         <script>
             var hash = window.location.hash.replace('#', '');
-            var meeting = new Meeting(hash);
-
+            
             var remoteMediaStreams = document.getElementById('appendHere');
             var localMediaStream = document.getElementById('appendHere');
+            
+            var meeting = new Meeting(hash,{autoCloseEntireSession: false});
+            
+            // using firebase for signaling
+            meeting.firebase = 'rtcweb';
 
         // on getting media stream
             meeting.onaddstream = function(e) {
+                $("#videoChatButton").hide();
                 if (e.type == 'local') $(localMediaStream).append(e.video); //localMediaStream(localMediaStream.appendChild(e.video);
                 if (e.type == 'remote') remoteMediaStreams.insertBefore(e.video, remoteMediaStreams.firstChild);
                 
@@ -41,10 +47,15 @@
                           $("video").css("width","120px"); 
                        }
                 }
+                isConnected = true;
             };
-
-        // using firebase for signaling
-            meeting.firebase = 'rtcweb';
+            
+            if(document.getElementsByTagName("video").length ==0)
+                $("#videoChatButton").show();
+            
+            if($("#ProjectIDHolder").val() == "")
+                $("#videoChatButton").hide();
+        
 
         // if someone leaves; just remove his video
             meeting.onuserleft = function(userid) {
@@ -75,34 +86,28 @@
 
         // check pre-created meeting rooms
             meeting.check();
-//           alert("tester");
-//            var tmp = (location.href).indexOf("#meeting");
-//                    var tester = (location.href).substring(parseInt(tmp));
-//                    alert("tester");
-                    
-            if($("[id='videoStart:videoID']").val() == 'false')
+
+            
+            function startRoom()
+            {
+                //alert("hi");
+                
+                if($("[id='videoStart:videoID']").val() == 'false' && !isConnected)
                 {
-                    //alert("hi");
+                    isConnected = true;
                     meeting.setup('meeting room name');
                     $("[id='videoStart:videoID']").val('true');
                     $("[id='videoStart:videoClick']").click();
                     var tmp = (location.href).indexOf("#meeting");
                     var tester = (location.href).substring(parseInt(tmp));
-                    alert(tester);
-                    $("[id='videoForm:addressID']").val(tester);
-                    $("[id='videoForm:addressClick']").click();
+                    //alert(tester);
+                    //$("[id='videoForm:addressID']").val(tester);
+                    //$("[id='videoForm:addressClick']").click();
+                    
                 }
-                
-           // 
+            }
 
-//            document.getElementById('setup-new-meeting').onclick = function() {
-//                // setup new meeting room
-//                meeting.setup('meeting room name');
-//                this.disabled = true;
-//
-//                //this.parentNode.innerHTML = '<h2><a href="' + location.href + '" target="_blank">Share this link</a></h2>';
-//    
-//            };
+
         </script>
         
     </body>

@@ -29,14 +29,7 @@ public class TaskService
     EntityManager em;
     public void create(String name)
     {
-        //em.persist(new Task(name));
-        //System.out.println("Hello wierd code");
-        
 
-        //long id = getID();
-        //System.out.println("ID Found: " + id);
-        //List tmp = selectTest("152");
-        //System.out.println(tmp.get(0));
     }
     
     private String status;
@@ -47,9 +40,9 @@ public class TaskService
     private String colour;
     
     public void create(String name, String topPos, String leftPos, 
-            String status, String description, String responsible, String points, String days, String colour, String comments, String subTasks)
+            String status, String description, String responsible, String points, String days, String colour, String comments, String subTasks, String projectID,boolean sprintBacklog)
     {
-        Task t = new Task(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+        Task t = new Task(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
         em.persist(t);
         System.out.println("ID Found: " + t.getID());
     }
@@ -71,11 +64,11 @@ public class TaskService
     
     //Updates task given its id 
     public void update (long id, String name,String topPos, String leftPos, String status, String description, 
-            String responsible, String points, String days, String colour, String comments, String subTasks)
+            String responsible, String points, String days, String colour, String comments, String subTasks, String projectID,boolean sprintBacklog)
     { 
        em.createQuery("UPDATE Task t SET t.name='" + name + "', t.topPos='"+ topPos + "', t.leftPos='" + leftPos
                + "', t.status='"+ status + "', t.description='" + description + "', t.responsible='"+ responsible
-               + "', t.points='" + points + "', t.days='"+ days + "', t.colour='" + colour +"', t.comments='" + comments +"', t.subTasks='" + subTasks +"' WHERE t.id='" + id + "'").executeUpdate();
+               + "', t.points='" + points + "', t.days='"+ days + "', t.colour='" + colour +"', t.comments='" + comments +"', t.subTasks='" + subTasks +"', t.projectID='" + projectID + "', t.sprintBacklog='" + sprintBacklog + "' WHERE t.id='" + id + "'").executeUpdate();
        
        //em.createQuery("UPDATE Task t SET t.name='jjj' WHERE t.id='152'").executeUpdate();
     }
@@ -83,21 +76,33 @@ public class TaskService
     //deletes task given its id
     public void delete (long id)
     {
-        em.createQuery("DELETE FROM Task t WHERE t.id='" + id+ "'").executeUpdate();
+        boolean d = true;
+        //em.createQuery("DELETE FROM Task t WHERE t.id='" + id+ "'").executeUpdate();
+        em.createQuery("UPDATE Task t SET t.deleted='" + d + "' WHERE t.id='" + id + "'").executeUpdate();
     }
 
     public List selectTest(String name) 
     {
-    return em.createQuery(
-    "SELECT e FROM Task e Where e.id = '152'")
-    .setMaxResults(10)
-    .getResultList();
+        return em.createQuery(
+        "SELECT e FROM Task e Where e.id = '152'")
+        .setMaxResults(10)
+        .getResultList();
     }
     
     public Task[] getAll()
     {
-        List l = em.createQuery("select c from Task c").setMaxResults(10).getResultList();
+        List l = em.createQuery("select c from Task c").getResultList();
 
+        for (int i = 0; i < l.size(); i++) 
+        {
+            Task temp = (Task)(l.get(i));
+            
+            if (temp.isDeleted())
+            {
+                l.remove(i);
+            }
+        }
+        
         Task[] t = new Task[l.size()];
         
         for (int i = 0; i < l.size(); i++) 

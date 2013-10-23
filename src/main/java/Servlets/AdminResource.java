@@ -6,8 +6,10 @@ package Servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Enumeration;
 import javax.ejb.EJB;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.ServletSecurity;
@@ -16,19 +18,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import session.sessionBean;
 import za.co.rhmsolutions.scrum.business.boundary.AppUserService;
 import za.co.rhmsolutions.scrum.business.entity.AppUser;
 
 /**
  *
- * @author Richard
+ * @author Richard O'Brien
  */
+
+
+
 @WebServlet(name = "AdminResource", urlPatterns = {"/AdminResource"})
-@ServletSecurity(@HttpConstraint(rolesAllowed={"admin"}))
+@ServletSecurity(@HttpConstraint(rolesAllowed={"admin", "guest"}))
 public class AdminResource extends HttpServlet {
+
     @EJB
     private AppUserService appUserService;
-
+    
+    @Inject
+    sessionBean bean;
     /**
      * Processes requests for both HTTP
      * <code>GET</code> and
@@ -42,6 +51,8 @@ public class AdminResource extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        bean = new sessionBean();
+    
         String remoteUser = request.getRemoteUser();
         
                 
@@ -51,17 +62,17 @@ public class AdminResource extends HttpServlet {
             
             HttpSession session = request.getSession();
             
-            if(session.getAttribute("user") == null)
+            AppUser user = appUserService.getByUsername(remoteUser);
+            
+            bean.setUsername(user.getUsername());
+            bean.setLoggedIn(true);
+            bean.setAdmin(true);
+            
+            if(session.getAttribute("sessionBean") == null)
             {
-                AppUser user = appUserService.getByName(remoteUser);
-                session.setAttribute("user", user);
+                session.setAttribute("sessionBean", bean);
             }
         }
-        
-        
-        
-      
-      
         response.sendRedirect("/Testing1/faces/index.xhtml");
     }
 

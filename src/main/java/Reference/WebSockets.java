@@ -1,6 +1,9 @@
 package Reference;
 
+import Injection.ScriptCheck;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebServer;
@@ -16,11 +19,11 @@ public class WebSockets extends BaseWebSocketHandler {
     ArrayList<WebSocketConnection> clients = new ArrayList<WebSocketConnection>();
     ArrayList<Tasks> tasks = new ArrayList<Tasks>();
     ArrayList<Integer> burndownPoints = new ArrayList<Integer>();
+    ArrayList<String> projectIDList = new ArrayList<String>();
     
     public WebSockets()
     {
-        System.out.println("constructor");
-        burndownPoints.add(0);
+
         Reference.tasks = this.tasks;
     }
 
@@ -31,46 +34,25 @@ public class WebSockets extends BaseWebSocketHandler {
         
     public void addTask(String id)
     {
-        Tasks tmp = new Tasks(id,id);
-        tasks.add(tmp);
-        Reference.tasks = this.tasks;
+            try{
+                 Tasks tmp = new Tasks(id,id);
+                tasks.add(tmp);
+                Reference.tasks = this.tasks;   
+            }catch(Exception e)
+            {
+                System.out.println("add task error , Websocket.java");
+            }
+        
     }
     
     public void sendTasks()
     {
-        for(int x=0; x<clients.size();x++)
-        {
-            int i = tasks.size()-1;
-            if(tasks.get(i).getSprintBacklog())
+        try{
+            for(int x=0; x<clients.size();x++)
             {
-                String message = "position,"+tasks.get(i).getTopPos()+","+tasks.get(i).getLeftPos()+","+tasks.get(i).getID();
-                clients.get(x).send(message);
-
-                String ID = tasks.get(i).getID();
-                message = "text,"+tasks.get(i).getName()+","+ID+"StickyTaskName";
-                clients.get(x).send(message);
-                message = "text,"+tasks.get(i).getResponsible()+","+ID+"StickyResponsible";
-                clients.get(x).send(message);
-                message = "text,"+tasks.get(i).getDescription()+","+ID+"StickyDescription";
-                clients.get(x).send(message);
-                message = "text,"+tasks.get(i).getPoints()+","+ID+"StickyPoints";
-                clients.get(x).send(message);
-                message = "text,"+tasks.get(i).getDays()+","+ID+"StickyDays";
-                clients.get(x).send(message);
-                message = "colour,"+tasks.get(i).getColour()+",a"+","+tasks.get(i).getID();
-                clients.get(x).send(message);
-            }
-        }
-    }
-    
-    public void sendAllTasks()
-    {
-        for(int x=0; x<clients.size();x++)
-        {
-            for(int i=0; i<tasks.size();i++)
-            {
-                if(tasks.get(i).getSprintBacklog())
-                {   
+                int i = tasks.size()-1;
+                if(tasks.get(i).getSprintBacklog()  && tasks.get(i).getProjectID().equals(projectIDList.get(x)))
+                {
                     String message = "position,"+tasks.get(i).getTopPos()+","+tasks.get(i).getLeftPos()+","+tasks.get(i).getID();
                     clients.get(x).send(message);
 
@@ -89,36 +71,116 @@ public class WebSockets extends BaseWebSocketHandler {
                     clients.get(x).send(message);
                 }
             }
+        }catch(Exception e)
+        {
+            System.out.println("send task error , Websocket.java");
         }
+        
+    }
+    
+    public void sendAllTasks()
+    {
+        try{
+            for(int x=0; x<clients.size();x++)
+            {
+
+                for(int i=0; i<tasks.size();i++)
+                {
+                    if(tasks.get(i).getSprintBacklog() && tasks.get(i).getProjectID().equals(projectIDList.get(x)))
+                    {   
+                        String message = "position,"+tasks.get(i).getTopPos()+","+tasks.get(i).getLeftPos()+","+tasks.get(i).getID();
+                        clients.get(x).send(message);
+
+                        String ID = tasks.get(i).getID();
+                        message = "text,"+tasks.get(i).getName()+","+ID+"StickyTaskName";
+                        clients.get(x).send(message);
+                        message = "text,"+tasks.get(i).getResponsible()+","+ID+"StickyResponsible";
+                        clients.get(x).send(message);
+                        message = "text,"+tasks.get(i).getDescription()+","+ID+"StickyDescription";
+                        clients.get(x).send(message);
+                        message = "text,"+tasks.get(i).getPoints()+","+ID+"StickyPoints";
+                        clients.get(x).send(message);
+                        message = "text,"+tasks.get(i).getDays()+","+ID+"StickyDays";
+                        clients.get(x).send(message);
+                        message = "colour,"+tasks.get(i).getColour()+",a"+","+tasks.get(i).getID();
+                        clients.get(x).send(message);
+                    }
+                }
+            }
+
+        }catch(Exception e)
+        {
+            System.out.println("sendAllTasks error , Websocket.java");
+        }
+        
     }
 	
     //initial connection made by client
     @Override
      public void onOpen(WebSocketConnection connection) {
+            try{
+                clients.add(connection);
+                projectIDList.add("");
+                connectionCount++;
+                System.out.println("Client scrum count:" + connectionCount);    
+            }catch(Exception e)
+            {
+                System.out.println("on open error , Websocket.java");
+            }
         
-        clients.add(connection);
-        connectionCount++;
-        System.out.println("Client scrum count:" + connectionCount);
+        
     }
 
     //client disconnects
     @Override
     public void onClose(WebSocketConnection connection) {
-        clients.remove(connection);  
-        connectionCount--;
+            try{
+                 projectIDList.remove(clients.indexOf(connection));
+        
+                clients.remove(connection); 
+
+                connectionCount--;   
+            }catch(Exception e)
+            {
+                System.out.println("on close error , Websocket.java");
+            }
+        
+        
     }
+
 
     //client sends a message
     @Override
     public void onMessage(WebSocketConnection connection, String message) {
+        try
+        { 
+            ScriptCheck s= new ScriptCheck();
+            message = s.removeScript(message);
+            
+            Calendar cal = Calendar.getInstance();
+            cal.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd 'at' HH:mm:ss");
+            Reference.audit.add(sdf.format(cal.getTime())+", "+ message);
+            
+            
+            
         String pieces[] = message.split(",");
         this.tasks= Reference.tasks; 
         boolean check = false;
+        String tmpProjectID =pieces[pieces.length-1];
         if(pieces[0].equals("join"))
         {
+            for (int i = 0; i < clients.size(); i++) {
+                if(connection.equals(clients.get(i)))
+                {
+                    projectIDList.set(i, tmpProjectID);
+                }
+                
+            }
+           
            for(int x=0; x<tasks.size();x++)
             {
-                if(tasks.get(x).getSprintBacklog())
+                if(tasks.get(x).getSprintBacklog() && tasks.get(x).getProjectID().equals(tmpProjectID))
                 {
                     message = "position,"+tasks.get(x).getTopPos()+","+tasks.get(x).getLeftPos()+","+tasks.get(x).getID();
                     connection.send(message);
@@ -144,32 +206,38 @@ public class WebSockets extends BaseWebSocketHandler {
             }
             int tmp = 0;
            for (int i = 0; i < tasks.size(); i++) {
-                if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog())
+                if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog() && tasks.get(i).getProjectID().equals(tmpProjectID))
                 {
                     tmp += Integer.parseInt(tasks.get(i).getDays());
                 }
             }
            
-            burndownPoints.set((burndownPoints.size()-1),tmp);
-            message = "burndown,";
-            for(int x=0; x<burndownPoints.size();x++)
-            {
-                if(x==burndownPoints.size()-1)
+            for (int i = 0; i < Reference.projects.size(); i++) {
+                if(Reference.projects.get(i).getId().equals(tmpProjectID))
                 {
-                    message+= burndownPoints.get(x);
-                }else
-                    message+= burndownPoints.get(x)+";";
-            }
-            connection.send(message);
-        
-            connection.send("addRow,"+rowCount); 
+                    Reference.projects.get(i).burndownPoints.set((Reference.projects.get(i).burndownPoints.size()-1),tmp);
+                    message = "burndown,";
+                    for(int x=0; x<Reference.projects.get(i).burndownPoints.size();x++)
+                    {
+                        if(x==Reference.projects.get(i).burndownPoints.size()-1)
+                        {
+                            message+= Reference.projects.get(i).burndownPoints.get(x);
+                        }else
+                            message+= Reference.projects.get(i).burndownPoints.get(x)+";";
+                    }
+                    connection.send(message);
+                    
+                    connection.send("addRow,"+Reference.projects.get(i).rowCount); 
+                    break;
+                }
+                
+            }  
         }
         else
         {
-            
-
             if(pieces[0].equals("commentsUpdate"))
             {
+                
                 message = "commentsUpdate,"+pieces[1]+","+pieces[2];
                 for(int x=0; x<tasks.size();x++)
                     {
@@ -202,12 +270,20 @@ public class WebSockets extends BaseWebSocketHandler {
             }
             else if (pieces[0].equals("addDay"))
             {
-                int temp = burndownPoints.get(burndownPoints.size()-1);
-                burndownPoints.add(temp);
+                for (int i = 0; i < Reference.projects.size(); i++) 
+                {
+                    if(Reference.projects.get(i).getId().equals(tmpProjectID))
+                    {
+                        int temp = Reference.projects.get(i).burndownPoints.get(Reference.projects.get(i).burndownPoints.size()-1);
+                        Reference.projects.get(i).burndownPoints.add(temp);
+                    }
+                }
+                
             }
             if(pieces[0].equals("add"))
             {
                 Tasks tmp = new Tasks(pieces[1],pieces[1]);
+                tmp.setProjectID(tmpProjectID);
                 tasks.add(tmp);
                 System.out.println("TaskID: " + tmp.getID());
 
@@ -238,14 +314,18 @@ public class WebSockets extends BaseWebSocketHandler {
                                 tasks.get(x).setPos(pieces[1], pieces[2]);
                                 int tmp = 0;
                                 for (int i = 0; i < tasks.size(); i++) {
-                                    if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog())
+                                    if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog() && tasks.get(i).getProjectID().equals(tmpProjectID))
                                     {
                                         tmp += Integer.parseInt(tasks.get(i).getDays());
                                     }
                                 }
-                                burndownPoints.set((burndownPoints.size()-1),tmp);
-
-                                System.out.println(burndownPoints.toString());
+                                for (int i = 0; i < Reference.projects.size(); i++) 
+                                {
+                                    if(Reference.projects.get(i).getId().equals(tmpProjectID))
+                                    {
+                                        Reference.projects.get(i).burndownPoints.set((Reference.projects.get(i).burndownPoints.size()-1),tmp);
+                                    }
+                                }
 
                                 break;
                             }
@@ -253,6 +333,7 @@ public class WebSockets extends BaseWebSocketHandler {
                         }
                         else if(pieces[0].equals("text"))
                         {
+                            
                         int length = pieces[2].length();
                         String checkString = pieces[2].substring(length-2,length);
                         // System.out.println("Check!!!!!!!!!!!!!!!!!!: "+ checkString);
@@ -273,19 +354,26 @@ public class WebSockets extends BaseWebSocketHandler {
 
                                 }else if(checkString.equals("ys"))
                                 {
+                                    
                                     tasks.get(x).setDays(pieces[1]);
                                     int tmp = 0;
                                     if(pieces[1] != null && pieces[1].length()>0)
                                     {
+                                        
                                         for (int i = 0; i < tasks.size(); i++) {
-                                            if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog())
+                                            if(!(tasks.get(i).getStatus().equals("completed")) && tasks.get(i).getSprintBacklog() && tasks.get(i).getProjectID().equals(tmpProjectID))
                                             {
+                                                
                                                 tmp += Integer.parseInt(tasks.get(i).getDays());
                                             }
                                         }
-                                        burndownPoints.set((burndownPoints.size()-1),tmp);
-
-                                        System.out.println(burndownPoints.toString());
+                                        for (int i = 0; i < Reference.projects.size(); i++) 
+                                        {
+                                            if(Reference.projects.get(i).getId().equals(tmpProjectID))
+                                            {
+                                               Reference.projects.get(i).burndownPoints.set((Reference.projects.get(i).burndownPoints.size()-1),tmp);
+                                            }
+                                        }
                                     }
                                 }
                                 break;
@@ -296,9 +384,17 @@ public class WebSockets extends BaseWebSocketHandler {
             }
             else if (pieces[0].equals("addRow"))
             {
-                ++rowCount;
-                System.out.println("rowCount: "+rowCount);
-                message = "addRow,"+rowCount;
+                for (int i = 0; i < Reference.projects.size(); i++) 
+                {
+                    if(Reference.projects.get(i).getId().equals(tmpProjectID))
+                    {
+                        ++Reference.projects.get(i).rowCount;
+                        message = "addRow,"+Reference.projects.get(i).rowCount;
+                    }
+                }
+                
+                //System.out.println("rowCount: "+rowCount);
+                
             }else if (pieces[0].equals("colour"))
             {
                 System.out.println("Colour: "+pieces[1]);
@@ -314,27 +410,49 @@ public class WebSockets extends BaseWebSocketHandler {
 
             for(int x=0; x<clients.size();x++)
             {
-                if(!clients.get(x).equals(connection))
+                System.out.println("Allclients: " + message+ " ; the id's: " +projectIDList.get(x) + ","+tmpProjectID);
+                if(!clients.get(x).equals(connection) && projectIDList.get(x).equals(tmpProjectID))
+                {
+                    System.out.println("SpecificClients: " + message);
+                    clients.get(x).send(message);
+                }
+            }
+            
+            message = "burndown,";
+            
+            for (int i = 0; i < Reference.projects.size(); i++) 
+            {
+                if(Reference.projects.get(i).getId().equals(tmpProjectID))
+                {
+                    for(int x=0; x<Reference.projects.get(i).burndownPoints.size();x++)
+                    {
+                    
+                        if(x==Reference.projects.get(i).burndownPoints.size()-1)
+                        {
+                            message+= Reference.projects.get(i).burndownPoints.get(x);
+                        }else
+                            message+= Reference.projects.get(i).burndownPoints.get(x)+";";
+                    }
+                }
+                
+            }
+            
+            for(int x=0; x<clients.size();x++)
+            {
+                if(projectIDList.get(x).equals(tmpProjectID))
                 {
                     clients.get(x).send(message);
                 }
             }
-            message = "burndown,";
-            for(int x=0; x<burndownPoints.size();x++)
-            {
-                if(x==burndownPoints.size()-1)
-                {
-                    message+= burndownPoints.get(x);
-                }else
-                    message+= burndownPoints.get(x)+";";
-            }
-            for(int x=0; x<clients.size();x++)
-            {
-                clients.get(x).send(message); 
-            }
+            
             System.out.println("Message sent to clients, Task size: " + tasks.size());
         }
+        }catch(Exception e)
+        {
+            System.out.println("On message function, websocket.java");
+        }
         Reference.tasks = this.tasks;
+        
     }
 
     public static void main() {

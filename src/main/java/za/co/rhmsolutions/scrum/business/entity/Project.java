@@ -4,10 +4,15 @@
  */
 package za.co.rhmsolutions.scrum.business.entity;
 
+import java.util.ArrayList;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -19,11 +24,19 @@ public class Project
 {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column (name = "Project_ID")
     private Long id;
     
     String name;
-    String company;
-    String description;
+    
+    ArrayList<String> usernames;
+    
+    //ArrayList<ArrayList<Integer>> PreviousBurndownCharts;
+    //ArrayList<Integer> burndownPoints;
+    
+    boolean deleted;
+    
+    String Room_ID;
 
     //Needed for jpa
     public Project() 
@@ -31,18 +44,18 @@ public class Project
         
     }
 
-    public Project(String name, String company, String description) {
+    public Project(String name) {
         this.name = name;
-        this.company = company;
-        this.description = description;
+        usernames = new ArrayList<String>();
+        deleted = false;
     }
     
-    public String getDescription() {
-        return description;
+    public boolean isDeleted() {
+        return deleted;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 
     public String getName() {
@@ -53,14 +66,6 @@ public class Project
         this.name = name;
     }
 
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
     public Long getId() {
         return id;
     }
@@ -68,5 +73,23 @@ public class Project
     public void setId(Long id) {
         this.id = id;
     }
+
+    public ArrayList<String> getUsernames() {
+        return usernames;
+    }
+
+    public void setUsernames(ArrayList<String> usernames) {
+        this.usernames = usernames;
+    }
+
+    public String getRoom_ID() {
+        return Room_ID;
+    }
+
+    public void setRoom_ID(String Room_ID) {
+        this.Room_ID = Room_ID;
+    }
     
+    
+
 }

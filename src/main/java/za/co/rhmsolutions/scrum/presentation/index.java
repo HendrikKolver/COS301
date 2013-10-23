@@ -1,12 +1,21 @@
 package za.co.rhmsolutions.scrum.presentation;
 
 
+import Reference.Project;
 import Reference.Reference;
 import Reference.Tasks;
+import Reference.User;
 import Reference.WebSockets;
+import java.util.ArrayList;
 import javax.enterprise.inject.Model;
+import javax.faces.bean.ManagedProperty;
 import javax.inject.Inject;
+import session.sessionBean;
+import za.co.rhmsolutions.scrum.business.boundary.AppUserService;
+import za.co.rhmsolutions.scrum.business.boundary.AuditService;
+import za.co.rhmsolutions.scrum.business.boundary.ProjectService;
 import za.co.rhmsolutions.scrum.business.boundary.TaskService;
+import za.co.rhmsolutions.scrum.business.entity.AppUser;
 import za.co.rhmsolutions.scrum.business.entity.Task;
 
 /**
@@ -17,8 +26,30 @@ import za.co.rhmsolutions.scrum.business.entity.Task;
 @Model
 public class index 
 {
+    @ManagedProperty(value = "#{sessionBean}")
+    private sessionBean session;
+
+    public sessionBean getSession() {
+        return session;
+    }
+
+    public void setSession(sessionBean session) {
+        this.session = session;
+    }
+    
     @Inject
     TaskService ts;
+    
+    @Inject
+    ProjectService ps;
+    
+    @Inject
+    AppUserService as;
+    
+    @Inject
+    AuditService aus;
+    
+    
     String name;
     String text;
     String topPos = "topPos";
@@ -35,6 +66,88 @@ public class index
     String flag = "false";
     String comments;
     String subTasks;
+    boolean sprintBacklog;
+    
+    /*Project Variables*/
+    String projectID;
+    String projectName;
+    String videoUrl;
+    ArrayList<String> usernames;
+    ArrayList<ArrayList<Integer>> PreviousBurndownCharts = new ArrayList<ArrayList<Integer>> ();
+    ArrayList<Integer> burndownPoints = new ArrayList<Integer>();
+    int rowCount;
+    
+    /*User Variables*/
+    String user = "";
+    String pass = "";
+    String Name = "";
+    String lastname = "";
+    
+    int auditCount = -1;
+
+    public String getProjectID() {
+        return projectID;
+    }
+
+    public void setProjectID(String projectID) {
+        this.projectID = projectID;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public ArrayList<String> getUsernames() {
+        return usernames;
+    }
+
+    public void setUsernames(ArrayList<String> usernames) {
+        this.usernames = usernames;
+    }
+
+    public ArrayList<ArrayList<Integer>> getPreviousBurndownCharts() {
+        return PreviousBurndownCharts;
+    }
+
+    public void setPreviousBurndownCharts(ArrayList<ArrayList<Integer>> PreviousBurndownCharts) {
+        this.PreviousBurndownCharts = PreviousBurndownCharts;
+    }
+
+    public ArrayList<Integer> getBurndownPoints() {
+        return burndownPoints;
+    }
+
+    public void setBurndownPoints(ArrayList<Integer> burndownPoints) {
+        this.burndownPoints = burndownPoints;
+    }
+
+    public int getRowCount() {
+        return rowCount;
+    }
+
+    public void setRowCount(int rowCount) {
+        this.rowCount = rowCount;
+    }
+
+    public String getProjectname() {
+        return projectName;
+    }
+
+    public void setProjectname(String projectname) {
+        this.projectName = projectname;
+    }
 
     public String getFlag() {
         System.out.println("andBack");
@@ -85,7 +198,31 @@ public class index
     {
         ID = id;
     }
-    
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getPass() {
+        return pass;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     //Creates new task for all new changes using values in w. Not for production purposes
     public void createTask()
     {
@@ -106,8 +243,10 @@ public class index
                 colour = w.getTasks().get(x).getColour();
                 comments = w.getTasks().get(x).getComments();
                 subTasks = w.getTasks().get(x).getSubTasks();
+                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                projectID = w.getTasks().get(x).getProjectID();
 
-                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
                 
                 w.getTasks().get(x).dbUpdate();
             }
@@ -134,22 +273,25 @@ public class index
                 colour = w.getTasks().get(x).getColour();
                 comments = w.getTasks().get(x).getComments();
                 subTasks = w.getTasks().get(x).getSubTasks();
+                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                projectID = w.getTasks().get(x).getProjectID();
                 
                 long id;
                 id = Long.valueOf(updateID).longValue();
                 
-                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
                 System.out.println("Updated task " + id);
                 w.getTasks().get(x).dbUpdate();
                 
                 break;
             }
         }
+        
+        upateAudit();
     }
     
     public void updateLastTask()
     {
-        
         System.out.println(Reference.getTasks().size());
         int x = Reference.getTasks().size()-1;
         name = Reference.getTasks().get(x).getName();
@@ -163,13 +305,17 @@ public class index
         colour = Reference.getTasks().get(x).getColour();
         comments = Reference.getTasks().get(x).getComments();
         subTasks = Reference.getTasks().get(x).getSubTasks();
+        sprintBacklog = Reference.getTasks().get(x).getSprintBacklog();
+        projectID = Reference.getTasks().get(x).getProjectID();
 
         long id;
         id = Long.valueOf(Reference.getTasks().get(x).getID());
 
-        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks);
+        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
         System.out.println("Updated task " + id);
         Reference.getTasks().get(x).dbUpdate();
+        
+        upateAudit();
 
     }
     
@@ -183,8 +329,9 @@ public class index
             WebSockets w = Reference.w;
             w.addTask(ID);
             w.sendTasks();
+            
+            upateAudit();
     }
-
     
     public void delete()
     {
@@ -194,7 +341,9 @@ public class index
         id = Long.valueOf(deleteID).longValue();
 
         ts.delete(id);
-        System.out.println("Delete task " + id);      
+        System.out.println("Delete task " + id);    
+        
+        upateAudit();
     }
     
     public void getAllTasks()
@@ -220,7 +369,7 @@ public class index
                {
                    tmp.setDays("0");
                }else
-                tmp.setDays(t[x].getDays());
+               tmp.setDays(t[x].getDays());
                tmp.setDescription(t[x].getDescription());
                tmp.setName(t[x].getName());
                if(t[x].getPoints()==null || !isInteger(t[x].getPoints()))
@@ -232,6 +381,7 @@ public class index
                
                if(t[x].getTopPos()==null ||t[x].getLeftPos()==null || !isInteger(t[x].getTopPos()) || !isInteger(t[x].getLeftPos()))
                {
+                   System.out.println("Failed");
                    tmp.setPos("0","0");
                }else
                    tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
@@ -240,6 +390,8 @@ public class index
                tmp.setStatus(t[x].getStatus());
                tmp.setComments(t[x].getComments());
                tmp.setSubTasks(t[x].getSubTasks());
+               tmp.setSprintBacklog(t[x].isSprintBacklog());
+               tmp.setProjectID(t[x].getProjectID());
                tmp.dbUpdate();
                 System.out.println("Task: "+ x);
                w.getTasks().add(tmp);
@@ -254,10 +406,213 @@ public class index
     public boolean isInteger(String s) 
     {
         try { 
-            Integer.parseInt(s); 
+            Double.parseDouble(s); 
         } catch(NumberFormatException e) { 
             return false; 
         }
         return true;
+    }
+    
+    public void createProject()
+    {
+         System.out.println("Create Project Clicked!");
+         long id = ps.create(projectName);
+         
+         Project tmp = new Project();
+         tmp.setId(String.valueOf(id));
+         tmp.setProjectName(projectName);
+         double tmpNum = Math.random()*System.currentTimeMillis();
+         tmpNum = Math.round(tmpNum);
+         String roomID = "#meeting-roomid-"+id+(int)tmpNum+"-"+id;
+         tmp.setVideoUrl(roomID);
+         
+         ps.setRoomID(id, roomID);
+         //tmp.addUser(session.getUsername());
+         tmp.addUser("admin"); 
+         tmp.update = true;
+         
+         Reference.projects.add(tmp);
+         projectUpdate();
+         
+         upateAudit();
+    }
+
+    public void projectUpdate()
+    {
+        System.out.println("UPDATE PROJECT!");
+        WebSockets w = Reference.w;
+
+        for(int x=0; x< Reference.getProjects().size();x++)
+        {
+            System.out.println(Reference.getProjects().get(x).isUpdate());
+            if (Reference.getProjects().get(x).isUpdate())
+            {
+                 projectID = Reference.getProjects().get(x).getId();
+                 projectName = Reference.getProjects().get(x).getProjectName();
+                 videoUrl = Reference.getProjects().get(x).getVideoUrl();
+                 usernames = Reference.getProjects().get(x).getUsernames();
+                 PreviousBurndownCharts = Reference.getProjects().get(x).getPreviousBurndownCharts();
+                 burndownPoints = Reference.getProjects().get(x).getBurndownPoints();
+                 rowCount = Reference.getProjects().get(x).getRowCount();
+
+                 long id;
+                 id = Long.valueOf(projectID).longValue();
+
+                 ps.update(id, projectName, usernames, PreviousBurndownCharts, burndownPoints);
+               // ps.tempUpdate(id, projectName, "companyName", usernames, PreviousBurndownCharts, burndownPoints);
+                 
+                 System.out.println("Updated Project " + projectID);
+                 Reference.getProjects().get(x).dbUpdate();
+                 
+                 break;//?
+            }
+        }
+        
+        upateAudit();
+    }
+    
+    public void addProjects()
+    {
+        System.out.println("Called the function");
+        if(Reference.getProjects().isEmpty())
+        {
+             System.out.println("adding the projects");
+            za.co.rhmsolutions.scrum.business.entity.Project[] proj = ps.getAllProjects();
+            System.out.println("HERE!!!");
+        
+            for (int i = 0; i < proj.length; i++) 
+            {
+                Project tmp = new Project();
+                String id = "" + proj[i].getId();
+                //tmp.addUser("admin"); 
+                tmp.setId(id);
+                tmp.setProjectName(proj[i].getName());
+                tmp.setVideoUrl(proj[i].getRoom_ID());
+                //tmp.setVideoUrl(videoUrl);
+
+                for (int j = 0; j < proj[i].getUsernames().size(); j++) 
+                {
+                    tmp.addUser(proj[i].getUsernames().get(j));
+                }
+                
+                //call add sprints func
+                ArrayList<ArrayList<Integer>> tempCharts = ps.getBurndownCharts(proj[i].getId());
+                
+                if (tempCharts.size() > 0)
+                {
+                    int size = tempCharts.size();
+                    tmp.setBurndownPoints(tempCharts.get(size - 1));
+                    tempCharts.remove(size - 1);
+
+                    tmp.setPreviousBurndownCharts(tempCharts);
+                }
+                else
+                {
+                    System.out.println("WARNING! Number of burndown charts = 0");
+                }
+
+                Reference.projects.add(tmp);
+            }
+        }
+        
+       
+    }
+    
+    public void deleteProjects()
+    {
+        long id;
+        id = Long.valueOf(projectID).longValue();
+
+        ps.delete(id);
+        System.out.println("Delete project " + id);  
+        
+        upateAudit();
+    }
+    
+    public void addUser()
+    {
+        System.out.println("Create User Clicked!");
+        WebSockets w = Reference.w;
+        
+        int size = Reference.getUsernames().size();
+        
+        String username = Reference.getUsernames().get(size-1).getUsername();
+        String password = Reference.getUsernames().get(size-1).getPassword();
+        String newName = Reference.getUsernames().get(size-1).getName();
+        String surname = Reference.getUsernames().get(size-1).getSurname();
+        
+        as.createUser(newName, surname, username,password);
+        
+        upateAudit();
+    }
+    
+    public void getUsers()
+    {
+        if(Reference.getUsernames().isEmpty())
+        {
+            System.out.println("Adding The Users");
+            AppUser[] users = as.getAllAppUsers();
+        
+            for (int i = 0; i < users.length; i++) 
+            {
+                //User tmp = new User();
+                User tmp = new User(users[i].getUsername(), users[i].getPassword(), users[i].getName(), users[i].getSurname());
+                
+//                tmp.setUsername(users[i].getUsername());
+//                tmp.setPassword(users[i].getPassword());
+//                tmp.setSurname(users[i].getSurname());
+//                tmp.setName(users[i].getName());
+
+                Reference.usernames.add(tmp);
+            }
+        }
+    }
+    
+    public void updateUsers()
+    {
+        System.out.println("UPDATE USERS!");
+        WebSockets w = Reference.w;
+
+        for(int x=0; x< Reference.getUsernames().size();x++)
+        {
+            System.out.println(Reference.getUsernames().get(x).isUpdate());
+            
+            if (Reference.getUsernames().get(x).isUpdate())
+            {
+                this.user = Reference.getUsernames().get(x).getUsername();
+                this.Name = Reference.getUsernames().get(x).getName();
+                this.pass = Reference.getUsernames().get(x).getPassword();
+                this.lastname = Reference.getUsernames().get(x).getSurname();
+                
+                as.updateUser(Name, lastname, user, pass);
+               
+                System.out.println("Updated User: " + user);
+                Reference.getProjects().get(x).dbUpdate();
+            }
+        }
+        
+        upateAudit();
+    }
+    
+    public void upateAudit()
+    {
+        if (this.auditCount == -1)
+        {
+            auditCount = aus.countLogs();
+        }
+  
+       int tableSize = aus.countLogs();
+
+       if (Reference.audit.size() > tableSize - auditCount)
+       {
+           int count = Reference.audit.size() - (tableSize - auditCount);
+           int loop = Reference.audit.size() - count;
+
+           for (int i = Reference.audit.size() - 1; i > Reference.audit.size() - count; i--) 
+           {
+               String log = Reference.audit.get(i);
+               aus.create(log);
+           }
+       } 
     }
 }
