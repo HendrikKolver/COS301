@@ -594,6 +594,7 @@ public class index
     
     public void upateAudit()
     {
+        
         if (this.auditCount == -1)
         {
             auditCount = aus.countLogs();
@@ -603,13 +604,22 @@ public class index
 
        if (Reference.audit.size() > tableSize - auditCount)
        {
+           
            int count = Reference.audit.size() - (tableSize - auditCount);
            int loop = Reference.audit.size() - count;
 
            for (int i = Reference.audit.size() - 1; i > Reference.audit.size() - count; i--) 
            {
+               
                String log = Reference.audit.get(i);
-               aus.create(log);
+               
+               if(log.length()<4000)
+                aus.create(log);
+               else
+               {
+                 log = log.substring(0, 4000); 
+                 aus.create(log);       
+               }
            }
        } 
     }

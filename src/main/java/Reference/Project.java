@@ -23,6 +23,7 @@ public class Project {
     }
 
     public void setPreviousBurndownCharts(ArrayList<ArrayList<Integer>> PreviousBurndownCharts) {
+        update = true;
         this.PreviousBurndownCharts = PreviousBurndownCharts;
     }
 
@@ -31,6 +32,7 @@ public class Project {
     }
 
     public void setBurndownPoints(ArrayList<Integer> burndownPoints) {
+        update = true;
         this.burndownPoints = burndownPoints;
     }
 
@@ -154,6 +156,7 @@ public class Project {
     
     public void addTask(Tasks t)
     {
+        update = true;
         tasks.add(t);
     }
     
@@ -162,6 +165,7 @@ public class Project {
     }
 
     public void setProjectName(String projectName) {
+        update = true;
         projectNameDisplay = projectName;
         this.projectName = projectName;
     }
@@ -171,6 +175,7 @@ public class Project {
     }
 
     public void setProjectNameDisplay(String projectNameDisplay) {
+        update = true;
         this.projectNameDisplay = projectNameDisplay;
     }
     
@@ -187,6 +192,7 @@ public class Project {
     }
 
     public void setTasks(ArrayList<Tasks> tasks) {
+        update = true;
         this.tasks = tasks;
     }
 
@@ -195,6 +201,7 @@ public class Project {
     }
 
     public void setUsernames(ArrayList<String> usernames) {
+        update = true;
         this.usernames = usernames;
     }
     
@@ -216,6 +223,7 @@ public class Project {
     }
 
     public void setVideoUrl(String videoUrl) {
+        update = true;
         this.videoUrl = videoUrl;
     }
     

@@ -4,9 +4,7 @@
  */
 package za.co.rhmsolutions.scrum.business.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  *
@@ -19,6 +17,8 @@ public class Audit
     @GeneratedValue
     private Long id;
     
+    @Lob
+    @Column(name="auditLog", length=4096)
     String auditLog;
 
     public Audit() 
