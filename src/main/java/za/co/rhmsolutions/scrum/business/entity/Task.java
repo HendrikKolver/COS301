@@ -7,18 +7,17 @@ package za.co.rhmsolutions.scrum.business.entity;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
 /**
  *
  * @author Richard O'Brien
- * Boundaries are able to access entities directly
- * Anything that is persistent is placed in entity package
- * Entity: Persistent
+ * 
+ * NB: Boundaries are able to access entities directly
+ *     Anything that is persistent is placed in entity package
+ *     Entity: Persistent
  */
 @Entity
-public class Task //persistent
+public class Task
 {
     @Id
     @GeneratedValue
@@ -39,10 +38,6 @@ public class Task //persistent
     String projectID;
     boolean deleted;
     
-
-
-   
-
 /**
  * The default constructor method of the Task Entity class needed for JPA.
  * 

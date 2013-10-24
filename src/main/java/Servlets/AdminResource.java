@@ -20,14 +20,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.sessionBean;
 import za.co.rhmsolutions.scrum.business.boundary.AppUserService;
+import za.co.rhmsolutions.scrum.business.boundary.GroupsService;
 import za.co.rhmsolutions.scrum.business.entity.AppUser;
+import za.co.rhmsolutions.scrum.business.entity.groups;
 
 /**
  *
  * @author Richard O'Brien
  */
-
-
 
 @WebServlet(name = "AdminResource", urlPatterns = {"/AdminResource"})
 @ServletSecurity(@HttpConstraint(rolesAllowed={"admin", "guest"}))
@@ -35,6 +35,9 @@ public class AdminResource extends HttpServlet {
 
     @EJB
     private AppUserService appUserService;
+    
+    @EJB
+    private GroupsService GroupsService;
     
     @Inject
     sessionBean bean;
@@ -54,8 +57,7 @@ public class AdminResource extends HttpServlet {
         bean = new sessionBean();
     
         String remoteUser = request.getRemoteUser();
-        
-                
+
         if (remoteUser != null)
         {
             System.out.println(remoteUser + " logged in successfully");
@@ -63,11 +65,18 @@ public class AdminResource extends HttpServlet {
             HttpSession session = request.getSession();
             
             AppUser user = appUserService.getByUsername(remoteUser);
+            String priv = GroupsService.getPrivilege(remoteUser);
+            
+            System.out.println("Privilege: " + priv);
             
             bean.setUsername(user.getUsername());
             bean.setLoggedIn(true);
-            bean.setAdmin(true);
             
+            if (priv.equals("admin"))
+            {
+               bean.setAdmin(true); 
+            }
+
             if(session.getAttribute("sessionBean") == null)
             {
                 session.setAttribute("sessionBean", bean);

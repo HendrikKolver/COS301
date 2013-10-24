@@ -48,8 +48,7 @@ public class index
     
     @Inject
     AuditService aus;
-    
-    
+ 
     String name;
     String text;
     String topPos = "topPos";
@@ -70,6 +69,7 @@ public class index
     
     /*Project Variables*/
     String projectID;
+    String projectIDtemp;
     String projectName;
     String videoUrl;
     ArrayList<String> usernames;
@@ -168,12 +168,10 @@ public class index
     }
 
     public String getUpdateID() {
-        //System.out.println("Getting update ID: " + updateID);
         return updateID;
     }
 
     public void setUpdateID(String updateID) {
-        //System.out.println("Setting update ID: " + updateID);
         this.updateID = updateID;
     }
 
@@ -226,102 +224,124 @@ public class index
     //Creates new task for all new changes using values in w. Not for production purposes
     public void createTask()
     {
-        System.out.println("Create Task Clicked!");
-        WebSockets w = Reference.w;
-        for(int x=0; x< w.getTasks().size();x++)
+        try
         {
-            if(w.getTasks().get(x).getUpdate())
+            System.out.println("Create Task Clicked!");
+            WebSockets w = Reference.w;
+            for(int x=0; x< w.getTasks().size();x++)
             {
-                name = w.getTasks().get(x).getName();
-                topPos = w.getTasks().get(x).getTopPos();
-                leftPos = w.getTasks().get(x).getLeftPos();
-                status = w.getTasks().get(x).getStatus();
-                description = w.getTasks().get(x).getDescription();
-                responsible = w.getTasks().get(x).getResponsible();
-                points = w.getTasks().get(x).getPoints();
-                days = w.getTasks().get(x).getDays();
-                colour = w.getTasks().get(x).getColour();
-                comments = w.getTasks().get(x).getComments();
-                subTasks = w.getTasks().get(x).getSubTasks();
-                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
-                projectID = w.getTasks().get(x).getProjectID();
+                if(w.getTasks().get(x).getUpdate())
+                {
+                    name = w.getTasks().get(x).getName();
+                    topPos = w.getTasks().get(x).getTopPos();
+                    leftPos = w.getTasks().get(x).getLeftPos();
+                    status = w.getTasks().get(x).getStatus();
+                    description = w.getTasks().get(x).getDescription();
+                    responsible = w.getTasks().get(x).getResponsible();
+                    points = w.getTasks().get(x).getPoints();
+                    days = w.getTasks().get(x).getDays();
+                    colour = w.getTasks().get(x).getColour();
+                    comments = w.getTasks().get(x).getComments();
+                    subTasks = w.getTasks().get(x).getSubTasks();
+                    sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                    projectID = w.getTasks().get(x).getProjectID();
 
-                ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
-                
-                w.getTasks().get(x).dbUpdate();
-            }
+                    ts.create(name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
+
+                    w.getTasks().get(x).dbUpdate();
+                }
+            }    
+            
         }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, createTask");
+        } 
     }
     
     //Update task using value of updateID
     public void update()
     {
-        WebSockets w = Reference.w;
-        System.out.println(w.getTasks().size());
-        for(int x=0; x< w.getTasks().size();x++)
+        try
         {
-            if(w.getTasks().get(x).getUpdate() && w.getTasks().get(x).getID().equals(updateID))
+            WebSockets w = Reference.w;
+            System.out.println(w.getTasks().size());
+            for(int x=0; x< w.getTasks().size();x++)
             {
-                name = w.getTasks().get(x).getName();
-                topPos = w.getTasks().get(x).getTopPos();
-                leftPos = w.getTasks().get(x).getLeftPos();
-                status = w.getTasks().get(x).getStatus();
-                description = w.getTasks().get(x).getDescription();
-                responsible = w.getTasks().get(x).getResponsible();
-                points = w.getTasks().get(x).getPoints();
-                days = w.getTasks().get(x).getDays();
-                colour = w.getTasks().get(x).getColour();
-                comments = w.getTasks().get(x).getComments();
-                subTasks = w.getTasks().get(x).getSubTasks();
-                sprintBacklog = w.getTasks().get(x).getSprintBacklog();
-                projectID = w.getTasks().get(x).getProjectID();
-                
-                long id;
-                id = Long.valueOf(updateID).longValue();
-                
-                ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
-                System.out.println("Updated task " + id);
-                w.getTasks().get(x).dbUpdate();
-                
-                break;
+                if(w.getTasks().get(x).getUpdate() && w.getTasks().get(x).getID().equals(updateID))
+                {
+                    name = w.getTasks().get(x).getName();
+                    topPos = w.getTasks().get(x).getTopPos();
+                    leftPos = w.getTasks().get(x).getLeftPos();
+                    status = w.getTasks().get(x).getStatus();
+                    description = w.getTasks().get(x).getDescription();
+                    responsible = w.getTasks().get(x).getResponsible();
+                    points = w.getTasks().get(x).getPoints();
+                    days = w.getTasks().get(x).getDays();
+                    colour = w.getTasks().get(x).getColour();
+                    comments = w.getTasks().get(x).getComments();
+                    subTasks = w.getTasks().get(x).getSubTasks();
+                    sprintBacklog = w.getTasks().get(x).getSprintBacklog();
+                    projectID = w.getTasks().get(x).getProjectID();
+
+                    long id;
+                    id = Long.valueOf(updateID).longValue();
+
+                    ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
+                    System.out.println("Updated task " + id);
+                    w.getTasks().get(x).dbUpdate();
+
+                    break;
+                }
             }
+            upateAudit();
         }
-        
-        upateAudit();
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, update");
+        }   
     }
     
     public void updateLastTask()
     {
-        System.out.println(Reference.getTasks().size());
-        int x = Reference.getTasks().size()-1;
-        name = Reference.getTasks().get(x).getName();
-        topPos = Reference.getTasks().get(x).getTopPos();
-        leftPos = Reference.getTasks().get(x).getLeftPos();
-        status = Reference.getTasks().get(x).getStatus();
-        description = Reference.getTasks().get(x).getDescription();
-        responsible = Reference.getTasks().get(x).getResponsible();
-        points = Reference.getTasks().get(x).getPoints();
-        days = Reference.getTasks().get(x).getDays();
-        colour = Reference.getTasks().get(x).getColour();
-        comments = Reference.getTasks().get(x).getComments();
-        subTasks = Reference.getTasks().get(x).getSubTasks();
-        sprintBacklog = Reference.getTasks().get(x).getSprintBacklog();
-        projectID = Reference.getTasks().get(x).getProjectID();
+        try
+        {
+            System.out.println(Reference.getTasks().size());
+            int x = Reference.getTasks().size()-1;
+            name = Reference.getTasks().get(x).getName();
+            topPos = Reference.getTasks().get(x).getTopPos();
+            leftPos = Reference.getTasks().get(x).getLeftPos();
+            status = Reference.getTasks().get(x).getStatus();
+            description = Reference.getTasks().get(x).getDescription();
+            responsible = Reference.getTasks().get(x).getResponsible();
+            points = Reference.getTasks().get(x).getPoints();
+            days = Reference.getTasks().get(x).getDays();
+            colour = Reference.getTasks().get(x).getColour();
+            comments = Reference.getTasks().get(x).getComments();
+            subTasks = Reference.getTasks().get(x).getSubTasks();
+            sprintBacklog = Reference.getTasks().get(x).getSprintBacklog();
+            projectID = Reference.getTasks().get(x).getProjectID();
 
-        long id;
-        id = Long.valueOf(Reference.getTasks().get(x).getID());
+            long id;
+            id = Long.valueOf(Reference.getTasks().get(x).getID());
 
-        ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
-        System.out.println("Updated task " + id);
-        Reference.getTasks().get(x).dbUpdate();
-        
-        upateAudit();
+            ts.update(id, name, topPos, leftPos, status, description, responsible, points, days, colour, comments, subTasks, projectID, sprintBacklog);
+            System.out.println("Updated task " + id);
+            Reference.getTasks().get(x).dbUpdate();
 
+            upateAudit();    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, updateLastTask");
+        } 
     }
     
     //Creates a template task using default values and returns id as String
     public void updateID()
     {  
+        try
+        {
             long id;
             id = ts.getID();
             ID = String.valueOf(id);
@@ -329,78 +349,93 @@ public class index
             WebSockets w = Reference.w;
             w.addTask(ID);
             w.sendTasks();
-            
-            upateAudit();
+
+            upateAudit();    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, updateID");
+        }     
     }
     
     public void delete()
     {
-        WebSockets w = Reference.w;
-       
-        long id;
-        id = Long.valueOf(deleteID).longValue();
+        try
+        {
+            WebSockets w = Reference.w;
 
-        ts.delete(id);
-        System.out.println("Delete task " + id);    
-        
-        upateAudit();
+            long id;
+            id = Long.valueOf(deleteID).longValue();
+
+            ts.delete(id);
+            System.out.println("Delete task " + id);    
+
+            upateAudit();    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, delete");
+        }   
     }
     
     public void getAllTasks()
     {
-        System.out.println("---------------entered the function----------");
-        
-        WebSockets w = Reference.w;
-        if(w == null)
+        try
         {
-            w = new WebSockets();
-            Reference.w = w;
-        }
-        
-        if(w.getTasks().isEmpty())
-        {
-            System.out.println("----------reloading----------");
-            Task t[] = ts.getAll();
-            for(int x=0; x<t.length;x++)
+            WebSockets w = Reference.w;
+            if(w == null)
             {
-               Tasks tmp = new Tasks(String.valueOf(t[x].getID()),String.valueOf(t[x].getID()));
-               tmp.setColour(t[x].getColour());
-               if(t[x].getDays()==null || !isInteger(t[x].getDays()))
-               {
-                   tmp.setDays("0");
-               }else
-               tmp.setDays(t[x].getDays());
-               tmp.setDescription(t[x].getDescription());
-               tmp.setName(t[x].getName());
-               if(t[x].getPoints()==null || !isInteger(t[x].getPoints()))
-               {
-                   tmp.setPoints("0");
-               }
-               else
-                tmp.setPoints(t[x].getPoints());
-               
-               if(t[x].getTopPos()==null ||t[x].getLeftPos()==null || !isInteger(t[x].getTopPos()) || !isInteger(t[x].getLeftPos()))
-               {
-                   System.out.println("Failed");
-                   tmp.setPos("0","0");
-               }else
-                   tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
-               
-               tmp.setResponsible(t[x].getResponsible());
-               tmp.setStatus(t[x].getStatus());
-               tmp.setComments(t[x].getComments());
-               tmp.setSubTasks(t[x].getSubTasks());
-               tmp.setSprintBacklog(t[x].isSprintBacklog());
-               tmp.setProjectID(t[x].getProjectID());
-               tmp.dbUpdate();
-                System.out.println("Task: "+ x);
-               w.getTasks().add(tmp);
-               
+                w = new WebSockets();
+                Reference.w = w;
             }
-            
-            w.sendAllTasks();
-            System.out.println("----------done Reloading----------");
+
+            if(w.getTasks().isEmpty())
+            {
+                Task t[] = ts.getAll();
+                for(int x=0; x<t.length;x++)
+                {
+                   Tasks tmp = new Tasks(String.valueOf(t[x].getID()),String.valueOf(t[x].getID()));
+                   tmp.setColour(t[x].getColour());
+                   if(t[x].getDays()==null || !isInteger(t[x].getDays()))
+                   {
+                       tmp.setDays("0");
+                   }else
+                   tmp.setDays(t[x].getDays());
+                   tmp.setDescription(t[x].getDescription());
+                   tmp.setName(t[x].getName());
+                   if(t[x].getPoints()==null || !isInteger(t[x].getPoints()))
+                   {
+                       tmp.setPoints("0");
+                   }
+                   else
+                    tmp.setPoints(t[x].getPoints());
+
+                   if(t[x].getTopPos()==null ||t[x].getLeftPos()==null || !isInteger(t[x].getTopPos()) || !isInteger(t[x].getLeftPos()))
+                   {
+                       System.out.println("Failed");
+                       tmp.setPos("0","0");
+                   }else
+                       tmp.setPos(t[x].getTopPos(),t[x].getLeftPos());
+
+                   tmp.setResponsible(t[x].getResponsible());
+                   tmp.setStatus(t[x].getStatus());
+                   tmp.setComments(t[x].getComments());
+                   tmp.setSubTasks(t[x].getSubTasks());
+                   tmp.setSprintBacklog(t[x].isSprintBacklog());
+                   tmp.setProjectID(t[x].getProjectID());
+                   tmp.dbUpdate();
+                    System.out.println("Task: "+ x);
+                   w.getTasks().add(tmp);
+
+                }
+
+                w.sendAllTasks();
+            }    
         }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, getAllTasks");
+        }  
     }
     
     public boolean isInteger(String s) 
@@ -415,204 +450,257 @@ public class index
     
     public void createProject()
     {
-         System.out.println("Create Project Clicked!");
-         long id = ps.create(projectName);
-         
-         Project tmp = new Project();
-         tmp.setId(String.valueOf(id));
-         tmp.setProjectName(projectName);
-         double tmpNum = Math.random()*System.currentTimeMillis();
-         tmpNum = Math.round(tmpNum);
-         String roomID = "#meeting-roomid-"+id+(int)tmpNum+"-"+id;
-         tmp.setVideoUrl(roomID);
-         
-         ps.setRoomID(id, roomID);
-         //tmp.addUser(session.getUsername());
-         tmp.addUser("admin"); 
-         tmp.update = true;
-         
-         Reference.projects.add(tmp);
-         projectUpdate();
-         
-         upateAudit();
+        try
+        {
+            System.out.println("Create Project Clicked!");
+            long id = ps.create(projectName);
+
+            Project tmp = new Project();
+            tmp.setId(String.valueOf(id));
+            tmp.setProjectName(projectName);
+            double tmpNum = Math.random()*System.currentTimeMillis();
+            tmpNum = Math.round(tmpNum);
+            String roomID = "#meeting-roomid-"+id+(int)tmpNum+"-"+id;
+            tmp.setVideoUrl(roomID);
+
+            ps.setRoomID(id, roomID);
+            //tmp.addUser(session.getUsername());
+            tmp.addUser("admin"); 
+            tmp.update = true;
+
+            Reference.projects.add(tmp);
+            projectUpdate();
+
+            upateAudit();    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, createProject");
+        } 
     }
 
     public void projectUpdate()
     {
-        System.out.println("UPDATE PROJECT!");
-        WebSockets w = Reference.w;
-
-        for(int x=0; x< Reference.getProjects().size();x++)
+        try
         {
-            System.out.println(Reference.getProjects().get(x).isUpdate());
-            if (Reference.getProjects().get(x).isUpdate())
+            System.out.println("UPDATE PROJECT!");
+            WebSockets w = Reference.w;
+
+            for(int x=0; x< Reference.getProjects().size();x++)
             {
-                 projectID = Reference.getProjects().get(x).getId();
-                 projectName = Reference.getProjects().get(x).getProjectName();
-                 videoUrl = Reference.getProjects().get(x).getVideoUrl();
-                 usernames = Reference.getProjects().get(x).getUsernames();
-                 PreviousBurndownCharts = Reference.getProjects().get(x).getPreviousBurndownCharts();
-                 burndownPoints = Reference.getProjects().get(x).getBurndownPoints();
-                 rowCount = Reference.getProjects().get(x).getRowCount();
+                System.out.println(Reference.getProjects().get(x).isUpdate());
+                if (Reference.getProjects().get(x).isUpdate())
+                {
+                     projectID = Reference.getProjects().get(x).getId();
+                     projectName = Reference.getProjects().get(x).getProjectName();
+                     videoUrl = Reference.getProjects().get(x).getVideoUrl();
+                     usernames = Reference.getProjects().get(x).getUsernames();
+                     PreviousBurndownCharts = Reference.getProjects().get(x).getPreviousBurndownCharts();
+                     burndownPoints = Reference.getProjects().get(x).getBurndownPoints();
+                     rowCount = Reference.getProjects().get(x).getRowCount();
 
-                 long id;
-                 id = Long.valueOf(projectID).longValue();
+                     long id;
+                     id = Long.valueOf(projectID).longValue();
 
-                 ps.update(id, projectName, usernames, PreviousBurndownCharts, burndownPoints);
-               // ps.tempUpdate(id, projectName, "companyName", usernames, PreviousBurndownCharts, burndownPoints);
-                 
-                 System.out.println("Updated Project " + projectID);
-                 Reference.getProjects().get(x).dbUpdate();
-                 
-                 break;//?
+                     ps.update(id, projectName, usernames, PreviousBurndownCharts, burndownPoints);
+
+                     System.out.println("Updated Project " + projectID + " name: " + projectName);
+                     Reference.getProjects().get(x).dbUpdate();
+                }
             }
+
+            upateAudit();    
         }
-        
-        upateAudit();
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, projectUpdate");
+        } 
     }
     
     public void addProjects()
     {
-        System.out.println("Called the function");
-        if(Reference.getProjects().isEmpty())
+        try
         {
-             System.out.println("adding the projects");
-            za.co.rhmsolutions.scrum.business.entity.Project[] proj = ps.getAllProjects();
-            System.out.println("HERE!!!");
-        
-            for (int i = 0; i < proj.length; i++) 
+            System.out.println("Called the function");
+            if(Reference.getProjects().isEmpty())
             {
-                Project tmp = new Project();
-                String id = "" + proj[i].getId();
-                //tmp.addUser("admin"); 
-                tmp.setId(id);
-                tmp.setProjectName(proj[i].getName());
-                tmp.setVideoUrl(proj[i].getRoom_ID());
-                //tmp.setVideoUrl(videoUrl);
+                 System.out.println("adding the projects");
+                za.co.rhmsolutions.scrum.business.entity.Project[] proj = ps.getAllProjects();
+                System.out.println("HERE!!!");
 
-                for (int j = 0; j < proj[i].getUsernames().size(); j++) 
+                for (int i = 0; i < proj.length; i++) 
                 {
-                    tmp.addUser(proj[i].getUsernames().get(j));
-                }
-                
-                //call add sprints func
-                ArrayList<ArrayList<Integer>> tempCharts = ps.getBurndownCharts(proj[i].getId());
-                
-                if (tempCharts.size() > 0)
-                {
-                    int size = tempCharts.size();
-                    tmp.setBurndownPoints(tempCharts.get(size - 1));
-                    tempCharts.remove(size - 1);
+                    Project tmp = new Project();
+                    String id = "" + proj[i].getId();
+                    //tmp.addUser("admin"); 
+                    tmp.setId(id);
+                    tmp.setProjectName(proj[i].getName());
+                    tmp.setVideoUrl(proj[i].getRoom_ID());
+                    //tmp.setVideoUrl(videoUrl);
 
-                    tmp.setPreviousBurndownCharts(tempCharts);
-                }
-                else
-                {
-                    System.out.println("WARNING! Number of burndown charts = 0");
-                }
+                    for (int j = 0; j < proj[i].getUsernames().size(); j++) 
+                    {
+                        tmp.addUser(proj[i].getUsernames().get(j));
+                    }
 
-                Reference.projects.add(tmp);
-            }
+                    //call add sprints func
+                    ArrayList<ArrayList<Integer>> tempCharts = ps.getBurndownCharts(proj[i].getId());
+
+                    if (tempCharts.size() > 0)
+                    {
+                        int size = tempCharts.size();
+                        tmp.setBurndownPoints(tempCharts.get(size - 1));
+                        tempCharts.remove(size - 1);
+
+                        tmp.setPreviousBurndownCharts(tempCharts);
+                    }
+                    else
+                    {
+                        System.out.println("WARNING! Number of burndown charts = 0");
+                    }
+
+                    Reference.projects.add(tmp);
+                }
+            }    
         }
-        
-       
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, addProjects");
+        } 
     }
     
     public void deleteProjects()
     {
-        long id;
-        id = Long.valueOf(projectID).longValue();
+        try
+        {
+            long id;
+            id = Long.valueOf(projectID).longValue();
 
-        ps.delete(id);
-        System.out.println("Delete project " + id);  
-        
-        upateAudit();
+            ps.delete(id);
+            System.out.println("Delete project " + id);  
+
+            upateAudit();    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, deleteProjects");
+        } 
     }
     
     public void addUser()
     {
-        System.out.println("Create User Clicked!");
-        WebSockets w = Reference.w;
-        
-        int size = Reference.getUsernames().size();
-        
-        String username = Reference.getUsernames().get(size-1).getUsername();
-        String password = Reference.getUsernames().get(size-1).getPassword();
-        String newName = Reference.getUsernames().get(size-1).getName();
-        String surname = Reference.getUsernames().get(size-1).getSurname();
-        
-        as.createUser(newName, surname, username,password);
-        
-        upateAudit();
+        try
+        {
+            System.out.println("Create User Clicked!");
+            WebSockets w = Reference.w;
+
+            int size = Reference.getUsernames().size();
+
+            String username = Reference.getUsernames().get(size-1).getUsername();
+            String password = Reference.getUsernames().get(size-1).getPassword();
+            String newName = Reference.getUsernames().get(size-1).getName();
+            String surname = Reference.getUsernames().get(size-1).getSurname();
+
+            as.createUser(newName, surname, username,password);
+
+            upateAudit();    
+        }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, addUser");
+        } 
     }
     
     public void getUsers()
     {
-        if(Reference.getUsernames().isEmpty())
+        try
         {
-            System.out.println("Adding The Users");
-            AppUser[] users = as.getAllAppUsers();
-        
-            for (int i = 0; i < users.length; i++) 
+            if(Reference.getUsernames().isEmpty())
             {
-                //User tmp = new User();
-                User tmp = new User(users[i].getUsername(), users[i].getPassword(), users[i].getName(), users[i].getSurname());
-                
-//                tmp.setUsername(users[i].getUsername());
-//                tmp.setPassword(users[i].getPassword());
-//                tmp.setSurname(users[i].getSurname());
-//                tmp.setName(users[i].getName());
+                System.out.println("Adding The Users");
+                AppUser[] users = as.getAllAppUsers();
 
-                Reference.usernames.add(tmp);
+                for (int i = 0; i < users.length; i++) 
+                {
+                    User tmp = new User(users[i].getUsername(), users[i].getPassword(), users[i].getName(), users[i].getSurname());
+                    Reference.usernames.add(tmp);
+                }
             }
         }
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, getUsers");
+        } 
     }
     
     public void updateUsers()
     {
-        System.out.println("UPDATE USERS!");
-        WebSockets w = Reference.w;
-
-        for(int x=0; x< Reference.getUsernames().size();x++)
+        try
         {
-            System.out.println(Reference.getUsernames().get(x).isUpdate());
-            
-            if (Reference.getUsernames().get(x).isUpdate())
+            System.out.println("UPDATE USERS!");
+            WebSockets w = Reference.w;
+
+            for(int x=0; x< Reference.getUsernames().size();x++)
             {
-                this.user = Reference.getUsernames().get(x).getUsername();
-                this.Name = Reference.getUsernames().get(x).getName();
-                this.pass = Reference.getUsernames().get(x).getPassword();
-                this.lastname = Reference.getUsernames().get(x).getSurname();
-                
-                as.updateUser(Name, lastname, user, pass);
-               
-                System.out.println("Updated User: " + user);
-                Reference.getUsernames().get(x).update();
+                System.out.println(Reference.getUsernames().get(x).isUpdate());
+
+                if (Reference.getUsernames().get(x).isUpdate())
+                {
+                    this.user = Reference.getUsernames().get(x).getUsername();
+                    this.Name = Reference.getUsernames().get(x).getName();
+                    this.pass = Reference.getUsernames().get(x).getPassword();
+                    this.lastname = Reference.getUsernames().get(x).getSurname();
+
+                    as.updateUser(Name, lastname, user, pass);
+
+                    System.out.println("Updated User: " + user);
+                    Reference.getUsernames().get(x).update();
+                }
             }
+
+            upateAudit();    
         }
-        
-        upateAudit();
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, updateUsers");
+        }  
     }
     
     public void upateAudit()
     {
-        if (this.auditCount == -1)
+        try
         {
-            auditCount = aus.countLogs();
+            if (this.auditCount == -1)
+            {
+                auditCount = aus.countLogs();
+            }
+
+            int tableSize = aus.countLogs();
+
+            if (Reference.audit.size() > tableSize - auditCount)
+            {
+
+               int count = Reference.audit.size() - (tableSize - auditCount);
+               int loop = Reference.audit.size() - count;
+
+               for (int i = Reference.audit.size() - 1; i > Reference.audit.size() - count; i--) 
+               {
+
+                   String log = Reference.audit.get(i);
+
+                   if(log.length()<4000)
+                    aus.create(log);
+                   else
+                   {
+                     log = log.substring(0, 4000); 
+                     aus.create(log);       
+                   }
+               }
+            }    
         }
-  
-       int tableSize = aus.countLogs();
-
-       if (Reference.audit.size() > tableSize - auditCount)
-       {
-           int count = Reference.audit.size() - (tableSize - auditCount);
-           int loop = Reference.audit.size() - count;
-
-           for (int i = Reference.audit.size() - 1; i > Reference.audit.size() - count; i--) 
-           {
-               String log = Reference.audit.get(i);
-               aus.create(log);
-           }
-       } 
+        catch (Exception e)
+        {
+            System.out.println("Warning: index.java, updateAudit");
+        } 
     }
 }

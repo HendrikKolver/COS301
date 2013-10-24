@@ -75,6 +75,7 @@ $(document).ready(function()
                 $("#nameAdd").val("");
                 
                 alert("User added successfully");
+                $("[id='navForm:adminNavLink']").click();
             }
             else
             {
@@ -140,6 +141,8 @@ $(document).ready(function()
             }
     });
     
+    //-----------------------------------------------------------------------------------------------
+    //Function used to delete projects
     $("#projectDeleteButton").click(function(){
         var id = $("#projectEditSelect option:selected").attr("id");
         var r=confirm("Delete project? This action cannot be undone");
@@ -147,7 +150,8 @@ $(document).ready(function()
             return;
        $("[id='projectDeleteForm:projectDeleteIdBean']").val(id);
        $("[id='projectDeleteForm:projectDeleteIdDB']").val(id);        
-       $("[id='projectDeleteForm:projectDeleteFormButton']").click(); 
+       $("[id='projectDeleteForm:projectDeleteFormButton']").click();
+       $("[id='navForm:adminNavLink']").click();
        
     });
 			

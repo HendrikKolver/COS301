@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Richard
+ * @author Richard O'Brien
  */
 @WebServlet(name = "GuestResource", urlPatterns = {"/GuestResource"})
 @ServletSecurity(@HttpConstraint(rolesAllowed={"admin", "guest"}))
