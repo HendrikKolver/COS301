@@ -20,6 +20,12 @@ public class AuditService
     @PersistenceContext
     EntityManager em;
     
+/**
+ * Creates and persists a new Audit log to the database
+ * The create method of the AuditService class.
+ * 
+ * @param  log  The string log of the Audit containing users action details
+ */    
     public void create(String log)
     {
         try
@@ -32,7 +38,13 @@ public class AuditService
             System.out.println("Warning: AuditService, create");
         } 
     }
-    
+
+/**
+ * Returns a count of the number of logs in the Database
+ * The countLogs method of the AuditService class.
+ * 
+ * @return      the integer count of log occurrences 
+ */     
     public int countLogs()
     {
         try

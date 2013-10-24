@@ -13,7 +13,7 @@ import za.co.rhmsolutions.scrum.business.entity.Sprint;
 
 /**
  *
- * @author Richard
+ * @author Richard O'Brien
  */
 
 @Stateless
@@ -22,6 +22,13 @@ public class SprintService
     @PersistenceContext
     EntityManager em;
     
+/**
+ * Creates and persists a new Sprint associated with a Project to the database
+ * The create method of the SprintService class.
+ * 
+ * @param  projectID  The id of the associated Project
+ * @param  bChart The ArrayList of integer values representing the burndownChart
+ */
     public void create(Long projectID, ArrayList<Integer> bChart)
     {
         try
@@ -50,7 +57,14 @@ public class SprintService
             System.out.println("Warning: SprintService, create");
         }    
     }
-    
+
+/**
+ * Creates and persists a new Sprint associated with a Project, with a blank BurndownChart to the database
+ * The create method of the SprintService class.
+ * 
+ * @param  projectID  The id of the associated Project
+ * @param  bChart The ArrayList of integer values representing the burndownChart
+ */    
     public void create(Long projectID)
     {
         try
@@ -79,7 +93,14 @@ public class SprintService
             System.out.println("Warning: SprintService, create");
         }
     }
-    
+
+/**
+ * Returns all Sprints associated to a project. 
+ * The get all sprints method of the TaskService class 
+ *
+ * @param  projectId the Long projectId of a Project
+ * @return      the Sprint[] of all associated Sprints      
+ */    
     public Sprint[] getAll(Long projectId)
     {
         try
@@ -106,7 +127,14 @@ public class SprintService
         
         return t;
     }
-    
+
+/**
+ * Updates the current sprint of a project in the database using the active flag
+ * The update method of the SprintService class.
+ * 
+ * @param  projectID  The id of the associated Project
+ * @param  bChart The ArrayList of integer values representing the burndownChart
+ */    
     public void updateCurrentSprint(Long projectID, ArrayList<Integer> bChart)
     {
         try

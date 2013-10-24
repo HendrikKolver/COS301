@@ -29,8 +29,6 @@ import za.co.rhmsolutions.scrum.business.entity.groups;
  * @author Richard O'Brien
  */
 
-
-
 @WebServlet(name = "AdminResource", urlPatterns = {"/AdminResource"})
 @ServletSecurity(@HttpConstraint(rolesAllowed={"admin", "guest"}))
 public class AdminResource extends HttpServlet {

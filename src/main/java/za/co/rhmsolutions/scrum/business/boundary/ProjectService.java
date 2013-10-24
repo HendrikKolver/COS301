@@ -26,7 +26,13 @@ public class ProjectService
     
     @Inject
     SprintService ps;
-    
+ 
+/**
+ * Creates and persists a new Project to the database as well as an associated clean Sprint
+ * The create method of the ProjectService class.
+ * 
+ * @param  name  The String name of the Project
+ */    
     public long create(String name)
     {
         try
@@ -52,6 +58,13 @@ public class ProjectService
         return -1;
     }
     
+/**
+ * Updates the Room_ID of a persisted Project's video/text chat room 
+ * The setRoomID method of the ProjectService class. 
+ *
+ * @param  id the id of the Project to update
+ * @param  Room_ID the String id of the Project chat room    
+ */     
     public void setRoomID(long id, String roomID)
     {
         try
@@ -78,7 +91,17 @@ public class ProjectService
         
         
     }
-    
+
+/**
+ * Updates a Project and the relevant Sprints in the database using id
+ * The update method of the TaskService class.
+ * 
+ * @param  id The id of the Project to update
+ * @param  name  The string name of the Project
+ * @param  usernames the ArrayList of names of AppUsers assigned to the Project
+ * @param  PreviousBurndownCharts the burndownChart history of all previous sprints
+ * @param  burndownPoints the burndownChart of the active sprint
+ */    
     public void update(long id, String name, ArrayList<String> usernames, ArrayList<ArrayList<Integer>> PreviousBurndownCharts, ArrayList<Integer> burndownPoints)
     {
         try
@@ -144,7 +167,13 @@ public class ProjectService
             System.out.println("Warning: ProjectService, update");
         }
     }
-    
+
+/**
+ * Returns all non deleted Projects
+ * The get all projects method of the ProjectService class 
+ *
+ * @return      the Task[] of all un-removed tasks      
+ */    
     public Project[] getAllProjects ()
     {  
         Project [] P;
@@ -185,6 +214,12 @@ public class ProjectService
         return P;
     }
     
+/**
+ * Delete a Project in the database using id
+ * The delete method of the ProjectService class. Sets a delete flag.
+ * 
+ * @param  id  The id of the Project
+ */    
     public void delete (long id)
     {
         try
@@ -197,7 +232,14 @@ public class ProjectService
             System.out.println("Warning: ProjectService, delete");
         }
     }
-    
+
+/**
+ * Returns all burndownCharts of Sprints related to Project
+ * The get all projects method of the ProjectService class 
+ *
+ * @param  id The id of the Project
+ * @return the Task[] of all un-removed tasks      
+ */     
     public ArrayList<ArrayList<Integer>> getBurndownCharts(long id)
     {
         ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>();

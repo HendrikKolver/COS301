@@ -8,9 +8,6 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import za.co.rhmsolutions.scrum.business.entity.AppUser;
-import za.co.rhmsolutions.scrum.business.entity.AppUser_Project;
-import za.co.rhmsolutions.scrum.business.entity.Project;
 import za.co.rhmsolutions.scrum.business.entity.groups;
 
 /**
@@ -23,6 +20,13 @@ public class GroupsService
     @PersistenceContext
     EntityManager em;
     
+/**
+ * Creates and persists a new user role to the database
+ * The create method of the TaskService class.
+ * 
+ * @param  groupID  The string groupID of the role/privileges of the user (admin,guest)
+ * @param  username The string username of an already defined AppUser
+ */
     public void create(String groupID, String username)
     {
         try
@@ -38,7 +42,13 @@ public class GroupsService
             System.out.println("Warning: GroupsService, create");
         }
     }
-    
+ 
+/**
+ * Returns the privilege level of a specific AppUser. 
+ * 
+ * @param  username the username of the AppUser
+ * @return the ID      
+ */    
     public String getPrivilege(String username)
     {
         try

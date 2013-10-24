@@ -9,9 +9,6 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import za.co.rhmsolutions.scrum.business.entity.AppUser;
-import za.co.rhmsolutions.scrum.business.entity.AppUser_Project;
-import za.co.rhmsolutions.scrum.business.entity.Project;
-import za.co.rhmsolutions.scrum.business.entity.Task;
 import za.co.rhmsolutions.scrum.business.entity.groups;
 
 /**
@@ -23,7 +20,16 @@ public class AppUserService
 {
     @PersistenceContext
     EntityManager em;
-    
+ 
+/**
+ * Creates and persists a new guest user and guest security role to the database
+ * The create method of the AppUserService class.
+ * 
+ * @param  name  The string name of the AppUser
+ * @param  surname The string surname of the AppUser
+ * @param  surname The unique string Username of the AppUser
+ * @param  Password The hashed string Password of the AppUser
+ */
     public void createUser(String name, String surname, String username,String password)
     {
         try
@@ -50,6 +56,15 @@ public class AppUserService
         } 
     }
     
+/**
+ * Creates and persists a new admin user and admin security role to the database
+ * The create method of the AppUserService class.
+ * 
+ * @param  name  The string name of the AppUser
+ * @param  surname The string surname of the AppUser
+ * @param  surname The unique string Username of the AppUser
+ * @param  Password The hashed string Password of the AppUser
+ */    
     public void createAdmin(String name, String surname, String username,String password)
     {
         try
@@ -76,6 +91,13 @@ public class AppUserService
         
     }
     
+/**
+ * Returns the AppUser object from the Database given its corresponding username. 
+ * Creates new task and returns id of that specific task 
+ * 
+ * @param  username the username of the AppUser to retrieve
+ * @return      the ID      
+ */
     public AppUser getByUsername(String username)
     {
         try
@@ -94,7 +116,13 @@ public class AppUserService
         AppUser a = new AppUser();
         return a;
     }
-    
+
+/**
+ * Delete an AppUser in the database using id
+ * The delete method of the AppUserService class. Sets a delete flag.
+ * 
+ * @param  id  The id of the AppUser
+ */   
     public void delete (long id)
     {
         try
@@ -108,7 +136,13 @@ public class AppUserService
         }
         
     }
-    
+ 
+/**
+ * Returns all non deleted AppUsers. 
+ * The get all AppUsers method of the AppUserService class 
+ *
+ * @return      the AppUser[] of all un-removed AppUsers      
+ */
     public AppUser[] getAllAppUsers()
     {
         try
@@ -151,7 +185,16 @@ public class AppUserService
         
         return dummy;
     }
-    
+
+/**
+ * Updates an AppUser in the Database using Username as unique identifier
+ * The Update method of the AppUserService class.
+ * 
+ * @param  name  The string name of the AppUser
+ * @param  surname The string surname of the AppUser
+ * @param  surname The unique string Username of the AppUser
+ * @param  Password The hashed string Password of the AppUser
+ */      
     public void updateUser(String name, String surname, String username,String password)
     {
         try

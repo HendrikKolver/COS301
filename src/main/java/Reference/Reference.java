@@ -23,15 +23,6 @@ public class Reference {
     
     
     public static ArrayList<User> getUsernames() {
-        //This will be replaced by a load from the db. Only for testing
-//        if(usernames.isEmpty())
-//        {
-//            User tmp = new User("admin","admin","admin","admin");
-//            usernames.add(tmp);
-//            tmp = new User("user","user","user","user");
-//            usernames.add(tmp);
-//            tmp = new User("user2","user2","user2","user2"); 
-//        }
         return usernames;
     }
 

@@ -28,6 +28,24 @@ public class TaskService
     @PersistenceContext
     EntityManager em;
 
+/**
+ * Creates and persists a new task to the database
+ * The create method of the TaskService class.
+ * 
+ * @param  name  The string name of the task
+ * @param  topPos The string x coordinates of the task on the scrumboard
+ * @param  leftpos The string y coordinates of the task on the scrumboard
+ * @param  status The string status of the task (Not started, In Progress, Complete)
+ * @param  description The string description of the task for further information
+ * @param  responsible The string string name of the person/people/team responsible for the task
+ * @param  points The string number of points assigned to the task
+ * @param  days The string number of days assigned to the task
+ * @param  colour The string colour of the sticky note used to represent the task
+ * @param  comments Any string comments related to the task
+ * @param  subTasks The string Sub Tasks of the task
+ * @param  projectId The string ID of the project the task is assigned to
+ * @param  sprintBacklog A boolean flag to indicate if the task is currently in a sprint
+ */
     public void create(String name, String topPos, String leftPos, 
             String status, String description, String responsible, String points, String days, String colour, String comments, String subTasks, String projectID,boolean sprintBacklog)
     {
@@ -42,8 +60,13 @@ public class TaskService
             System.out.println("Warning: TaskService, create");
         }  
     }
-    
-    //Creates new task and returns id of that specific task
+
+/**
+ * Returns the task ID of a newly created task. 
+ * Creates new task and returns id of that specific task 
+ *
+ * @return      the ID      
+ */
     public long getID()
     {
         try
@@ -67,7 +90,24 @@ public class TaskService
         return -1;
     }
     
-    //Updates task given its id 
+/**
+ * Updates a task in the database using id
+ * The update method of the TaskService class.
+ * 
+ * @param  name  The string name of the task
+ * @param  topPos The string x coordinates of the task on the scrumboard
+ * @param  leftpos The string y coordinates of the task on the scrumboard
+ * @param  status The string status of the task (Not started, In Progress, Complete)
+ * @param  description The string description of the task for further information
+ * @param  responsible The string string name of the person/people/team responsible for the task
+ * @param  points The string number of points assigned to the task
+ * @param  days The string number of days assigned to the task
+ * @param  colour The string colour of the sticky note used to represent the task
+ * @param  comments Any string comments related to the task
+ * @param  subTasks The string Sub Tasks of the task
+ * @param  projectId The string ID of the project the task is assigned to
+ * @param  sprintBacklog A boolean flag to indicate if the task is currently in a sprint
+ */
     public void update (long id, String name,String topPos, String leftPos, String status, String description, 
             String responsible, String points, String days, String colour, String comments, String subTasks, String projectID,boolean sprintBacklog)
     { 
@@ -83,7 +123,12 @@ public class TaskService
         }
     }
     
-    //deletes task given its id
+/**
+ * Delete a task in the database using id
+ * The delete method of the TaskService class. Sets a delete flag.
+ * 
+ * @param  id  The id of the task
+ */
     public void delete (long id)
     {
         try
@@ -97,6 +142,12 @@ public class TaskService
         }
     }
 
+/**
+ * Returns all non deleted tasks. 
+ * The get all tasks method of the TaskService class 
+ *
+ * @return      the Task[] of all unremoved tasks      
+ */
     public Task[] getAll()
     {
         try

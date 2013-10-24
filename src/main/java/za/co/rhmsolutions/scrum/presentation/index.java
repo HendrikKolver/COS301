@@ -257,8 +257,6 @@ public class index
         {
             System.out.println("Warning: index.java, createTask");
         } 
-                
-        
     }
     
     //Update task using value of updateID
