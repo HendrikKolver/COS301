@@ -41,7 +41,7 @@ public class AppUserService
 
             System.out.println("User ID: " + u.getId());
 
-            groups g = new groups("admin", username);
+            groups g = new groups("guest", username);
             em.persist(g);    
         }
         catch (Exception e)
